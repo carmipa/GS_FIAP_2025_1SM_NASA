@@ -1,0 +1,16 @@
+select 'São Paulo (SP)' as estado,
+       f_total_clientes_por_uf('SP') as total_clientes
+  from dual
+union all
+select 'Rio de Janeiro (RJ)' as estado,
+       f_total_clientes_por_uf('RJ') as total_clientes
+  from dual;
+
+
+  SELECT
+    ID_CLIENTE,
+    NOME || ' ' || SOBRENOME AS NOME_COMPLETO,
+    DATA_NASCIMENTO,
+    F_CALCULAR_IDADE_CLIENTE(ID_CLIENTE) AS IDADE_CALCULADA
+FROM
+    TB_CLIENTE3;

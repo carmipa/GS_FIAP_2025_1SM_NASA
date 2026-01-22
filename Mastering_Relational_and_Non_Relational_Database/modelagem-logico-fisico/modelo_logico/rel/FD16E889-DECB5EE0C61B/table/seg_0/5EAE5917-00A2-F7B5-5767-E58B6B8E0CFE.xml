@@ -1,0 +1,79 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="5EAE5917-00A2-F7B5-5767-E58B6B8E0CFE" name="TB_ENDERECOEVENTOS3">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-28 01:38:55 UTC</createdTime>
+<generatorID>3057A19C-C6CD-5A4E-F07C-448CED86E245</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="TB_ENDERECO3_id_endereco" id="BCFA767E-94F8-595A-F33E-4C023E67F8A0">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-28 01:38:55 UTC</createdTime>
+<generatorID>79813DA2-D3BE-999C-BD28-6037A52A110C</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="7C8939CE-0202-8D64-74F6-BB06485C8715" referredColumn="68CCEF17-25AC-753C-FD78-D83255B7CB1B"/>
+</associations>
+</Column>
+<Column name="TB_EONET3_id_eonet" id="C80CEF6B-4B1D-F908-A2D7-1FA3BB23B603">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-28 01:38:55 UTC</createdTime>
+<generatorID>6E008452-4194-473F-D489-7C5A1E6BD397</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="E9F4591D-6DAC-3F4B-9EDE-06D777FDEF8D" referredColumn="BF7B1D24-7302-F9CF-43F5-FA0273C2B4B2"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="5E13DF35-13C9-A640-6A6C-57F129BAC8BB" name="TB_ENDERECOEVENTOS3_PK">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-28 01:38:55 UTC</createdTime>
+<generatorID>C0FE4B83-451F-3661-07D6-0E4331A6DB6B</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BCFA767E-94F8-595A-F33E-4C023E67F8A0"/>
+<colUsage columnID="C80CEF6B-4B1D-F908-A2D7-1FA3BB23B603"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9FD578C9-C969-3655-118C-A33FC779618E" name="TB_ENDERECOEVENTOS3_TB_ENDERECO3_FK">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-28 01:38:55 UTC</createdTime>
+<generatorID>17572171-8A0A-EF52-06B6-1398BAB250AB</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BCFA767E-94F8-595A-F33E-4C023E67F8A0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="DDFA2B85-ACBF-8EA3-D6BD-5513B0560825" name="TB_ENDERECOEVENTOS3_TB_EONET3_FK">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-28 01:38:55 UTC</createdTime>
+<generatorID>D6B61B73-A53E-4BBB-FD00-392C1DE43810</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C80CEF6B-4B1D-F908-A2D7-1FA3BB23B603"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

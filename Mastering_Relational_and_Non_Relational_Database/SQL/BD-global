@@ -1,0 +1,771 @@
+--------------------------------------------------------
+--  Arquivo criado - sexta-feira-junho-06-2025   
+--------------------------------------------------------
+--------------------------------------------------------
+--  DDL for Sequence TB_CLIENTE3_ID_CLIENTE_SEQ
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "GLOBAL"."TB_CLIENTE3_ID_CLIENTE_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 6 NOCACHE  ORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+--------------------------------------------------------
+--  DDL for Sequence TB_CONTATO3_ID_CONTATO_SEQ
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "GLOBAL"."TB_CONTATO3_ID_CONTATO_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 6 NOCACHE  ORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+--------------------------------------------------------
+--  DDL for Sequence TB_ENDERECO3_ID_ENDERECO_SEQ
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "GLOBAL"."TB_ENDERECO3_ID_ENDERECO_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 6 NOCACHE  ORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+--------------------------------------------------------
+--  DDL for Sequence TB_EONET3_ID_EONET_SEQ
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "GLOBAL"."TB_EONET3_ID_EONET_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE  ORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
+--------------------------------------------------------
+--  DDL for Table TB_CLIENTECONTATO3
+--------------------------------------------------------
+
+  CREATE TABLE "GLOBAL"."TB_CLIENTECONTATO3" 
+   (	"TB_CLIENTE3_ID_CLIENTE" NUMBER, 
+	"TB_CONTATO3_ID_CONTATO" NUMBER
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Table TB_CLIENTEENDERECO3
+--------------------------------------------------------
+
+  CREATE TABLE "GLOBAL"."TB_CLIENTEENDERECO3" 
+   (	"TB_CLIENTE3_ID_CLIENTE" NUMBER, 
+	"TB_ENDERECO3_ID_ENDERECO" NUMBER
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Table TB_CLIENTE3
+--------------------------------------------------------
+
+  CREATE TABLE "GLOBAL"."TB_CLIENTE3" 
+   (	"DATA_NASCIMENTO" VARCHAR2(10 BYTE), 
+	"SOBRENOME" VARCHAR2(100 BYTE), 
+	"DOCUMENTO" VARCHAR2(18 BYTE), 
+	"ID_CLIENTE" NUMBER, 
+	"NOME" VARCHAR2(100 BYTE)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Table TB_CONTATO3
+--------------------------------------------------------
+
+  CREATE TABLE "GLOBAL"."TB_CONTATO3" 
+   (	"ID_CONTATO" NUMBER, 
+	"DDD" VARCHAR2(3 BYTE), 
+	"TELEFONE" VARCHAR2(15 BYTE), 
+	"CELULAR" VARCHAR2(15 BYTE), 
+	"WHATSAPP" VARCHAR2(15 BYTE), 
+	"EMAIL" VARCHAR2(255 BYTE), 
+	"TIPO_CONTATO" VARCHAR2(50 BYTE)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Table TB_ENDERECOEVENTOS3
+--------------------------------------------------------
+
+  CREATE TABLE "GLOBAL"."TB_ENDERECOEVENTOS3" 
+   (	"TB_ENDERECO3_ID_ENDERECO" NUMBER, 
+	"TB_EONET3_ID_EONET" NUMBER
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Table TB_ENDERECO3
+--------------------------------------------------------
+
+  CREATE TABLE "GLOBAL"."TB_ENDERECO3" 
+   (	"ID_ENDERECO" NUMBER, 
+	"CEP" VARCHAR2(9 BYTE), 
+	"NUMERO" NUMBER(5,0), 
+	"LOGRADOURO" VARCHAR2(255 BYTE), 
+	"BAIRRO" VARCHAR2(255 BYTE), 
+	"LOCALIDADE" VARCHAR2(100 BYTE), 
+	"UF" VARCHAR2(2 BYTE), 
+	"COMPLEMENTO" VARCHAR2(255 BYTE), 
+	"LATITUDE" NUMBER(10,7), 
+	"LONGITUDE" NUMBER(10,7)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Table TB_EONET3
+--------------------------------------------------------
+
+  CREATE TABLE "GLOBAL"."TB_EONET3" 
+   (	"ID_EONET" NUMBER, 
+	"JSON" CLOB, 
+	"DATA" TIMESTAMP (6) WITH LOCAL TIME ZONE, 
+	"EONET_ID" VARCHAR2(50 BYTE)
+   ) SEGMENT CREATION DEFERRED 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  TABLESPACE "USERS" 
+ LOB ("JSON") STORE AS SECUREFILE (
+  TABLESPACE "USERS" ENABLE STORAGE IN ROW 4000 CHUNK 8192
+  NOCACHE LOGGING  NOCOMPRESS  KEEP_DUPLICATES ) ;
+REM INSERTING into GLOBAL.TB_CLIENTECONTATO3
+SET DEFINE OFF;
+Insert into GLOBAL.TB_CLIENTECONTATO3 (TB_CLIENTE3_ID_CLIENTE,TB_CONTATO3_ID_CONTATO) values ('1','1');
+Insert into GLOBAL.TB_CLIENTECONTATO3 (TB_CLIENTE3_ID_CLIENTE,TB_CONTATO3_ID_CONTATO) values ('2','2');
+Insert into GLOBAL.TB_CLIENTECONTATO3 (TB_CLIENTE3_ID_CLIENTE,TB_CONTATO3_ID_CONTATO) values ('4','4');
+Insert into GLOBAL.TB_CLIENTECONTATO3 (TB_CLIENTE3_ID_CLIENTE,TB_CONTATO3_ID_CONTATO) values ('5','5');
+REM INSERTING into GLOBAL.TB_CLIENTEENDERECO3
+SET DEFINE OFF;
+Insert into GLOBAL.TB_CLIENTEENDERECO3 (TB_CLIENTE3_ID_CLIENTE,TB_ENDERECO3_ID_ENDERECO) values ('1','1');
+Insert into GLOBAL.TB_CLIENTEENDERECO3 (TB_CLIENTE3_ID_CLIENTE,TB_ENDERECO3_ID_ENDERECO) values ('2','2');
+Insert into GLOBAL.TB_CLIENTEENDERECO3 (TB_CLIENTE3_ID_CLIENTE,TB_ENDERECO3_ID_ENDERECO) values ('4','4');
+Insert into GLOBAL.TB_CLIENTEENDERECO3 (TB_CLIENTE3_ID_CLIENTE,TB_ENDERECO3_ID_ENDERECO) values ('5','5');
+REM INSERTING into GLOBAL.TB_CLIENTE3
+SET DEFINE OFF;
+Insert into GLOBAL.TB_CLIENTE3 (DATA_NASCIMENTO,SOBRENOME,DOCUMENTO,ID_CLIENTE,NOME) values ('10/05/1990','Costa','123.456.789-10','1','Mariana');
+Insert into GLOBAL.TB_CLIENTE3 (DATA_NASCIMENTO,SOBRENOME,DOCUMENTO,ID_CLIENTE,NOME) values ('22/11/1982','Almeida','234.567.890-11','2','Fernando');
+Insert into GLOBAL.TB_CLIENTE3 (DATA_NASCIMENTO,SOBRENOME,DOCUMENTO,ID_CLIENTE,NOME) values ('01/01/2015','S.A.','01.234.567/0001-88','4','GlobalTech');
+Insert into GLOBAL.TB_CLIENTE3 (DATA_NASCIMENTO,SOBRENOME,DOCUMENTO,ID_CLIENTE,NOME) values ('30/07/1975','Gomes da Silva','456.789.012-13','5','Ricardo');
+REM INSERTING into GLOBAL.TB_CONTATO3
+SET DEFINE OFF;
+Insert into GLOBAL.TB_CONTATO3 (ID_CONTATO,DDD,TELEFONE,CELULAR,WHATSAPP,EMAIL,TIPO_CONTATO) values ('1','11','5555-1010','98888-1010','S','mariana.costa@email.com','Pessoal');
+Insert into GLOBAL.TB_CONTATO3 (ID_CONTATO,DDD,TELEFONE,CELULAR,WHATSAPP,EMAIL,TIPO_CONTATO) values ('2','21','2222-2020','97777-2020','S','fernando.a@email.com','Comercial');
+Insert into GLOBAL.TB_CONTATO3 (ID_CONTATO,DDD,TELEFONE,CELULAR,WHATSAPP,EMAIL,TIPO_CONTATO) values ('3','31','3333-3030','96666-3030','N','beatriz.lima@email.com','Pessoal');
+Insert into GLOBAL.TB_CONTATO3 (ID_CONTATO,DDD,TELEFONE,CELULAR,WHATSAPP,EMAIL,TIPO_CONTATO) values ('4','11','4444-4040','95555-4040','S','contato@globaltech.com','Geral');
+Insert into GLOBAL.TB_CONTATO3 (ID_CONTATO,DDD,TELEFONE,CELULAR,WHATSAPP,EMAIL,TIPO_CONTATO) values ('5','41','7777-5050','94444-5050','S','ricardo.gomes@email.com','Pessoal');
+REM INSERTING into GLOBAL.TB_ENDERECOEVENTOS3
+SET DEFINE OFF;
+REM INSERTING into GLOBAL.TB_ENDERECO3
+SET DEFINE OFF;
+Insert into GLOBAL.TB_ENDERECO3 (ID_ENDERECO,CEP,NUMERO,LOGRADOURO,BAIRRO,LOCALIDADE,UF,COMPLEMENTO,LATITUDE,LONGITUDE) values ('1','01311-000','100','Avenida Paulista','Bela Vista','São Paulo','SP','Apto 101','-23,5613','-46,6565');
+Insert into GLOBAL.TB_ENDERECO3 (ID_ENDERECO,CEP,NUMERO,LOGRADOURO,BAIRRO,LOCALIDADE,UF,COMPLEMENTO,LATITUDE,LONGITUDE) values ('2','22071-000','200','Avenida Atlântica','Copacabana','Rio de Janeiro','RJ','Casa','-22,9714','-43,1823');
+Insert into GLOBAL.TB_ENDERECO3 (ID_ENDERECO,CEP,NUMERO,LOGRADOURO,BAIRRO,LOCALIDADE,UF,COMPLEMENTO,LATITUDE,LONGITUDE) values ('3','30112-010','300','Avenida do Contorno','Floresta','Belo Horizonte','MG','Bloco B','-19,9142','-43,929');
+Insert into GLOBAL.TB_ENDERECO3 (ID_ENDERECO,CEP,NUMERO,LOGRADOURO,BAIRRO,LOCALIDADE,UF,COMPLEMENTO,LATITUDE,LONGITUDE) values ('4','04538-132','400','Avenida Brigadeiro Faria Lima','Itaim Bibi','São Paulo','SP','15º Andar','-23,586','-46,6803');
+Insert into GLOBAL.TB_ENDERECO3 (ID_ENDERECO,CEP,NUMERO,LOGRADOURO,BAIRRO,LOCALIDADE,UF,COMPLEMENTO,LATITUDE,LONGITUDE) values ('5','80420-210','500','Rua 24 Horas','Centro','Curitiba','PR','Loja 5','-25,4323','-49,2745');
+REM INSERTING into GLOBAL.TB_EONET3
+SET DEFINE OFF;
+--------------------------------------------------------
+--  DDL for Index TB_ENDERECOEVENTOS3_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "GLOBAL"."TB_ENDERECOEVENTOS3_PK" ON "GLOBAL"."TB_ENDERECOEVENTOS3" ("TB_ENDERECO3_ID_ENDERECO", "TB_EONET3_ID_EONET") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Index TB_CLIENTE3_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "GLOBAL"."TB_CLIENTE3_PK" ON "GLOBAL"."TB_CLIENTE3" ("ID_CLIENTE") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Index TB_EONET3_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "GLOBAL"."TB_EONET3_PK" ON "GLOBAL"."TB_EONET3" ("ID_EONET") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Index TB_CLIENTECONTATO3_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "GLOBAL"."TB_CLIENTECONTATO3_PK" ON "GLOBAL"."TB_CLIENTECONTATO3" ("TB_CLIENTE3_ID_CLIENTE", "TB_CONTATO3_ID_CONTATO") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Index TB_CLIENTEENDERECO3_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "GLOBAL"."TB_CLIENTEENDERECO3_PK" ON "GLOBAL"."TB_CLIENTEENDERECO3" ("TB_CLIENTE3_ID_CLIENTE", "TB_ENDERECO3_ID_ENDERECO") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Index TB_CONTATO3_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "GLOBAL"."TB_CONTATO3_PK" ON "GLOBAL"."TB_CONTATO3" ("ID_CONTATO") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Index TB_ENDERECO3_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "GLOBAL"."TB_ENDERECO3_PK" ON "GLOBAL"."TB_ENDERECO3" ("ID_ENDERECO") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+--------------------------------------------------------
+--  DDL for Trigger TB_CLIENTE3_ID_CLIENTE_TRG
+--------------------------------------------------------
+
+  CREATE OR REPLACE EDITIONABLE TRIGGER "GLOBAL"."TB_CLIENTE3_ID_CLIENTE_TRG" BEFORE
+    INSERT ON tb_cliente3
+    FOR EACH ROW
+     WHEN ( new.id_cliente IS NULL ) BEGIN
+    :new.id_cliente := tb_cliente3_id_cliente_seq.nextval;
+END;
+
+/
+ALTER TRIGGER "GLOBAL"."TB_CLIENTE3_ID_CLIENTE_TRG" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger TB_CONTATO3_ID_CONTATO_TRG
+--------------------------------------------------------
+
+  CREATE OR REPLACE EDITIONABLE TRIGGER "GLOBAL"."TB_CONTATO3_ID_CONTATO_TRG" BEFORE
+    INSERT ON tb_contato3
+    FOR EACH ROW
+     WHEN ( new.id_contato IS NULL ) BEGIN
+    :new.id_contato := tb_contato3_id_contato_seq.nextval;
+END;
+
+/
+ALTER TRIGGER "GLOBAL"."TB_CONTATO3_ID_CONTATO_TRG" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger TB_ENDERECO3_ID_ENDERECO_TRG
+--------------------------------------------------------
+
+  CREATE OR REPLACE EDITIONABLE TRIGGER "GLOBAL"."TB_ENDERECO3_ID_ENDERECO_TRG" BEFORE
+    INSERT ON tb_endereco3
+    FOR EACH ROW
+     WHEN ( new.id_endereco IS NULL ) BEGIN
+    :new.id_endereco := tb_endereco3_id_endereco_seq.nextval;
+END;
+
+/
+ALTER TRIGGER "GLOBAL"."TB_ENDERECO3_ID_ENDERECO_TRG" ENABLE;
+--------------------------------------------------------
+--  DDL for Trigger TB_EONET3_ID_EONET_TRG
+--------------------------------------------------------
+
+  CREATE OR REPLACE EDITIONABLE TRIGGER "GLOBAL"."TB_EONET3_ID_EONET_TRG" BEFORE
+    INSERT ON tb_eonet3
+    FOR EACH ROW
+     WHEN ( new.id_eonet IS NULL ) BEGIN
+    :new.id_eonet := tb_eonet3_id_eonet_seq.nextval;
+END;
+
+/
+ALTER TRIGGER "GLOBAL"."TB_EONET3_ID_EONET_TRG" ENABLE;
+--------------------------------------------------------
+--  DDL for Procedure P_CLIENTECONTATO3_INSERT
+--------------------------------------------------------
+set define off;
+
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "GLOBAL"."P_CLIENTECONTATO3_INSERT" (
+    p_id_cliente IN TB_CLIENTECONTATO3.TB_CLIENTE3_ID_CLIENTE%TYPE,
+    p_id_contato IN TB_CLIENTECONTATO3.TB_CONTATO3_ID_CONTATO%TYPE
+) IS
+BEGIN
+    INSERT INTO TB_CLIENTECONTATO3 (TB_CLIENTE3_ID_CLIENTE, TB_CONTATO3_ID_CONTATO)
+    VALUES (p_id_cliente, p_id_contato);
+    DBMS_OUTPUT.PUT_LINE('Associado cliente ' || p_id_cliente || ' com contato ' || p_id_contato);
+END P_CLIENTECONTATO3_INSERT;
+
+/
+--------------------------------------------------------
+--  DDL for Procedure P_CLIENTEENDERECO3_INSERT
+--------------------------------------------------------
+set define off;
+
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "GLOBAL"."P_CLIENTEENDERECO3_INSERT" (
+    p_id_cliente  IN TB_CLIENTEENDERECO3.TB_CLIENTE3_ID_CLIENTE%TYPE,
+    p_id_endereco IN TB_CLIENTEENDERECO3.TB_ENDERECO3_ID_ENDERECO%TYPE
+) IS
+BEGIN
+    INSERT INTO TB_CLIENTEENDERECO3 (TB_CLIENTE3_ID_CLIENTE, TB_ENDERECO3_ID_ENDERECO)
+    VALUES (p_id_cliente, p_id_endereco);
+    DBMS_OUTPUT.PUT_LINE('Associado cliente ' || p_id_cliente || ' com endereço ' || p_id_endereco);
+END P_CLIENTEENDERECO3_INSERT;
+
+/
+--------------------------------------------------------
+--  DDL for Procedure P_CLIENTE3_DELETE
+--------------------------------------------------------
+set define off;
+
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "GLOBAL"."P_CLIENTE3_DELETE" (
+    p_id_cliente IN TB_CLIENTE3.ID_CLIENTE%TYPE
+) IS
+BEGIN
+    -- CUIDADO: Antes de deletar o cliente, é preciso remover as referências em tabelas filhas.
+    DELETE FROM TB_CLIENTECONTATO3 WHERE TB_CLIENTE3_ID_CLIENTE = p_id_cliente;
+    DELETE FROM TB_CLIENTEENDERECO3 WHERE TB_CLIENTE3_ID_CLIENTE = p_id_cliente;
+
+    -- Agora deleta o cliente
+    DELETE FROM TB_CLIENTE3 WHERE ID_CLIENTE = p_id_cliente;
+
+    IF SQL%ROWCOUNT > 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Cliente ID ' || p_id_cliente || ' e suas associações foram excluídos.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Nenhum cliente encontrado com o ID ' || p_id_cliente || '.');
+    END IF;
+END P_CLIENTE3_DELETE;
+
+/
+--------------------------------------------------------
+--  DDL for Procedure P_CLIENTE3_INSERT
+--------------------------------------------------------
+set define off;
+
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "GLOBAL"."P_CLIENTE3_INSERT" (
+    p_nome              IN TB_CLIENTE3.NOME%TYPE,
+    p_sobrenome         IN TB_CLIENTE3.SOBRENOME%TYPE,
+    p_documento         IN TB_CLIENTE3.DOCUMENTO%TYPE,
+    p_data_nascimento   IN TB_CLIENTE3.DATA_NASCIMENTO%TYPE,
+    p_new_id            OUT TB_CLIENTE3.ID_CLIENTE%TYPE
+) IS
+BEGIN
+    INSERT INTO TB_CLIENTE3 (NOME, SOBRENOME, DOCUMENTO, DATA_NASCIMENTO)
+    VALUES (p_nome, p_sobrenome, p_documento, p_data_nascimento)
+    RETURNING ID_CLIENTE INTO p_new_id;
+
+    DBMS_OUTPUT.PUT_LINE('Cliente "' || p_nome || '" inserido com sucesso. Novo ID: ' || p_new_id);
+END P_CLIENTE3_INSERT;
+
+/
+--------------------------------------------------------
+--  DDL for Procedure P_CLIENTE3_UPDATE
+--------------------------------------------------------
+set define off;
+
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "GLOBAL"."P_CLIENTE3_UPDATE" (
+    p_id_cliente        IN TB_CLIENTE3.ID_CLIENTE%TYPE,
+    p_nome              IN TB_CLIENTE3.NOME%TYPE,
+    p_sobrenome         IN TB_CLIENTE3.SOBRENOME%TYPE,
+    p_documento         IN TB_CLIENTE3.DOCUMENTO%TYPE,
+    p_data_nascimento   IN TB_CLIENTE3.DATA_NASCIMENTO%TYPE
+) IS
+BEGIN
+    UPDATE TB_CLIENTE3
+    SET NOME = p_nome,
+        SOBRENOME = p_sobrenome,
+        DOCUMENTO = p_documento,
+        DATA_NASCIMENTO = p_data_nascimento
+    WHERE ID_CLIENTE = p_id_cliente;
+
+    IF SQL%ROWCOUNT > 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Cliente ID ' || p_id_cliente || ' atualizado com sucesso.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Nenhum cliente encontrado com o ID ' || p_id_cliente || '.');
+    END IF;
+END P_CLIENTE3_UPDATE;
+
+/
+--------------------------------------------------------
+--  DDL for Procedure P_CONTATO3_DELETE
+--------------------------------------------------------
+set define off;
+
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "GLOBAL"."P_CONTATO3_DELETE" (
+    p_id_contato IN TB_CONTATO3.ID_CONTATO%TYPE
+) IS
+BEGIN
+    DELETE FROM TB_CLIENTECONTATO3 WHERE TB_CONTATO3_ID_CONTATO = p_id_contato;
+    DELETE FROM TB_CONTATO3 WHERE ID_CONTATO = p_id_contato;
+
+    IF SQL%ROWCOUNT > 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Contato ID ' || p_id_contato || ' e suas associações foram excluídos.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Nenhum contato encontrado com o ID ' || p_id_contato || '.');
+    END IF;
+END P_CONTATO3_DELETE;
+
+/
+--------------------------------------------------------
+--  DDL for Procedure P_CONTATO3_INSERT
+--------------------------------------------------------
+set define off;
+
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "GLOBAL"."P_CONTATO3_INSERT" (
+    p_ddd           IN TB_CONTATO3.DDD%TYPE,
+    p_telefone      IN TB_CONTATO3.TELEFONE%TYPE,
+    p_celular       IN TB_CONTATO3.CELULAR%TYPE,
+    p_whatsapp      IN TB_CONTATO3.WHATSAPP%TYPE,
+    p_email         IN TB_CONTATO3.EMAIL%TYPE,
+    p_tipo_contato  IN TB_CONTATO3.TIPO_CONTATO%TYPE,
+    p_new_id        OUT TB_CONTATO3.ID_CONTATO%TYPE
+) IS
+BEGIN
+    INSERT INTO TB_CONTATO3 (DDD, TELEFONE, CELULAR, WHATSAPP, EMAIL, TIPO_CONTATO)
+    VALUES (p_ddd, p_telefone, p_celular, p_whatsapp, p_email, p_tipo_contato)
+    RETURNING ID_CONTATO INTO p_new_id;
+
+    DBMS_OUTPUT.PUT_LINE('Contato para "' || p_email || '" inserido. Novo ID: ' || p_new_id);
+END P_CONTATO3_INSERT;
+
+/
+--------------------------------------------------------
+--  DDL for Procedure P_CONTATO3_UPDATE
+--------------------------------------------------------
+set define off;
+
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "GLOBAL"."P_CONTATO3_UPDATE" (
+    p_id_contato    IN TB_CONTATO3.ID_CONTATO%TYPE,
+    p_ddd           IN TB_CONTATO3.DDD%TYPE,
+    p_telefone      IN TB_CONTATO3.TELEFONE%TYPE,
+    p_celular       IN TB_CONTATO3.CELULAR%TYPE,
+    p_whatsapp      IN TB_CONTATO3.WHATSAPP%TYPE,
+    p_email         IN TB_CONTATO3.EMAIL%TYPE,
+    p_tipo_contato  IN TB_CONTATO3.TIPO_CONTATO%TYPE
+) IS
+BEGIN
+    UPDATE TB_CONTATO3
+    SET DDD = p_ddd,
+        TELEFONE = p_telefone,
+        CELULAR = p_celular,
+        WHATSAPP = p_whatsapp,
+        EMAIL = p_email,
+        TIPO_CONTATO = p_tipo_contato
+    WHERE ID_CONTATO = p_id_contato;
+
+    IF SQL%ROWCOUNT > 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Contato ID ' || p_id_contato || ' atualizado com sucesso.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Nenhum contato encontrado com o ID ' || p_id_contato || '.');
+    END IF;
+END P_CONTATO3_UPDATE;
+
+/
+--------------------------------------------------------
+--  DDL for Procedure P_ENDERECOEVENTOS3_INSERT
+--------------------------------------------------------
+set define off;
+
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "GLOBAL"."P_ENDERECOEVENTOS3_INSERT" (
+    p_id_endereco IN TB_ENDERECOEVENTOS3.TB_ENDERECO3_ID_ENDERECO%TYPE,
+    p_id_eonet    IN TB_ENDERECOEVENTOS3.TB_EONET3_ID_EONET%TYPE
+) IS
+BEGIN
+    INSERT INTO TB_ENDERECOEVENTOS3 (TB_ENDERECO3_ID_ENDERECO, TB_EONET3_ID_EONET)
+    VALUES (p_id_endereco, p_id_eonet);
+    DBMS_OUTPUT.PUT_LINE('Associado endereço ' || p_id_endereco || ' com evento ' || p_id_eonet);
+END P_ENDERECOEVENTOS3_INSERT;
+
+/
+--------------------------------------------------------
+--  DDL for Procedure P_ENDERECO3_DELETE
+--------------------------------------------------------
+set define off;
+
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "GLOBAL"."P_ENDERECO3_DELETE" (
+    p_id_endereco IN TB_ENDERECO3.ID_ENDERECO%TYPE
+) IS
+BEGIN
+    DELETE FROM TB_CLIENTEENDERECO3 WHERE TB_ENDERECO3_ID_ENDERECO = p_id_endereco;
+    DELETE FROM TB_ENDERECOEVENTOS3 WHERE TB_ENDERECO3_ID_ENDERECO = p_id_endereco;
+    DELETE FROM TB_ENDERECO3 WHERE ID_ENDERECO = p_id_endereco;
+
+    IF SQL%ROWCOUNT > 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Endereço ID ' || p_id_endereco || ' e suas associações foram excluídos.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Nenhum endereço encontrado com o ID ' || p_id_endereco || '.');
+    END IF;
+END P_ENDERECO3_DELETE;
+
+/
+--------------------------------------------------------
+--  DDL for Procedure P_ENDERECO3_INSERT
+--------------------------------------------------------
+set define off;
+
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "GLOBAL"."P_ENDERECO3_INSERT" (
+    p_cep         IN TB_ENDERECO3.CEP%TYPE,
+    p_numero      IN TB_ENDERECO3.NUMERO%TYPE,
+    p_logradouro  IN TB_ENDERECO3.LOGRADOURO%TYPE,
+    p_bairro      IN TB_ENDERECO3.BAIRRO%TYPE,
+    p_localidade  IN TB_ENDERECO3.LOCALIDADE%TYPE,
+    p_uf          IN TB_ENDERECO3.UF%TYPE,
+    p_complemento IN TB_ENDERECO3.COMPLEMENTO%TYPE,
+    p_latitude    IN TB_ENDERECO3.LATITUDE%TYPE,
+    p_longitude   IN TB_ENDERECO3.LONGITUDE%TYPE,
+    p_new_id      OUT TB_ENDERECO3.ID_ENDERECO%TYPE
+) IS
+BEGIN
+    INSERT INTO TB_ENDERECO3 (CEP, NUMERO, LOGRADOURO, BAIRRO, LOCALIDADE, UF, COMPLEMENTO, LATITUDE, LONGITUDE)
+    VALUES (p_cep, p_numero, p_logradouro, p_bairro, p_localidade, p_uf, p_complemento, p_latitude, p_longitude)
+    RETURNING ID_ENDERECO INTO p_new_id;
+
+    DBMS_OUTPUT.PUT_LINE('Endereço "' || p_logradouro || '" inserido. Novo ID: ' || p_new_id);
+END P_ENDERECO3_INSERT;
+
+/
+--------------------------------------------------------
+--  DDL for Procedure P_ENDERECO3_UPDATE
+--------------------------------------------------------
+set define off;
+
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "GLOBAL"."P_ENDERECO3_UPDATE" (
+    p_id_endereco IN TB_ENDERECO3.ID_ENDERECO%TYPE,
+    p_cep         IN TB_ENDERECO3.CEP%TYPE,
+    p_numero      IN TB_ENDERECO3.NUMERO%TYPE,
+    p_logradouro  IN TB_ENDERECO3.LOGRADOURO%TYPE,
+    p_bairro      IN TB_ENDERECO3.BAIRRO%TYPE,
+    p_localidade  IN TB_ENDERECO3.LOCALIDADE%TYPE,
+    p_uf          IN TB_ENDERECO3.UF%TYPE,
+    p_complemento IN TB_ENDERECO3.COMPLEMENTO%TYPE,
+    p_latitude    IN TB_ENDERECO3.LATITUDE%TYPE,
+    p_longitude   IN TB_ENDERECO3.LONGITUDE%TYPE
+) IS
+BEGIN
+    UPDATE TB_ENDERECO3
+    SET CEP = p_cep,
+        NUMERO = p_numero,
+        LOGRADOURO = p_logradouro,
+        BAIRRO = p_bairro,
+        LOCALIDADE = p_localidade,
+        UF = p_uf,
+        COMPLEMENTO = p_complemento,
+        LATITUDE = p_latitude,
+        LONGITUDE = p_longitude
+    WHERE ID_ENDERECO = p_id_endereco;
+
+    IF SQL%ROWCOUNT > 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Endereço ID ' || p_id_endereco || ' atualizado com sucesso.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Nenhum endereço encontrado com o ID ' || p_id_endereco || '.');
+    END IF;
+END P_ENDERECO3_UPDATE;
+
+/
+--------------------------------------------------------
+--  DDL for Procedure P_EONET3_INSERT
+--------------------------------------------------------
+set define off;
+
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "GLOBAL"."P_EONET3_INSERT" (
+    p_json      IN TB_EONET3.JSON%TYPE,
+    p_data      IN TB_EONET3.DATA%TYPE,
+    p_eonet_id  IN TB_EONET3.EONET_ID%TYPE,
+    p_new_id    OUT TB_EONET3.ID_EONET%TYPE
+) IS
+BEGIN
+    INSERT INTO TB_EONET3 (JSON, DATA, EONET_ID)
+    VALUES (p_json, p_data, p_eonet_id)
+    RETURNING ID_EONET INTO p_new_id;
+
+    DBMS_OUTPUT.PUT_LINE('Evento EONET "' || p_eonet_id || '" inserido. Novo ID: ' || p_new_id);
+END P_EONET3_INSERT;
+
+/
+--------------------------------------------------------
+--  DDL for Function F_CALCULAR_IDADE_CLIENTE
+--------------------------------------------------------
+
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GLOBAL"."F_CALCULAR_IDADE_CLIENTE" (
+    p_id_cliente IN NUMBER
+) RETURN NUMBER IS
+    v_data_nasc_varchar VARCHAR2(10);
+    v_data_nasc_date    DATE;
+    v_idade             NUMBER;
+BEGIN
+    -- Busca a data de nascimento (texto) do cliente
+    SELECT DATA_NASCIMENTO
+    INTO v_data_nasc_varchar
+    FROM TB_CLIENTE3
+    WHERE ID_CLIENTE = p_id_cliente;
+
+    -- Converte o texto para data e calcula a idade em anos
+    v_data_nasc_date := TO_DATE(v_data_nasc_varchar, 'DD/MM/YYYY');
+    v_idade := TRUNC(MONTHS_BETWEEN(SYSDATE, v_data_nasc_date) / 12);
+
+    RETURN v_idade;
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Retorna nulo se o cliente não for encontrado ou se a data for inválida
+        RETURN NULL;
+END F_CALCULAR_IDADE_CLIENTE;
+
+/
+--------------------------------------------------------
+--  DDL for Function F_TOTAL_CLIENTES_POR_UF
+--------------------------------------------------------
+
+  CREATE OR REPLACE EDITIONABLE FUNCTION "GLOBAL"."F_TOTAL_CLIENTES_POR_UF" (
+    p_uf IN VARCHAR2
+) RETURN NUMBER IS
+    v_total_clientes NUMBER;
+BEGIN
+    -- Conta os IDs de clientes distintos que possuem endereço no UF especificado
+    SELECT COUNT(DISTINCT cli.ID_CLIENTE)
+    INTO v_total_clientes
+    FROM TB_CLIENTE3 cli
+    JOIN TB_CLIENTEENDERECO3 ce ON cli.ID_CLIENTE = ce.TB_CLIENTE3_ID_CLIENTE
+    JOIN TB_ENDERECO3 ender ON ce.TB_ENDERECO3_ID_ENDERECO = ender.ID_ENDERECO
+    WHERE ender.UF = UPPER(p_uf); -- Garante que a comparação não seja sensível a maiúsculas/minúsculas
+
+    RETURN v_total_clientes;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RETURN 0;
+    WHEN OTHERS THEN
+        RETURN -1; -- Retorna -1 em caso de outro erro
+END F_TOTAL_CLIENTES_POR_UF;
+
+/
+--------------------------------------------------------
+--  Constraints for Table TB_CONTATO3
+--------------------------------------------------------
+
+  ALTER TABLE "GLOBAL"."TB_CONTATO3" MODIFY ("ID_CONTATO" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_CONTATO3" MODIFY ("DDD" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_CONTATO3" MODIFY ("TELEFONE" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_CONTATO3" MODIFY ("CELULAR" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_CONTATO3" MODIFY ("WHATSAPP" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_CONTATO3" MODIFY ("EMAIL" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_CONTATO3" MODIFY ("TIPO_CONTATO" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_CONTATO3" ADD CONSTRAINT "TB_CONTATO3_PK" PRIMARY KEY ("ID_CONTATO")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table TB_ENDERECOEVENTOS3
+--------------------------------------------------------
+
+  ALTER TABLE "GLOBAL"."TB_ENDERECOEVENTOS3" MODIFY ("TB_ENDERECO3_ID_ENDERECO" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_ENDERECOEVENTOS3" MODIFY ("TB_EONET3_ID_EONET" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_ENDERECOEVENTOS3" ADD CONSTRAINT "TB_ENDERECOEVENTOS3_PK" PRIMARY KEY ("TB_ENDERECO3_ID_ENDERECO", "TB_EONET3_ID_EONET")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table TB_CLIENTECONTATO3
+--------------------------------------------------------
+
+  ALTER TABLE "GLOBAL"."TB_CLIENTECONTATO3" MODIFY ("TB_CLIENTE3_ID_CLIENTE" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_CLIENTECONTATO3" MODIFY ("TB_CONTATO3_ID_CONTATO" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_CLIENTECONTATO3" ADD CONSTRAINT "TB_CLIENTECONTATO3_PK" PRIMARY KEY ("TB_CLIENTE3_ID_CLIENTE", "TB_CONTATO3_ID_CONTATO")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table TB_CLIENTEENDERECO3
+--------------------------------------------------------
+
+  ALTER TABLE "GLOBAL"."TB_CLIENTEENDERECO3" MODIFY ("TB_CLIENTE3_ID_CLIENTE" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_CLIENTEENDERECO3" MODIFY ("TB_ENDERECO3_ID_ENDERECO" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_CLIENTEENDERECO3" ADD CONSTRAINT "TB_CLIENTEENDERECO3_PK" PRIMARY KEY ("TB_CLIENTE3_ID_CLIENTE", "TB_ENDERECO3_ID_ENDERECO")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table TB_EONET3
+--------------------------------------------------------
+
+  ALTER TABLE "GLOBAL"."TB_EONET3" MODIFY ("ID_EONET" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_EONET3" MODIFY ("EONET_ID" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_EONET3" ADD CONSTRAINT "TB_EONET3_PK" PRIMARY KEY ("ID_EONET")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  TABLESPACE "USERS"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table TB_CLIENTE3
+--------------------------------------------------------
+
+  ALTER TABLE "GLOBAL"."TB_CLIENTE3" MODIFY ("DATA_NASCIMENTO" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_CLIENTE3" MODIFY ("SOBRENOME" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_CLIENTE3" MODIFY ("DOCUMENTO" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_CLIENTE3" MODIFY ("ID_CLIENTE" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_CLIENTE3" MODIFY ("NOME" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_CLIENTE3" ADD CONSTRAINT "TB_CLIENTE3_PK" PRIMARY KEY ("ID_CLIENTE")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table TB_ENDERECO3
+--------------------------------------------------------
+
+  ALTER TABLE "GLOBAL"."TB_ENDERECO3" MODIFY ("ID_ENDERECO" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_ENDERECO3" MODIFY ("CEP" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_ENDERECO3" MODIFY ("NUMERO" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_ENDERECO3" MODIFY ("LOGRADOURO" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_ENDERECO3" MODIFY ("BAIRRO" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_ENDERECO3" MODIFY ("LOCALIDADE" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_ENDERECO3" MODIFY ("UF" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_ENDERECO3" MODIFY ("COMPLEMENTO" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_ENDERECO3" MODIFY ("LATITUDE" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_ENDERECO3" MODIFY ("LONGITUDE" NOT NULL ENABLE);
+  ALTER TABLE "GLOBAL"."TB_ENDERECO3" ADD CONSTRAINT "TB_ENDERECO3_PK" PRIMARY KEY ("ID_ENDERECO")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS"  ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table TB_CLIENTECONTATO3
+--------------------------------------------------------
+
+  ALTER TABLE "GLOBAL"."TB_CLIENTECONTATO3" ADD CONSTRAINT "TB_CLIENTECONTATO3_TB_CLIENTE3_FK" FOREIGN KEY ("TB_CLIENTE3_ID_CLIENTE")
+	  REFERENCES "GLOBAL"."TB_CLIENTE3" ("ID_CLIENTE") ENABLE;
+  ALTER TABLE "GLOBAL"."TB_CLIENTECONTATO3" ADD CONSTRAINT "TB_CLIENTECONTATO3_TB_CONTATO3_FK" FOREIGN KEY ("TB_CONTATO3_ID_CONTATO")
+	  REFERENCES "GLOBAL"."TB_CONTATO3" ("ID_CONTATO") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table TB_CLIENTEENDERECO3
+--------------------------------------------------------
+
+  ALTER TABLE "GLOBAL"."TB_CLIENTEENDERECO3" ADD CONSTRAINT "TB_CLIENTEENDERECO3_TB_CLIENTE3_FK" FOREIGN KEY ("TB_CLIENTE3_ID_CLIENTE")
+	  REFERENCES "GLOBAL"."TB_CLIENTE3" ("ID_CLIENTE") ENABLE;
+  ALTER TABLE "GLOBAL"."TB_CLIENTEENDERECO3" ADD CONSTRAINT "TB_CLIENTEENDERECO3_TB_ENDERECO3_FK" FOREIGN KEY ("TB_ENDERECO3_ID_ENDERECO")
+	  REFERENCES "GLOBAL"."TB_ENDERECO3" ("ID_ENDERECO") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table TB_ENDERECOEVENTOS3
+--------------------------------------------------------
+
+  ALTER TABLE "GLOBAL"."TB_ENDERECOEVENTOS3" ADD CONSTRAINT "TB_ENDERECOEVENTOS3_TB_ENDERECO3_FK" FOREIGN KEY ("TB_ENDERECO3_ID_ENDERECO")
+	  REFERENCES "GLOBAL"."TB_ENDERECO3" ("ID_ENDERECO") ENABLE;
+  ALTER TABLE "GLOBAL"."TB_ENDERECOEVENTOS3" ADD CONSTRAINT "TB_ENDERECOEVENTOS3_TB_EONET3_FK" FOREIGN KEY ("TB_EONET3_ID_EONET")
+	  REFERENCES "GLOBAL"."TB_EONET3" ("ID_EONET") ENABLE;

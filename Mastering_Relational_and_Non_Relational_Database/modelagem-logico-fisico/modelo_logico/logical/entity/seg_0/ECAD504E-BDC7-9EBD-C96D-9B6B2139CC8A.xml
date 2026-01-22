@@ -1,0 +1,123 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="ECAD504E-BDC7-9EBD-C96D-9B6B2139CC8A" name="TB_CONTATO3">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-26 23:13:55 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_contato" id="6AA6F72A-33DA-594E-C8F9-5925EC590951">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-26 23:14:08 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ddd" id="C67FE1BF-9430-CAC7-A8B0-EF8AEC57C2C4">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-26 23:16:04 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>3</dataTypeSize>
+<ownDataTypeParameters>3,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="telefone" id="72289822-9AF1-80ED-69A2-A9B5431D067C">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-26 23:14:23 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>15</dataTypeSize>
+<ownDataTypeParameters>15,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="celular" id="1C89CE15-EB66-B496-9156-25D39D98BAD5">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-26 23:14:44 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>15</dataTypeSize>
+<ownDataTypeParameters>15,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="whatsapp" id="A89B93F2-863E-AA96-B8CD-8163AE2FE405">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-26 23:15:05 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>15</dataTypeSize>
+<ownDataTypeParameters>15,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="email" id="19745996-4DF1-6D66-6958-339FB93C8B19">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-26 23:15:32 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="tipo_contato" id="72FB61EB-1DC1-0AC1-3D75-915446A02CBA">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-26 23:16:41 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="1E269329-9FDE-107F-8300-589762F0BD0D" name="GS_CONTATOS PK">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-26 23:14:17 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>6AA6F72A-33DA-594E-C8F9-5925EC590951</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

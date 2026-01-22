@@ -1,0 +1,596 @@
+{
+  "info": {
+    "_postman_id": "YOUR_COLLECTION_ID",
+    "name": "GS API Testes Paulo",
+    "description": "Coleção de testes para a GS API com os dados de Paulo Carminati.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    " σειράVersion": 2
+  },
+  "item": [
+    {
+      "name": "Contatos",
+      "item": [
+        {
+          "name": "Criar Contato (Paulo)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "pm.collectionVariables.set(\"contatoIdPaulo\", jsonData.idContato);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"ddd\": \"11\",\n    \"telefone\": \"976692633\",\n    \"celular\": \"976692633\",\n    \"whatsapp\": \"976692633\",\n    \"email\": \"rm557881@fiap.com.br\",\n    \"tipoContato\": \"Pessoal\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/contatos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "contatos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Contato por ID (Paulo)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/contatos/{{contatoIdPaulo}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "contatos",
+                "{{contatoIdPaulo}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Contato por Email (Paulo)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/contatos/email/rm557881@fiap.com.br",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "contatos",
+                "email",
+                "rm557881@fiap.com.br"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Contatos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/contatos?page=0&size=5&sort=email,asc&tipoContato=Pessoal",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "contatos"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "5"
+                },
+                {
+                  "key": "sort",
+                  "value": "email,asc"
+                },
+                {
+                  "key": "tipoContato",
+                  "value": "Pessoal"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar Contato (Paulo)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"ddd\": \"11\",\n    \"telefone\": \"976692633\",\n    \"celular\": \"976692633\",\n    \"whatsapp\": \"11976692633\",\n    \"email\": \"rm557881.paulo@fiap.com.br\",\n    \"tipoContato\": \"Pessoal Principal\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/contatos/{{contatoIdPaulo}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "contatos",
+                "{{contatoIdPaulo}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Enderecos",
+      "item": [
+        {
+          "name": "Geocodificar Endereço (Casa Paulo - Obter ou Criar Dinamicamente)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "pm.collectionVariables.set(\"idEnderecoPauloGeo\", jsonData.idEndereco);",
+                  "pm.collectionVariables.set(\"latCasaPaulo\", jsonData.latitude);",
+                  "pm.collectionVariables.set(\"lonCasaPaulo\", jsonData.longitude);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/enderecos/geocodificar/cep/07062031?numero=127&complemento=casa",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "enderecos",
+                "geocodificar",
+                "cep",
+                "07062031"
+              ],
+              "query": [
+                {
+                  "key": "numero",
+                  "value": "127"
+                },
+                {
+                  "key": "complemento",
+                  "value": "casa"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Endereço Manualmente (Exemplo Alternativo)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "pm.collectionVariables.set(\"idEnderecoPauloManual\", jsonData.idEndereco);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"cep\": \"07062-031\",\n    \"numero\": 127,\n    \"logradouro\": \"Rua Laura\",\n    \"bairro\": \"Vila Leda\",\n    \"localidade\": \"Guarulhos\",\n    \"uf\": \"SP\",\n    \"complemento\": \"casa\",\n    \"latitude\": -23.4387,\n    \"longitude\": -46.5405\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/enderecos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "enderecos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Endereço por ID (Casa Paulo Geo)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/enderecos/{{idEnderecoPauloGeo}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "enderecos",
+                "{{idEnderecoPauloGeo}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Endereços",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/enderecos?page=0&size=5&sort=logradouro,desc&cep=07062",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "enderecos"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "5"
+                },
+                {
+                  "key": "sort",
+                  "value": "logradouro,desc"
+                },
+                {
+                  "key": "cep",
+                  "value": "07062"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar Endereço (Casa Paulo Geo)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"cep\": \"07062031\",\n    \"numero\": 127,\n    \"logradouro\": \"Rua Laura\",\n    \"bairro\": \"Vila Leda\",\n    \"localidade\": \"Guarulhos\",\n    \"uf\": \"SP\",\n    \"complemento\": \"Casa (reformada)\",\n    \"latitude\": {{latCasaPaulo}},\n    \"longitude\": {{lonCasaPaulo}}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/enderecos/{{idEnderecoPauloGeo}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "enderecos",
+                "{{idEnderecoPauloGeo}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Clientes",
+      "item": [
+        {
+          "name": "Criar Cliente (Paulo)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "pm.collectionVariables.set(\"idClientePaulo\", jsonData.idCliente);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nome\": \"Paulo André\",\n    \"sobrenome\": \"Carminati\",\n    \"dataNascimento\": \"12/10/1979\",\n    \"documento\": \"29902327885\",\n    \"contatoIds\": [{{contatoIdPaulo}}],\n    \"enderecoIds\": [{{idEnderecoPauloGeo}}]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/clientes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "clientes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Cliente por ID (Paulo)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/clientes/{{idClientePaulo}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "clientes",
+                "{{idClientePaulo}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Clientes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/clientes?page=0&size=5&sort=nome,asc&nome=Paulo",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "clientes"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "5"
+                },
+                {
+                  "key": "sort",
+                  "value": "nome,asc"
+                },
+                {
+                  "key": "nome",
+                  "value": "Paulo"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar Cliente (Paulo)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nome\": \"Paulo André\",\n    \"sobrenome\": \"Carminati da Silva\",\n    \"dataNascimento\": \"12/10/1979\",\n    \"documento\": \"29902327885\",\n    \"contatoIds\": [{{contatoIdPaulo}}],\n    \"enderecoIds\": [{{idEnderecoPauloGeo}}]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/clientes/{{idClientePaulo}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "clientes",
+                "{{idClientePaulo}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Limpeza (Deletar Dados Criados)",
+      "item": [
+        {
+          "name": "Deletar Cliente (Paulo)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/clientes/{{idClientePaulo}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "clientes",
+                "{{idClientePaulo}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar Contato (Paulo)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/contatos/{{contatoIdPaulo}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "contatos",
+                "{{contatoIdPaulo}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar Endereço (Casa Paulo Geo)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/enderecos/{{idEnderecoPauloGeo}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "enderecos",
+                "{{idEnderecoPauloGeo}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar Endereço (Casa Paulo Manual)",
+          "condition": "pm.collectionVariables.get(\"idEnderecoPauloManual\")",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/enderecos/{{idEnderecoPauloManual}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "enderecos",
+                "{{idEnderecoPauloManual}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "contatoIdPaulo",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "idEnderecoPauloGeo",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "latCasaPaulo",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "lonCasaPaulo",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "idEnderecoPauloManual",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "idClientePaulo",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

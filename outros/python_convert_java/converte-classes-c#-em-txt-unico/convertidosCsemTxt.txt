@@ -1,0 +1,2279 @@
+// Script: converte-arquivos-csharp-em-txt-unico (v1.1)
+// Data de criação do arquivo de saída: 2025-05-30 20:11:27
+
+// Estrutura de diretórios do projeto:
+gsApi/
+    Controllers/
+    Properties/
+    controller/
+    data/
+    dto/
+        request/
+        response/
+    exceptions/
+    middleware/
+    model/
+
+// Arquivos encontrados (Namespace.Tipo => caminho relativo):
+// gsApi.Controllers.WeatherForecastController => Controllers\WeatherForecastController.cs
+// Program => Program.cs
+// gsApi.WeatherForecast => WeatherForecast.cs
+// SeuProjetoNET.Controller.AlertsController => controller\AlertsController .cs
+// SeuProjetoNET.Controller.ClientesController => controller\ClientesController.cs
+// SeuProjetoNET.Controller.ContatosController => controller\ContatosController .cs
+// SeuProjetoNET.Controller.EnderecosController => controller\EnderecosController .cs
+// SeuProjetoNET.Controller.EonetController => controller\EonetController.cs
+// SeuProjetoNET.Controller.StatsController => controller\StatsController.cs
+// SeuProjetoNET.Data.AppDbContext => data\AppDbContext .cs
+// SeuProjetoNET.DTOs.Request.AlertableEventDto => dto\request\AlertableEventDto.cs
+// SeuProjetoNET.DTOs.Request.ClienteRequestDto => dto\request\ClienteRequestDto.cs
+// SeuProjetoNET.DTOs.Request.ContatoRequestDto => dto\request\ContatoRequestDto.cs
+// SeuProjetoNET.DTOs.Request.EnderecoGeoRequestDto => dto\request\EnderecoGeoRequestDto.cs
+// SeuProjetoNET.DTOs.Request.EnderecoRequestDto => dto\request\EnderecoRequestDto.cs
+// SeuProjetoNET.DTOs.Request.EonetRequestDto => dto\request\EonetRequestDto.cs
+// SeuProjetoNET.DTOs.Request.UserAlertRequestDto => dto\request\UserAlertRequestDto.cs
+// SeuProjetoNET.DTOs.Response.CategoryCountDto => dto\response\CategoryCountDto.cs
+// SeuProjetoNET.DTOs.Response.ClienteResponseDto => dto\response\ClienteResponseDto.cs
+// SeuProjetoNET.DTOs.Response.ContatoResponseDto => dto\response\ContatoResponseDto.cs
+// SeuProjetoNET.DTOs.Response.EnderecoResponseDto => dto\response\EnderecoResponseDto.cs
+// SeuProjetoNET.DTOs.Response.EonetResponseDto => dto\response\EonetResponseDto.cs
+// SeuProjetoNET.DTOs.Response.GeoCoordinatesDto => dto\response\GeoCoordinatesDto .cs
+// SeuProjetoNET.DTOs.Response.GoogleGeocodingApiResponseDto => dto\response\GoogleGeocodingApiResponseDto .cs
+// SeuProjetoNET.DTOs.Response.GoogleGeocodingGeometryDto => dto\response\GoogleGeocodingGeometryDto.cs
+// SeuProjetoNET.DTOs.Response.GoogleGeocodingLocationDto => dto\response\GoogleGeocodingLocationDto.cs
+// SeuProjetoNET.DTOs.Response.GoogleGeocodingResultDto => dto\response\GoogleGeocodingResultDto.cs
+// SeuProjetoNET.DTOs.Response.NasaEonetApiResponseDto => dto\response\NasaEonetApiResponseDto.cs
+// SeuProjetoNET.DTOs.Response.NasaEonetCategoryDto => dto\response\NasaEonetCategoryDto.cs
+// SeuProjetoNET.DTOs.Response.NasaEonetEventDto => dto\response\NasaEonetEventDto .cs
+// SeuProjetoNET.DTOs.Response.NasaEonetGeometryDto => dto\response\NasaEonetGeometryDto.cs
+// SeuProjetoNET.DTOs.Response.NasaEonetSourceDto => dto\response\NasaEonetSourceDto.cs
+// SeuProjetoNET.DTOs.Response.NominatimResponseDto => dto\response\NominatimResponseDto.cs
+// SeuProjetoNET.DTOs.Response.TimeCountDto => dto\response\TimeCountDto.cs
+// SeuProjetoNET.DTOs.Response.ViaCepResponseDto => dto\response\ViaCepResponseDto.cs
+// SeuProjetoNET.Exceptions.RecursoNaoEncontradoException => exceptions\RecursoNaoEncontradoException .cs
+// SeuProjetoNET.Exceptions.ServicoIndisponivelException => exceptions\ServicoIndisponivelException .cs
+// SeuProjetoNET.Exceptions.ValidacaoException => exceptions\ValidacaoException .cs
+// SeuProjetoNET.Middleware.TratadorGlobalExcecoesMiddleware => middleware\TratadorGlobalExcecoesMiddleware.cs
+// SeuProjetoNET.Models.Cliente => model\Cliente.cs
+// SeuProjetoNET.Models.Contato => model\Contato.cs
+// SeuProjetoNET.Models.Endereco => model\Endereco.cs
+// SeuProjetoNET.Models.EonetEvent => model\EonetEvent.cs
+
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: Controllers\WeatherForecastController.cs
+// Namespace: gsApi.Controllers
+// Tipo: WeatherForecastController
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+using Microsoft.AspNetCore.Mvc;
+
+namespace gsApi.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class WeatherForecastController : ControllerBase
+    {
+        private static readonly string[] Summaries = new[]
+        {
+            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+        };
+
+        private readonly ILogger<WeatherForecastController> _logger;
+
+        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        {
+            _logger = logger;
+        }
+
+        [HttpGet(Name = "GetWeatherForecast")]
+        public IEnumerable<WeatherForecast> Get()
+        {
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            })
+            .ToArray();
+        }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: Program.cs
+// Namespace: (namespace padrão)
+// Tipo: Program
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+// File: gsApi/Program.cs
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
+using SeuProjetoNET.Data; // <<<< AJUSTE PARA O NAMESPACE DO SEU AppDbContext (ex: gsApi.data)
+using SeuProjetoNET.Middleware; // Ajuste para o namespace do seu middleware (ex: gsApi.middleware)
+using System;
+using System.IO;
+using System.Reflection;
+// using AppDbContext; // Remova esta linha se AppDbContext estiver em SeuProjetoNET.Data
+
+var startupLogPath = Path.Combine(AppContext.BaseDirectory, "gsApi_startup_trace.log");
+Action<string> earlyManualLog = (message) =>
+{
+    try { File.AppendAllText(startupLogPath, $"[{DateTime.UtcNow:o}] {message}{Environment.NewLine}"); }
+    catch (Exception ex) { Console.WriteLine($"Falha ao escrever no log manual inicial: {ex.Message}"); }
+};
+ILogger? appLogger = null;
+
+try
+{
+    earlyManualLog("INICIANDO SEQUÊNCIA DE STARTUP DA APLICAÇÃO GSAPI...");
+    var builder = WebApplication.CreateBuilder(args);
+    earlyManualLog($"WebApplication.CreateBuilder concluído.");
+
+    builder.Logging.ClearProviders();
+    builder.Logging.AddConsole();
+    builder.Logging.AddDebug();
+    earlyManualLog("Provedores de logging configurados.");
+
+    using var tempLoggerFactory = LoggerFactory.Create(logBuilder =>
+    {
+        logBuilder.AddConfiguration(builder.Configuration.GetSection("Logging"));
+        logBuilder.AddConsole();
+        logBuilder.AddDebug();
+    });
+    var earlyStageLogger = tempLoggerFactory.CreateLogger("StartupConfig");
+    earlyStageLogger.LogInformation("Logger de estágio inicial criado.");
+
+    earlyStageLogger.LogInformation("Iniciando configuração de serviços...");
+    builder.Services.AddControllers();
+    builder.Services.AddEndpointsApiExplorer();
+
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection"); // Use o nome da sua string de conexão
+    earlyStageLogger.LogInformation("String de conexão 'DefaultConnection' lida: '{ConnString}'", string.IsNullOrEmpty(connectionString) ? "NÃO ENCONTRADA" : "***OCULTADA***");
+
+    if (string.IsNullOrEmpty(connectionString))
+    {
+        var errorMsg = "FATAL: String de conexão 'DefaultConnection' não encontrada ou vazia.";
+        earlyStageLogger.LogCritical(errorMsg); earlyManualLog(errorMsg);
+        throw new InvalidOperationException(errorMsg);
+    }
+
+    // === CONFIGURAÇÃO DO DBCONTEXT COM O NOME CORRETO ===
+    builder.Services.AddDbContext<AppDbContext>(options => // <<<----- USANDO AppDbContext
+    {
+        earlyStageLogger.LogInformation("Configurando AppDbContext com provedor Oracle...");
+        options.UseOracle(connectionString, oracleOptions =>
+        {
+            // Ex: oracleOptions.UseOracleSQLCompatibility("12"); // Ajuste para sua versão do Oracle
+        })
+        .LogTo(logMessage => earlyStageLogger.LogInformation(logMessage),
+               new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
+        .EnableSensitiveDataLogging() // CUIDADO EM PRODUÇÃO
+        .EnableDetailedErrors();
+        earlyStageLogger.LogInformation("AppDbContext configurado.");
+    });
+
+    builder.Services.AddSwaggerGen(c =>
+    {
+        var description = "API RESTful desenvolvida ... (sua descrição completa aqui) ..." +
+                          "\n\n**Equipe MetaMind:**" +
+                          "\n- Paulo André Carminati (RM: 557881) - GitHub: [carmipa](https://github.com/carmipa)" +
+                          "\n- Arthur Bispo de Lima (RM: 557568) - GitHub: [ArthurBispo00](https://github.com/ArthurBispo00)" +
+                          "\n- João Paulo Moreira (RM: 557808) - GitHub: [joao1015](https://github.com/joao1015)";
+        c.SwaggerDoc("v1", new OpenApiInfo
+        {
+            Title = "GS Alerta Desastres - API (.NET) - Desafio Eventos Extremos",
+            Version = "v1.0.0",
+            Description = description,
+            Contact = new OpenApiContact { Name = "Equipe MetaMind", Email = "equipe.metamind.fiap@example.com", Url = new Uri("https://github.com/carmipa/GS_FIAP_2025_1SM") },
+            License = new OpenApiLicense { Name = "MIT License", Url = new Uri("https://github.com/carmipa/GS_FIAP_2025_1SM/blob/main/LICENSE") },
+            // === CORREÇÃO AQUI: ExternalDocs DENTRO de OpenApiInfo ===
+            ExternalDocs = new OpenApiExternalDocs
+            {
+                Description = "Saiba mais sobre a Global Solution FIAP",
+                Url = new Uri("https://www.fiap.com.br/graduacao/global-solution/")
+            }
+        });
+        // Removido c.AddServer(...) que era para o link da FIAP, pois ExternalDocs é o correto para isso.
+
+        var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+        if (File.Exists(xmlPath)) { c.IncludeXmlComments(xmlPath); }
+        else { earlyStageLogger.LogWarning($"Arquivo XML de comentários Swagger não encontrado: {xmlPath}"); }
+    });
+    earlyStageLogger.LogInformation("Configuração de serviços concluída.");
+
+    var app = builder.Build();
+    appLogger = app.Services.GetRequiredService<ILogger<Program>>();
+    appLogger.LogInformation("Aplicação construída. Configurando pipeline HTTP...");
+
+    app.UseMiddleware<TratadorGlobalExcecoesMiddleware>(); // Use o namespace correto
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI(o => o.SwaggerEndpoint("/swagger/v1/swagger.json", "GS Alerta API V1"));
+    }
+    // else { app.UseHsts(); } // Considere HSTS em produção
+
+    app.UseHttpsRedirection();
+    app.UseAuthorization();
+    app.MapControllers();
+    appLogger.LogInformation("Pipeline HTTP configurado. Iniciando aplicação...");
+    earlyManualLog("TENTANDO EXECUTAR APP.RUN()...");
+    app.Run();
+}
+catch (Exception ex)
+{
+    var fatalMsg = $"EXCEÇÃO FATAL NA INICIALIZAÇÃO: {ex}";
+    Console.ForegroundColor = ConsoleColor.Red; Console.Error.WriteLine(fatalMsg); Console.ResetColor();
+    earlyManualLog(fatalMsg);
+    if (appLogger != null) { appLogger.LogCritical(ex, "Falha CRÍTICA na inicialização."); }
+    else { LoggerFactory.Create(lb => lb.AddConsole()).CreateLogger("StartupCrash").LogCritical(ex, "Falha CRÍTICA na inicialização (appLogger nulo)."); }
+    throw;
+}
+finally
+{
+    earlyManualLog("SEQUÊNCIA DE STARTUP FINALIZADA.");
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: WeatherForecast.cs
+// Namespace: gsApi
+// Tipo: WeatherForecast
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+namespace gsApi
+{
+    public class WeatherForecast
+    {
+        public DateOnly Date { get; set; }
+
+        public int TemperatureC { get; set; }
+
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+
+        public string? Summary { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: controller\AlertsController .cs
+// Namespace: SeuProjetoNET.Controller
+// Tipo: AlertsController
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: gsApi/controller/AlertsController.cs
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using SeuProjetoNET.DTOs.Request; // Para UserAlertRequestDto
+using SeuProjetoNET.Exceptions;    // Para RecursoNaoEncontradoException
+using System;
+using System.Threading.Tasks;
+
+namespace SeuProjetoNET.Controller
+{
+    [ApiController]
+    [Route("api/alerts")]
+    public class AlertsController : ControllerBase
+    {
+        private readonly ILogger<AlertsController> _logger;
+
+        // Em uma aplicação completa, você injetaria IUserSpecificAlertService aqui
+        public AlertsController(ILogger<AlertsController> logger)
+        {
+            _logger = logger;
+        }
+
+        // POST: api/alerts/trigger-user-specific-alert
+        [HttpPost("trigger-user-specific-alert")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> TriggerAlertForUser([FromBody] UserAlertRequestDto requestDto)
+        {
+            _logger.LogInformation("Endpoint POST /api/alerts/trigger-user-specific-alert chamado para UserID: {UserId}", requestDto.UserId);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // TODO: Implementar lógica de processamento e envio de alerta (camada de serviço).
+            // Esta lógica envolveria:
+            // 1. Buscar o usuário pelo requestDto.UserId.
+            // 2. Se não encontrado, lançar RecursoNaoEncontradoException.
+            // 3. Obter o e-mail do usuário.
+            // 4. Chamar um serviço de notificação (ex: EmailNotificationService) com os requestDto.EventDetails.
+
+            // Simulação:
+            if (requestDto.UserId == 0) // Simula usuário não encontrado
+            {
+                // Em uma implementação real, o serviço lançaria a exceção, e o middleware a trataria.
+                // throw new RecursoNaoEncontradoException($"Usuário com ID {requestDto.UserId} não encontrado.");
+                return NotFound(new { message = $"Usuário com ID {requestDto.UserId} não encontrado." });
+            }
+
+            _logger.LogInformation("Simulando envio de alerta para UserID: {UserId} sobre o evento: {EventTitle}", requestDto.UserId, requestDto.EventDetails?.Title);
+            return Ok($"Solicitação de alerta para usuário ID {requestDto.UserId} processada (simulação).");
+        }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: controller\ClientesController.cs
+// Namespace: SeuProjetoNET.Controller
+// Tipo: ClientesController
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: gsApi/controller/ClientesController.cs
+using Microsoft.AspNetCore.Http; // Para StatusCodes
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using SeuProjetoNET.DTOs.Request;
+using SeuProjetoNET.DTOs.Response;
+using SeuProjetoNET.Exceptions;    // Para suas exceções customizadas
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace SeuProjetoNET.Controller // Namespace para os seus controllers
+{
+    [ApiController]
+    [Route("api/clientes")]
+    public class ClientesController : ControllerBase
+    {
+        private readonly ILogger<ClientesController> _logger;
+
+        // Em uma aplicação completa, você injetaria IClienteService aqui
+        public ClientesController(ILogger<ClientesController> logger)
+        {
+            _logger = logger;
+        }
+
+        // GET: api/clientes
+        [HttpGet]
+        [ProducesResponseType(typeof(List<ClienteResponseDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> ListarTodosClientes(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string sortBy = "nome")
+        {
+            _logger.LogInformation("Endpoint GET /api/clientes chamado com pageNumber: {PageNumber}, pageSize: {PageSize}, sortBy: {SortBy}", pageNumber, pageSize, sortBy);
+            // TODO: Implementar lógica real de busca e paginação (camada de serviço).
+
+            var clientesExemplo = new List<ClienteResponseDto>
+            {
+                new ClienteResponseDto { IdCliente = 1, Nome = "Ana", Sobrenome = "Silva", Documento = "11122233344", DataNascimento = "1990-01-01" },
+                new ClienteResponseDto { IdCliente = 2, Nome = "Bruno", Sobrenome = "Costa", Documento = "55566677788", DataNascimento = "1985-05-15" }
+            };
+            var totalCount = clientesExemplo.Count;
+            var items = clientesExemplo.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+            var pagedResponse = new { Content = items, TotalElements = totalCount, PageNumber = pageNumber, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) };
+
+            return Ok(pagedResponse);
+        }
+
+        // GET: api/clientes/{id}
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(ClienteResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> BuscarClientePorId(long id)
+        {
+            _logger.LogInformation("Endpoint GET /api/clientes/{Id} chamado.", id);
+            // TODO: Implementar busca por ID (camada de serviço).
+            if (id == 1) // Simulação
+            {
+                var clienteExemplo = new ClienteResponseDto { IdCliente = 1, Nome = "Ana", Sobrenome = "Silva", Documento = "11122233344", DataNascimento = "1990-01-01" };
+                return Ok(clienteExemplo);
+            }
+            // Lançaria RecursoNaoEncontradoException se não encontrado na lógica real
+            // throw new RecursoNaoEncontradoException($"Cliente com ID {id} não encontrado.");
+            return NotFound(new { message = $"Cliente com ID {id} não encontrado." }); // Placeholder
+        }
+
+        // GET: api/clientes/documento/{documento}
+        [HttpGet("documento/{documento}")]
+        [ProducesResponseType(typeof(ClienteResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> BuscarClientePorDocumento(string documento)
+        {
+            _logger.LogInformation("Endpoint GET /api/clientes/documento/{Documento} chamado.", documento);
+            // TODO: Implementar busca por documento (camada de serviço).
+            if (documento == "11122233344") // Simulação
+            {
+                var clienteExemplo = new ClienteResponseDto { IdCliente = 1, Nome = "Ana", Sobrenome = "Silva", Documento = "11122233344", DataNascimento = "1990-01-01" };
+                return Ok(clienteExemplo);
+            }
+            // throw new RecursoNaoEncontradoException($"Cliente com documento {documento} não encontrado.");
+            return NotFound(new { message = $"Cliente com documento {documento} não encontrado." }); // Placeholder
+        }
+
+        // POST: api/clientes
+        [HttpPost]
+        [ProducesResponseType(typeof(ClienteResponseDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CriarCliente([FromBody] ClienteRequestDto clienteRequestDto)
+        {
+            _logger.LogInformation("Endpoint POST /api/clientes chamado.");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState); // Tratamento de validação de DTO
+            }
+            // TODO: Implementar criação (camada de serviço).
+            // Simulação de criação:
+            var clienteSalvo = new ClienteResponseDto
+            {
+                IdCliente = new Random().Next(100, 1000), // ID gerado para exemplo
+                Nome = clienteRequestDto.Nome,
+                Sobrenome = clienteRequestDto.Sobrenome,
+                DataNascimento = clienteRequestDto.DataNascimento,
+                Documento = clienteRequestDto.Documento,
+                // Contatos e Enderecos seriam processados e mapeados pelo serviço
+                Contatos = new List<ContatoResponseDto>(),
+                Enderecos = new List<EnderecoResponseDto>()
+            };
+            // O primeiro argumento de CreatedAtAction é o nome da action que busca o recurso criado.
+            return CreatedAtAction(nameof(BuscarClientePorId), new { id = clienteSalvo.IdCliente }, clienteSalvo);
+        }
+
+        // PUT: api/clientes/{id}
+        [HttpPut("{id}")]
+        [ProducesResponseType(typeof(ClienteResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> AtualizarCliente(long id, [FromBody] ClienteRequestDto clienteRequestDto)
+        {
+            _logger.LogInformation("Endpoint PUT /api/clientes/{Id} chamado.", id);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            // TODO: Implementar atualização (camada de serviço).
+            // Simulação:
+            if (id != 10) return NotFound(new { message = $"Cliente com ID {id} não encontrado para atualização." }); // Simula não encontrar
+
+            var clienteAtualizado = new ClienteResponseDto
+            {
+                IdCliente = id,
+                Nome = clienteRequestDto.Nome,
+                Sobrenome = clienteRequestDto.Sobrenome,
+                DataNascimento = clienteRequestDto.DataNascimento,
+                Documento = clienteRequestDto.Documento
+            };
+            return Ok(clienteAtualizado);
+        }
+
+        // DELETE: api/clientes/{id}
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeletarCliente(long id)
+        {
+            _logger.LogInformation("Endpoint DELETE /api/clientes/{Id} chamado.", id);
+            // TODO: Implementar deleção (camada de serviço).
+            // Simulação:
+            if (id != 10) return NotFound(new { message = $"Cliente com ID {id} não encontrado para deleção." }); // Simula não encontrar
+
+            return NoContent(); // Sucesso sem conteúdo de resposta
+        }
+
+        // GET: api/clientes/pesquisar
+        [HttpGet("pesquisar")]
+        [ProducesResponseType(typeof(List<ClienteResponseDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> PesquisarClientes(
+            [FromQuery, Required] string termo,
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10)
+        {
+            _logger.LogInformation("Endpoint GET /api/clientes/pesquisar chamado com termo: {Termo}", termo);
+            // TODO: Implementar lógica de pesquisa (camada de serviço).
+            var clientesExemplo = new List<ClienteResponseDto>
+            {
+                new ClienteResponseDto { IdCliente = 1, Nome = $"Cliente {termo} Encontrado", Sobrenome = "Teste", Documento = "99988877766" }
+            };
+            var totalCount = clientesExemplo.Count;
+            var items = clientesExemplo.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+            var pagedResponse = new { Content = items, TotalElements = totalCount, PageNumber = pageNumber, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) };
+
+            return Ok(pagedResponse);
+        }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: controller\ContatosController .cs
+// Namespace: SeuProjetoNET.Controller
+// Tipo: ContatosController
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: gsApi/controller/ContatosController.cs
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using SeuProjetoNET.DTOs.Request;
+using SeuProjetoNET.DTOs.Response;
+using SeuProjetoNET.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace SeuProjetoNET.Controller
+{
+    [ApiController]
+    [Route("api/contatos")]
+    public class ContatosController : ControllerBase
+    {
+        private readonly ILogger<ContatosController> _logger;
+
+        // Em uma aplicação completa, você injetaria IContatoService aqui
+        public ContatosController(ILogger<ContatosController> logger)
+        {
+            _logger = logger;
+        }
+
+        // POST: api/contatos
+        [HttpPost]
+        [ProducesResponseType(typeof(ContatoResponseDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CriarContato([FromBody] ContatoRequestDto contatoRequestDto)
+        {
+            _logger.LogInformation("Endpoint POST /api/contatos chamado.");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            // TODO: Implementar criação (camada de serviço).
+            // Simulação:
+            var contatoSalvo = new ContatoResponseDto
+            {
+                IdContato = new Random().Next(1, 1000),
+                Ddd = contatoRequestDto.Ddd,
+                Telefone = contatoRequestDto.Telefone,
+                Celular = contatoRequestDto.Celular,
+                Whatsapp = contatoRequestDto.Whatsapp,
+                Email = contatoRequestDto.Email,
+                TipoContato = contatoRequestDto.TipoContato
+            };
+            return CreatedAtAction(nameof(BuscarContatoPorId), new { id = contatoSalvo.IdContato }, contatoSalvo);
+        }
+
+        // GET: api/contatos
+        [HttpGet]
+        [ProducesResponseType(typeof(List<ContatoResponseDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> ListarTodosContatos(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string sortBy = "email")
+        {
+            _logger.LogInformation("Endpoint GET /api/contatos chamado com pageNumber: {PageNumber}, pageSize: {PageSize}, sortBy: {SortBy}", pageNumber, pageSize, sortBy);
+            // TODO: Implementar listagem e paginação (camada de serviço).
+            var contatosExemplo = new List<ContatoResponseDto>
+            {
+                new ContatoResponseDto { IdContato = 1, Email = "contato1@example.com", TipoContato = "Comercial", Ddd="11", Telefone="11112222"},
+                new ContatoResponseDto { IdContato = 2, Email = "contato2@example.com", TipoContato = "Pessoal", Ddd="21", Telefone="33334444"}
+            };
+            var totalCount = contatosExemplo.Count;
+            var items = contatosExemplo.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+            var pagedResponse = new { Content = items, TotalElements = totalCount, PageNumber = pageNumber, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) };
+
+            return Ok(pagedResponse);
+        }
+
+        // GET: api/contatos/{id}
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(ContatoResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> BuscarContatoPorId(long id)
+        {
+            _logger.LogInformation("Endpoint GET /api/contatos/{Id} chamado.", id);
+            // TODO: Implementar busca por ID (camada de serviço).
+            if (id == 1) // Simulação
+            {
+                return Ok(new ContatoResponseDto { IdContato = 1, Email = "contato1@example.com", TipoContato = "Comercial" });
+            }
+            // throw new RecursoNaoEncontradoException($"Contato com ID {id} não encontrado.");
+            return NotFound(new { message = $"Contato com ID {id} não encontrado." });
+        }
+
+        // GET: api/contatos/email/{email}
+        [HttpGet("email/{email}")]
+        [ProducesResponseType(typeof(ContatoResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> BuscarContatoPorEmail(string email)
+        {
+            _logger.LogInformation("Endpoint GET /api/contatos/email/{Email} chamado.", email);
+            // TODO: Implementar busca por email (camada de serviço).
+            if (email.Equals("contato1@example.com", StringComparison.OrdinalIgnoreCase)) // Simulação
+            {
+                return Ok(new ContatoResponseDto { IdContato = 1, Email = "contato1@example.com", TipoContato = "Comercial" });
+            }
+            // throw new RecursoNaoEncontradoException($"Contato com email {email} não encontrado.");
+            return NotFound(new { message = $"Contato com email {email} não encontrado." });
+        }
+
+        // PUT: api/contatos/{id}
+        [HttpPut("{id}")]
+        [ProducesResponseType(typeof(ContatoResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> AtualizarContato(long id, [FromBody] ContatoRequestDto contatoRequestDto)
+        {
+            _logger.LogInformation("Endpoint PUT /api/contatos/{Id} chamado.", id);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            // TODO: Implementar atualização (camada de serviço).
+            // Simulação:
+            if (id != 1) return NotFound(new { message = $"Contato com ID {id} não encontrado para atualização." });
+
+            var contatoAtualizado = new ContatoResponseDto
+            {
+                IdContato = id,
+                Ddd = contatoRequestDto.Ddd,
+                Telefone = contatoRequestDto.Telefone,
+                Celular = contatoRequestDto.Celular,
+                Whatsapp = contatoRequestDto.Whatsapp,
+                Email = contatoRequestDto.Email,
+                TipoContato = contatoRequestDto.TipoContato
+            };
+            return Ok(contatoAtualizado);
+        }
+
+        // DELETE: api/contatos/{id}
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeletarContato(long id)
+        {
+            _logger.LogInformation("Endpoint DELETE /api/contatos/{Id} chamado.", id);
+            // TODO: Implementar deleção (camada de serviço).
+            // Simulação:
+            if (id != 1) return NotFound(new { message = $"Contato com ID {id} não encontrado para deleção." });
+
+            return NoContent();
+        }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: controller\EnderecosController .cs
+// Namespace: SeuProjetoNET.Controller
+// Tipo: EnderecosController
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: gsApi/controller/EnderecosController.cs
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using SeuProjetoNET.DTOs.Request;
+using SeuProjetoNET.DTOs.Response;
+using SeuProjetoNET.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace SeuProjetoNET.Controller
+{
+    [ApiController]
+    [Route("api/enderecos")]
+    public class EnderecosController : ControllerBase
+    {
+        private readonly ILogger<EnderecosController> _logger;
+
+        // Em uma aplicação completa, você injetaria IEnderecoService aqui
+        public EnderecosController(ILogger<EnderecosController> logger)
+        {
+            _logger = logger;
+        }
+
+        // GET: api/enderecos
+        [HttpGet]
+        [ProducesResponseType(typeof(List<EnderecoResponseDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> ListarTodosEnderecos(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string sortBy = "cep")
+        {
+            _logger.LogInformation("Endpoint GET /api/enderecos chamado.");
+            // TODO: Implementar listagem e paginação (camada de serviço).
+            var enderecosExemplo = new List<EnderecoResponseDto>
+            {
+                new EnderecoResponseDto { IdEndereco = 1, Cep = "01001-000", Logradouro = "Praça da Sé", Numero = 10, Localidade = "São Paulo", Uf = "SP", Latitude = -23.5505, Longitude = -46.6333 },
+                new EnderecoResponseDto { IdEndereco = 2, Cep = "20000-000", Logradouro = "Av. Rio Branco", Numero = 100, Localidade = "Rio de Janeiro", Uf = "RJ", Latitude = -22.9068, Longitude = -43.1729 }
+            };
+            var totalCount = enderecosExemplo.Count;
+            var items = enderecosExemplo.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+            var pagedResponse = new { Content = items, TotalElements = totalCount, PageNumber = pageNumber, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) };
+
+            return Ok(pagedResponse);
+        }
+
+        // GET: api/enderecos/{id}
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(EnderecoResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> BuscarEnderecoPorId(long id)
+        {
+            _logger.LogInformation("Endpoint GET /api/enderecos/{Id} chamado.", id);
+            // TODO: Implementar busca por ID (camada de serviço).
+            if (id == 1) // Simulação
+            {
+                return Ok(new EnderecoResponseDto { IdEndereco = 1, Cep = "01001-000", Logradouro = "Praça da Sé", Numero = 10, Localidade = "São Paulo", Uf = "SP" });
+            }
+            // throw new RecursoNaoEncontradoException($"Endereço com ID {id} não encontrado.");
+            return NotFound(new { message = $"Endereço com ID {id} não encontrado." });
+        }
+
+        // GET: api/enderecos/consultar-cep/{cep}
+        [HttpGet("consultar-cep/{cep}")]
+        [ProducesResponseType(typeof(ViaCepResponseDto), StatusCodes.Status200OK)] // Supondo que ViaCepResponseDto está em SeuProjetoNET.DTOs.Response
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+        public async Task<IActionResult> ConsultarCep(string cep)
+        {
+            _logger.LogInformation("Endpoint GET /api/enderecos/consultar-cep/{Cep} chamado.", cep);
+            // TODO: Implementar consulta ao ViaCEP (camada de serviço/cliente HTTP).
+            if (cep == "01001000" || cep == "01001-000") // Simulação
+            {
+                return Ok(new ViaCepResponseDto { Cep = "01001-000", Logradouro = "Praça da Sé", Localidade = "São Paulo", Uf = "SP", Bairro = "Sé", Ddd = "11" });
+            }
+            if (cep == "99999999") return NotFound(new { message = "CEP não encontrado." });
+            // throw new ServicoIndisponivelException("Serviço ViaCEP indisponível no momento.");
+            return BadRequest(new { message = "Formato de CEP inválido." }); // Placeholder
+        }
+
+        // POST: api/enderecos/calcular-coordenadas
+        [HttpPost("calcular-coordenadas")]
+        [ProducesResponseType(typeof(GeoCoordinatesDto), StatusCodes.Status200OK)] // Supondo que GeoCoordinatesDto está em SeuProjetoNET.DTOs.Response
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+        public async Task<IActionResult> CalcularCoordenadas([FromBody] EnderecoGeoRequestDto enderecoGeoRequestDto)
+        {
+            _logger.LogInformation("Endpoint POST /api/enderecos/calcular-coordenadas chamado.");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            // TODO: Implementar cálculo de coordenadas (camada de serviço/cliente HTTP GeoCoding).
+            // Simulação:
+            return Ok(new GeoCoordinatesDto { Latitude = -23.550520, Longitude = -46.633308, MatchedAddress = $"{enderecoGeoRequestDto.Logradouro}, {enderecoGeoRequestDto.Cidade} - {enderecoGeoRequestDto.Uf}" });
+        }
+
+        // POST: api/enderecos
+        [HttpPost]
+        [ProducesResponseType(typeof(EnderecoResponseDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CriarEndereco([FromBody] EnderecoRequestDto enderecoRequestDto)
+        {
+            _logger.LogInformation("Endpoint POST /api/enderecos chamado.");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            // TODO: Implementar criação (camada de serviço).
+            // Simulação:
+            var enderecoSalvo = new EnderecoResponseDto
+            {
+                IdEndereco = new Random().Next(1, 1000),
+                Cep = enderecoRequestDto.Cep,
+                Logradouro = enderecoRequestDto.Logradouro,
+                Numero = enderecoRequestDto.Numero,
+                Bairro = enderecoRequestDto.Bairro,
+                Localidade = enderecoRequestDto.Localidade,
+                Uf = enderecoRequestDto.Uf,
+                Complemento = enderecoRequestDto.Complemento,
+                Latitude = enderecoRequestDto.Latitude,
+                Longitude = enderecoRequestDto.Longitude
+            };
+            return CreatedAtAction(nameof(BuscarEnderecoPorId), new { id = enderecoSalvo.IdEndereco }, enderecoSalvo);
+        }
+
+        // PUT: api/enderecos/{id}
+        [HttpPut("{id}")]
+        [ProducesResponseType(typeof(EnderecoResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> AtualizarEndereco(long id, [FromBody] EnderecoRequestDto enderecoRequestDto)
+        {
+            _logger.LogInformation("Endpoint PUT /api/enderecos/{Id} chamado.", id);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            // TODO: Implementar atualização (camada de serviço).
+            // Simulação:
+            if (id != 1) return NotFound(new { message = $"Endereço com ID {id} não encontrado." });
+            var enderecoAtualizado = new EnderecoResponseDto { IdEndereco = id, /* ... preencher com dados do DTO ... */ Cep = enderecoRequestDto.Cep };
+            return Ok(enderecoAtualizado);
+        }
+
+        // DELETE: api/enderecos/{id}
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeletarEndereco(long id)
+        {
+            _logger.LogInformation("Endpoint DELETE /api/enderecos/{Id} chamado.", id);
+            // TODO: Implementar deleção (camada de serviço).
+            // Simulação:
+            if (id != 1) return NotFound(new { message = $"Endereço com ID {id} não encontrado." });
+            return NoContent();
+        }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: controller\EonetController.cs
+// Namespace: SeuProjetoNET.Controller
+// Tipo: EonetController
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: gsApi/controller/EonetController.cs
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using SeuProjetoNET.DTOs.Request;
+using SeuProjetoNET.DTOs.Response; // Para EonetResponseDto e os DTOs da NASA
+using SeuProjetoNET.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace SeuProjetoNET.Controller
+{
+    [ApiController]
+    [Route("api/eonet")]
+    public class EonetController : ControllerBase
+    {
+        private readonly ILogger<EonetController> _logger;
+
+        // Em uma aplicação completa, você injetaria IEonetService e INasaEonetClient aqui
+        public EonetController(ILogger<EonetController> logger)
+        {
+            _logger = logger;
+        }
+
+        // GET: api/eonet (Lista eventos EONET locais)
+        [HttpGet]
+        [ProducesResponseType(typeof(List<EonetResponseDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> ListarTodosEventosEonetLocalmente(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10,
+            // No Java era Sort.Direction.DESC para data. Aqui sortBy pode ser "data" e a direção controlada.
+            [FromQuery] string sortBy = "data",
+            [FromQuery] string sortDirection = "desc")
+        {
+            _logger.LogInformation("Endpoint GET /api/eonet (listar locais) chamado.");
+            // TODO: Implementar listagem local (camada de serviço).
+            var eventosExemplo = new List<EonetResponseDto>
+            {
+                new EonetResponseDto { IdEonet = 1, EonetIdApi = "NASA_EONET_123", Data = DateTimeOffset.Now.AddDays(-1), Json = "{ \"title\": \"Evento Exemplo 1\" }" },
+                new EonetResponseDto { IdEonet = 2, EonetIdApi = "NASA_EONET_456", Data = DateTimeOffset.Now.AddDays(-2), Json = "{ \"title\": \"Evento Exemplo 2\" }" }
+            };
+            var totalCount = eventosExemplo.Count;
+            var items = eventosExemplo.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+            var pagedResponse = new { Content = items, TotalElements = totalCount, PageNumber = pageNumber, PageSize = pageSize, TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize) };
+
+            return Ok(pagedResponse);
+        }
+
+        // GET: api/eonet/{idInterno} (Busca evento local por ID interno)
+        [HttpGet("{idInterno}")]
+        [ProducesResponseType(typeof(EonetResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> BuscarEventoLocalPorIdInterno(long idInterno)
+        {
+            _logger.LogInformation("Endpoint GET /api/eonet/{IdInterno} chamado.", idInterno);
+            // TODO: Implementar busca local por ID (camada de serviço).
+            if (idInterno == 1) // Simulação
+            {
+                return Ok(new EonetResponseDto { IdEonet = 1, EonetIdApi = "NASA_EONET_123", Data = DateTimeOffset.Now.AddDays(-1) });
+            }
+            return NotFound(new { message = $"Evento EONET local com ID interno {idInterno} não encontrado." });
+        }
+
+        // GET: api/eonet/api-id/{eonetApiId} (Busca evento local por ID da API NASA)
+        [HttpGet("api-id/{eonetApiId}")]
+        [ProducesResponseType(typeof(EonetResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> BuscarEventoLocalPorEonetApiId(string eonetApiId)
+        {
+            _logger.LogInformation("Endpoint GET /api/eonet/api-id/{EonetApiId} chamado.", eonetApiId);
+            // TODO: Implementar busca local por EonetApiId (camada de serviço).
+            if (eonetApiId == "NASA_EONET_123") // Simulação
+            {
+                return Ok(new EonetResponseDto { IdEonet = 1, EonetIdApi = "NASA_EONET_123", Data = DateTimeOffset.Now.AddDays(-1) });
+            }
+            return NotFound(new { message = $"Evento EONET local com ID da API {eonetApiId} não encontrado." });
+        }
+
+        // POST: api/eonet (Salva manualmente um evento EONET local)
+        [HttpPost]
+        [ProducesResponseType(typeof(EonetResponseDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> SalvarEventoEonetManualmente([FromBody] EonetRequestDto eonetRequestDto)
+        {
+            _logger.LogInformation("Endpoint POST /api/eonet (salvar manual) chamado.");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            // TODO: Implementar salvamento manual (camada de serviço).
+            var eventoSalvo = new EonetResponseDto
+            {
+                IdEonet = new Random().Next(1, 100),
+                EonetIdApi = eonetRequestDto.EonetIdApi,
+                Data = eonetRequestDto.Data,
+                Json = eonetRequestDto.Json
+            };
+            return CreatedAtAction(nameof(BuscarEventoLocalPorIdInterno), new { idInterno = eventoSalvo.IdEonet }, eventoSalvo);
+        }
+
+        // PUT: api/eonet/{idInterno} (Atualiza manualmente um evento EONET local)
+        [HttpPut("{idInterno}")]
+        [ProducesResponseType(typeof(EonetResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> AtualizarEventoEonetManualmente(long idInterno, [FromBody] EonetRequestDto eonetRequestDto)
+        {
+            _logger.LogInformation("Endpoint PUT /api/eonet/{IdInterno} (atualizar manual) chamado.", idInterno);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            // TODO: Implementar atualização manual (camada de serviço).
+            // Simulação
+            if (idInterno != 1) return NotFound(new { message = "Evento não encontrado para atualização." });
+            var eventoAtualizado = new EonetResponseDto { IdEonet = idInterno, EonetIdApi = eonetRequestDto.EonetIdApi, Data = eonetRequestDto.Data, Json = eonetRequestDto.Json };
+            return Ok(eventoAtualizado);
+        }
+
+        // DELETE: api/eonet/{idInterno} (Deleta um evento EONET local)
+        [HttpDelete("{idInterno}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeletarEventoEonetLocal(long idInterno)
+        {
+            _logger.LogInformation("Endpoint DELETE /api/eonet/{IdInterno} chamado.", idInterno);
+            // TODO: Implementar deleção (camada de serviço).
+            // Simulação
+            if (idInterno != 1) return NotFound(new { message = "Evento não encontrado para deleção." });
+            return NoContent();
+        }
+
+        // GET: api/eonet/por-data (Busca eventos EONET locais por intervalo de data)
+        [HttpGet("por-data")]
+        [ProducesResponseType(typeof(List<EonetResponseDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> BuscarEventosLocaisPorIntervaloDeData(
+            [FromQuery, Required] DateTimeOffset dataInicial,
+            [FromQuery, Required] DateTimeOffset dataFinal)
+        {
+            _logger.LogInformation("Endpoint GET /api/eonet/por-data chamado.");
+            if (dataInicial > dataFinal)
+            {
+                return BadRequest(new { message = "Data inicial não pode ser posterior à data final." });
+            }
+            // TODO: Implementar busca local por data (camada de serviço).
+            return Ok(new List<EonetResponseDto>());
+        }
+
+        // POST: api/eonet/nasa/sincronizar
+        [HttpPost("nasa/sincronizar")]
+        [ProducesResponseType(typeof(List<EonetResponseDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+        public async Task<IActionResult> SincronizarEventosDaNasa(
+        [FromQuery] int? limit,
+        [FromQuery] int? days,
+        [FromQuery] string? source,
+        [FromQuery] string? status = "open") // Parâmetro opcional movido para o final
+        {
+            _logger.LogInformation("Endpoint POST /api/eonet/nasa/sincronizar chamado.");
+            // TODO: Implementar sincronização (chamar cliente NASA, salvar com serviço).
+            // Simulação de resposta:
+            return Ok(new List<EonetResponseDto> { new EonetResponseDto { IdEonet = 100, EonetIdApi = "SYNCED_EVENT_01", Data = DateTimeOffset.UtcNow } });
+        }
+
+        // GET: api/eonet/nasa/proximos
+        [HttpGet("nasa/proximos")]
+        [ProducesResponseType(typeof(List<NasaEonetEventDto>), StatusCodes.Status200OK)] // Usa DTO externo da NASA
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> BuscarEventosDaNasa(
+            [FromQuery] double? latitude,
+            [FromQuery] double? longitude,
+            [FromQuery] double? raioKm,
+            [FromQuery] string? startDate, // Formato YYYY-MM-DD
+            [FromQuery] string? endDate,   // Formato YYYY-MM-DD
+            [FromQuery] int? limit,
+            [FromQuery] int? days,
+            [FromQuery] string? status, // "open", "closed" ou vazio/null para todos
+            [FromQuery] string? source)
+        {
+            _logger.LogInformation("Endpoint GET /api/eonet/nasa/proximos chamado.");
+            // TODO: Implementar busca na API da NASA (camada de cliente HTTP).
+            // Simulação de resposta:
+            var eventos = new List<NasaEonetEventDto>();
+            // Adicionar eventos de exemplo se necessário para teste de contrato.
+            // Ex: eventos.Add(new NasaEonetEventDto { Id = "NASA_API_EVT_1", Title = "Exemplo Evento NASA"});
+
+            if (!eventos.Any()) return NoContent();
+            return Ok(eventos);
+        }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: controller\StatsController.cs
+// Namespace: SeuProjetoNET.Controller
+// Tipo: StatsController
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: gsApi/controller/StatsController.cs
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using SeuProjetoNET.DTOs.Response; // Para CategoryCountDto
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+
+namespace SeuProjetoNET.Controller
+{
+    [ApiController]
+    [Route("api/stats")]
+    public class StatsController : ControllerBase
+    {
+        private readonly ILogger<StatsController> _logger;
+
+        // Em uma aplicação completa, você injetaria um serviço que calcula as estatísticas (provavelmente usando EonetService ou um StatsService dedicado)
+        public StatsController(ILogger<StatsController> logger)
+        {
+            _logger = logger;
+        }
+
+        // GET: api/stats/eonet/count-by-category
+        [HttpGet("eonet/count-by-category")]
+        [ProducesResponseType(typeof(List<CategoryCountDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetEonetCountByCategory(
+            [FromQuery, Required, Range(1, int.MaxValue)] int days = 365) // Parâmetro 'days' do Java
+        {
+            _logger.LogInformation("Endpoint GET /api/stats/eonet/count-by-category chamado com days: {Days}", days);
+            if (days <= 0)
+            {
+                return BadRequest(new { message = "O parâmetro 'days' deve ser um número positivo." });
+            }
+            // TODO: Implementar lógica para buscar e calcular estatísticas (camada de serviço).
+            // Simulação de resposta:
+            var statsExemplo = new List<CategoryCountDto>
+            {
+                new CategoryCountDto("Incêndios Florestais", 15),
+                new CategoryCountDto("Tempestades Severas", 25),
+                new CategoryCountDto("Inundações", 10)
+            };
+            return Ok(statsExemplo);
+        }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: data\AppDbContext .cs
+// Namespace: SeuProjetoNET.Data
+// Tipo: AppDbContext
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: gsApi/data/AppDbContext.cs
+using Microsoft.EntityFrameworkCore;
+using SeuProjetoNET.Models; // Ajuste para o namespace dos seus modelos (ex: gsApi.model)
+using System.Collections.Generic;
+
+namespace SeuProjetoNET.Data // Ajuste para o namespace desejado (ex: gsApi.data)
+{
+    public class AppDbContext : DbContext
+    {
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Contato> Contatos { get; set; }
+        public DbSet<Endereco> Enderecos { get; set; }
+        public DbSet<EonetEvent> EonetEvents { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Configuração para usar as sequences do Oracle
+            modelBuilder.Entity<Cliente>()
+                .Property(c => c.IdCliente)
+                .HasDefaultValueSql("tb_cliente3_id_cliente_seq.NEXTVAL");
+
+            modelBuilder.Entity<Contato>()
+                .Property(c => c.IdContato)
+                .HasDefaultValueSql("tb_contato3_id_contato_seq.NEXTVAL");
+
+            modelBuilder.Entity<Endereco>()
+                .Property(e => e.IdEndereco)
+                .HasDefaultValueSql("tb_endereco3_id_endereco_seq.NEXTVAL");
+
+            modelBuilder.Entity<EonetEvent>()
+                .Property(e => e.IdEonet)
+                .HasDefaultValueSql("tb_eonet3_id_eonet_seq.NEXTVAL");
+
+            // Relações Many-to-Many
+            modelBuilder.Entity<Cliente>()
+                .HasMany(c => c.Contatos)
+                .WithMany(t => t.Clientes)
+                .UsingEntity<Dictionary<string, object>>(
+                    "tb_clientecontato3",
+                    r => r.HasOne<Contato>().WithMany().HasForeignKey("tb_contato3_id_contato").HasConstraintName("tb_clientecontato3_tb_contato3_fk"),
+                    l => l.HasOne<Cliente>().WithMany().HasForeignKey("tb_cliente3_id_cliente").HasConstraintName("tb_clientecontato3_tb_cliente3_fk"),
+                    j => { j.HasKey("tb_cliente3_id_cliente", "tb_contato3_id_contato"); j.ToTable("tb_clientecontato3"); });
+
+            modelBuilder.Entity<Cliente>()
+                .HasMany(c => c.Enderecos)
+                .WithMany(e => e.Clientes)
+                .UsingEntity<Dictionary<string, object>>(
+                    "tb_clienteendereco3",
+                    r => r.HasOne<Endereco>().WithMany().HasForeignKey("tb_endereco3_id_endereco").HasConstraintName("tb_clienteendereco3_tb_endereco3_fk"),
+                    l => l.HasOne<Cliente>().WithMany().HasForeignKey("tb_cliente3_id_cliente").HasConstraintName("tb_clienteendereco3_tb_cliente3_fk"),
+                    j => { j.HasKey("tb_cliente3_id_cliente", "tb_endereco3_id_endereco"); j.ToTable("tb_clienteendereco3"); });
+
+            modelBuilder.Entity<Endereco>()
+                .HasMany(e => e.EventosEonet)
+                .WithMany(ev => ev.Enderecos)
+                .UsingEntity<Dictionary<string, object>>(
+                    "tb_enderecoeventos3",
+                    r => r.HasOne<EonetEvent>().WithMany().HasForeignKey("tb_eonet3_id_eonet").HasConstraintName("tb_enderecoeventos3_tb_eonet3_fk"),
+                    l => l.HasOne<Endereco>().WithMany().HasForeignKey("tb_endereco3_id_endereco").HasConstraintName("tb_enderecoeventos3_tb_endereco3_fk"),
+                    j => { j.HasKey("tb_endereco3_id_endereco", "tb_eonet3_id_eonet"); j.ToTable("tb_enderecoeventos3"); });
+        }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\request\AlertableEventDto.cs
+// Namespace: SeuProjetoNET.DTOs.Request
+// Tipo: AlertableEventDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Request/AlertableEventDto.cs
+namespace SeuProjetoNET.DTOs.Request
+{
+    public class AlertableEventDto
+    {
+        public string? EventId { get; set; } // Ex: ID da EONET
+        public string? Title { get; set; }
+        public string? EventDate { get; set; } // Pode ser String formatada ou DateTimeOffset
+        public string? Link { get; set; }
+        public string? Description { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\request\ClienteRequestDto.cs
+// Namespace: SeuProjetoNET.DTOs.Request
+// Tipo: ClienteRequestDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Request/ClienteRequestDto.cs
+using System.ComponentModel.DataAnnotations;
+
+namespace SeuProjetoNET.DTOs.Request
+{
+    public class ClienteRequestDto
+    {
+        [Required(ErrorMessage = "O nome não pode estar em branco.")]
+        [StringLength(100, MinimumLength = 2, ErrorMessage = "O nome deve ter entre 2 e 100 caracteres.")]
+        public string Nome { get; set; }
+
+        [Required(ErrorMessage = "O sobrenome não pode estar em branco.")]
+        [StringLength(100, MinimumLength = 2, ErrorMessage = "O sobrenome deve ter entre 2 e 100 caracteres.")]
+        public string Sobrenome { get; set; }
+
+        [Required(ErrorMessage = "A data de nascimento não pode estar em branco.")]
+        [RegularExpression(@"^(\d{4}-\d{2}-\d{2}|\d{2}/\d{2}/\d{4})$", ErrorMessage = "A data de nascimento deve estar no formato YYYY-MM-DD ou dd/MM/yyyy.")]
+        public string DataNascimento { get; set; }
+
+        [Required(ErrorMessage = "O documento não pode estar em branco.")]
+        [StringLength(18, MinimumLength = 11, ErrorMessage = "O documento deve ter entre 11 e 18 caracteres.")]
+        public string Documento { get; set; }
+
+        public List<long>? ContatosIds { get; set; }
+        public List<long>? EnderecosIds { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\request\ContatoRequestDto.cs
+// Namespace: SeuProjetoNET.DTOs.Request
+// Tipo: ContatoRequestDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Request/ContatoRequestDto.cs
+using System.ComponentModel.DataAnnotations;
+
+namespace SeuProjetoNET.DTOs.Request
+{
+    public class ContatoRequestDto
+    {
+        [Required(ErrorMessage = "O DDD não pode estar em branco.")]
+        [StringLength(3, MinimumLength = 2, ErrorMessage = "O DDD deve ter entre 2 e 3 caracteres.")]
+        public string Ddd { get; set; }
+
+        [Required(ErrorMessage = "O telefone não pode estar em branco.")]
+        [StringLength(15, MinimumLength = 8, ErrorMessage = "O telefone deve ter entre 8 e 15 caracteres.")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessage = "O telefone deve conter apenas números.")]
+        public string Telefone { get; set; }
+
+        [Required]
+        [StringLength(15, MinimumLength = 9)]
+        [RegularExpression(@"^[0-9]+$", ErrorMessage = "O celular deve conter apenas números.")]
+        public string Celular { get; set; }
+
+        [Required]
+        [StringLength(15, MinimumLength = 9)]
+        [RegularExpression(@"^[0-9]+$", ErrorMessage = "O WhatsApp deve conter apenas números.")]
+        public string Whatsapp { get; set; }
+
+        [Required(ErrorMessage = "O e-mail não pode estar em branco.")]
+        [EmailAddress(ErrorMessage = "O e-mail deve ser válido.")]
+        [StringLength(255, ErrorMessage = "O e-mail não pode exceder 255 caracteres.")]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "O tipo de contato não pode estar em branco.")]
+        [StringLength(50, ErrorMessage = "O tipo de contato não pode exceder 50 caracteres.")]
+        public string TipoContato { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\request\EnderecoGeoRequestDto.cs
+// Namespace: SeuProjetoNET.DTOs.Request
+// Tipo: EnderecoGeoRequestDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Request/EnderecoGeoRequestDto.cs
+using System.ComponentModel.DataAnnotations;
+
+namespace SeuProjetoNET.DTOs.Request
+{
+    public class EnderecoGeoRequestDto
+    {
+        [Required(ErrorMessage = "Logradouro é obrigatório para geocodificação.")]
+        [StringLength(255)]
+        public string Logradouro { get; set; }
+
+        [StringLength(10)]
+        public string? Numero { get; set; }
+
+        [Required(ErrorMessage = "Cidade (Localidade) é obrigatória para geocodificação.")]
+        [StringLength(100)]
+        public string Cidade { get; set; }
+
+        [Required(ErrorMessage = "UF (Estado) é obrigatória para geocodificação.")]
+        [StringLength(2, MinimumLength = 2)]
+        public string Uf { get; set; }
+
+        [StringLength(100)]
+        public string? Bairro { get; set; }
+
+        [StringLength(9)]
+        public string? Cep { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\request\EnderecoRequestDto.cs
+// Namespace: SeuProjetoNET.DTOs.Request
+// Tipo: EnderecoRequestDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Request/EnderecoRequestDto.cs
+using System.ComponentModel.DataAnnotations;
+
+namespace SeuProjetoNET.DTOs.Request
+{
+    public class EnderecoRequestDto
+    {
+        [Required(ErrorMessage = "O CEP não pode estar em branco.")]
+        [RegularExpression(@"^\d{5}-?\d{3}$", ErrorMessage = "O CEP deve estar no formato XXXXX-XXX ou XXXXXXXX.")]
+        public string Cep { get; set; }
+
+        [Required(ErrorMessage = "O número não pode ser nulo.")]
+        [Range(1, 99999, ErrorMessage = "O número deve ser um inteiro de até 5 dígitos.")]
+        public int Numero { get; set; }
+
+        [Required(ErrorMessage = "O logradouro não pode estar em branco.")]
+        [StringLength(255, ErrorMessage = "O logradouro não pode exceder 255 caracteres.")]
+        public string Logradouro { get; set; }
+
+        [Required(ErrorMessage = "O bairro não pode estar em branco.")]
+        [StringLength(255, ErrorMessage = "O bairro não pode exceder 255 caracteres.")]
+        public string Bairro { get; set; }
+
+        [Required(ErrorMessage = "A localidade (cidade) não pode estar em branco.")]
+        [StringLength(100, ErrorMessage = "A localidade não pode exceder 100 caracteres.")]
+        public string Localidade { get; set; }
+
+        [Required(ErrorMessage = "A UF não pode estar em branco.")]
+        [StringLength(2, MinimumLength = 2, ErrorMessage = "A UF deve ter 2 caracteres.")]
+        public string Uf { get; set; }
+
+        [Required(ErrorMessage = "O complemento não pode estar em branco.")]
+        [StringLength(255, ErrorMessage = "O complemento não pode exceder 255 caracteres.")]
+        public string Complemento { get; set; }
+
+        [Required(ErrorMessage = "Latitude não pode ser nula.")]
+        [Range(-90.0, 90.0, ErrorMessage = "Latitude inválida. Deve estar entre -90 e 90.")]
+        public double Latitude { get; set; }
+
+        [Required(ErrorMessage = "Longitude não pode ser nula.")]
+        [Range(-180.0, 180.0, ErrorMessage = "Longitude inválida. Deve estar entre -180 e 180.")]
+        public double Longitude { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\request\EonetRequestDto.cs
+// Namespace: SeuProjetoNET.DTOs.Request
+// Tipo: EonetRequestDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Request/EonetRequestDto.cs
+using System.ComponentModel.DataAnnotations;
+
+namespace SeuProjetoNET.DTOs.Request
+{
+    public class EonetRequestDto
+    {
+        [Required(ErrorMessage = "O conteúdo JSON não pode ser nulo.")]
+        public string Json { get; set; }
+
+        [Required(ErrorMessage = "A data do evento não pode ser nula.")]
+        public DateTimeOffset Data { get; set; }
+
+        [Required(ErrorMessage = "O ID da API EONET não pode estar em branco.")]
+        [StringLength(50, ErrorMessage = "O ID da API EONET não pode exceder 50 caracteres.")]
+        public string EonetIdApi { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\request\UserAlertRequestDto.cs
+// Namespace: SeuProjetoNET.DTOs.Request
+// Tipo: UserAlertRequestDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Request/UserAlertRequestDto.cs
+using System.ComponentModel.DataAnnotations;
+
+namespace SeuProjetoNET.DTOs.Request
+{
+    public class UserAlertRequestDto
+    {
+        [Required(ErrorMessage = "O ID do usuário não pode ser nulo.")]
+        public long UserId { get; set; }
+
+        [Required(ErrorMessage = "Os detalhes do evento não podem ser nulos.")]
+        public AlertableEventDto EventDetails { get; set; } // Referencia o DTO acima no mesmo namespace
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\response\CategoryCountDto.cs
+// Namespace: SeuProjetoNET.DTOs.Response
+// Tipo: CategoryCountDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Response/CategoryCountDto.cs
+namespace SeuProjetoNET.DTOs.Response
+{
+    public class CategoryCountDto
+    {
+        public string CategoryTitle { get; set; }
+        public long Count { get; set; }
+
+        public CategoryCountDto(string categoryTitle, long count)
+        {
+            CategoryTitle = categoryTitle;
+            Count = count;
+        }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\response\ClienteResponseDto.cs
+// Namespace: SeuProjetoNET.DTOs.Response
+// Tipo: ClienteResponseDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Response/ClienteResponseDto.cs
+namespace SeuProjetoNET.DTOs.Response
+{
+    public class ClienteResponseDto
+    {
+        public long IdCliente { get; set; }
+        public string Nome { get; set; }
+        public string Sobrenome { get; set; }
+        public string DataNascimento { get; set; }
+        public string Documento { get; set; }
+        public ICollection<ContatoResponseDto> Contatos { get; set; } = new List<ContatoResponseDto>();
+        public ICollection<EnderecoResponseDto> Enderecos { get; set; } = new List<EnderecoResponseDto>();
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\response\ContatoResponseDto.cs
+// Namespace: SeuProjetoNET.DTOs.Response
+// Tipo: ContatoResponseDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Response/ContatoResponseDto.cs
+namespace SeuProjetoNET.DTOs.Response
+{
+    public class ContatoResponseDto
+    {
+        public long IdContato { get; set; }
+        public string Ddd { get; set; }
+        public string Telefone { get; set; }
+        public string Celular { get; set; }
+        public string Whatsapp { get; set; }
+        public string Email { get; set; }
+        public string TipoContato { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\response\EnderecoResponseDto.cs
+// Namespace: SeuProjetoNET.DTOs.Response
+// Tipo: EnderecoResponseDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Response/EnderecoResponseDto.cs
+namespace SeuProjetoNET.DTOs.Response
+{
+    public class EnderecoResponseDto
+    {
+        public long IdEndereco { get; set; }
+        public string Cep { get; set; }
+        public int Numero { get; set; }
+        public string Logradouro { get; set; }
+        public string Bairro { get; set; }
+        public string Localidade { get; set; }
+        public string Uf { get; set; }
+        public string Complemento { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\response\EonetResponseDto.cs
+// Namespace: SeuProjetoNET.DTOs.Response
+// Tipo: EonetResponseDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Response/EonetResponseDto.cs
+namespace SeuProjetoNET.DTOs.Response
+{
+    public class EonetResponseDto
+    {
+        public long IdEonet { get; set; }
+        public string? Json { get; set; }
+        public DateTimeOffset? Data { get; set; }
+        public string EonetIdApi { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\response\GeoCoordinatesDto .cs
+// Namespace: SeuProjetoNET.DTOs.Response
+// Tipo: GeoCoordinatesDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Response/GeoCoordinatesDto.cs
+namespace SeuProjetoNET.DTOs.Response
+{
+    public class GeoCoordinatesDto
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public string? MatchedAddress { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\response\GoogleGeocodingApiResponseDto .cs
+// Namespace: SeuProjetoNET.DTOs.Response
+// Tipo: GoogleGeocodingApiResponseDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Response/GoogleGeocodingApiResponseDto.cs
+using System.Text.Json.Serialization;
+
+namespace SeuProjetoNET.DTOs.Response
+{
+    public class GoogleGeocodingApiResponseDto // Esta é a classe que estava dando o erro na imagem
+    {
+        [JsonPropertyName("results")]
+        public List<GoogleGeocodingResultDto> Results { get; set; }
+
+        [JsonPropertyName("status")]
+        public string Status { get; set; }
+
+        [JsonPropertyName("error_message")]
+        public string? ErrorMessage { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\response\GoogleGeocodingGeometryDto.cs
+// Namespace: SeuProjetoNET.DTOs.Response
+// Tipo: GoogleGeocodingGeometryDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Response/GoogleGeocodingGeometryDto.cs
+using System.Text.Json.Serialization;
+
+namespace SeuProjetoNET.DTOs.Response
+{
+    public class GoogleGeocodingGeometryDto
+    {
+        [JsonPropertyName("location")]
+        public GoogleGeocodingLocationDto Location { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\response\GoogleGeocodingLocationDto.cs
+// Namespace: SeuProjetoNET.DTOs.Response
+// Tipo: GoogleGeocodingLocationDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Response/GoogleGeocodingLocationDto.cs
+using System.Text.Json.Serialization;
+
+namespace SeuProjetoNET.DTOs.Response
+{
+    public class GoogleGeocodingLocationDto
+    {
+        [JsonPropertyName("lat")]
+        public double Latitude { get; set; }
+
+        [JsonPropertyName("lng")]
+        public double Longitude { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\response\GoogleGeocodingResultDto.cs
+// Namespace: SeuProjetoNET.DTOs.Response
+// Tipo: GoogleGeocodingResultDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Response/GoogleGeocodingResultDto.cs
+using System.Text.Json.Serialization;
+
+namespace SeuProjetoNET.DTOs.Response
+{
+    public class GoogleGeocodingResultDto
+    {
+        [JsonPropertyName("formatted_address")]
+        public string FormattedAddress { get; set; }
+
+        [JsonPropertyName("geometry")]
+        public GoogleGeocodingGeometryDto Geometry { get; set; }
+
+        [JsonPropertyName("place_id")]
+        public string PlaceId { get; set; }
+
+        [JsonPropertyName("types")]
+        public List<string> Types { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\response\NasaEonetApiResponseDto.cs
+// Namespace: SeuProjetoNET.DTOs.Response
+// Tipo: NasaEonetApiResponseDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Response/NasaEonetApiResponseDto.cs
+using System.Text.Json.Serialization;
+
+namespace SeuProjetoNET.DTOs.Response
+{
+    public class NasaEonetApiResponseDto
+    {
+        [JsonPropertyName("title")]
+        public string Title { get; set; }
+
+        [JsonPropertyName("description")]
+        public string Description { get; set; }
+
+        [JsonPropertyName("link")]
+        public string Link { get; set; }
+
+        [JsonPropertyName("events")]
+        public List<NasaEonetEventDto> Events { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\response\NasaEonetCategoryDto.cs
+// Namespace: SeuProjetoNET.DTOs.Response
+// Tipo: NasaEonetCategoryDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Response/NasaEonetCategoryDto.cs
+using System.Text.Json.Serialization;
+
+namespace SeuProjetoNET.DTOs.Response
+{
+    public class NasaEonetCategoryDto
+    {
+        [JsonPropertyName("id")]
+        public string Id { get; set; }
+
+        [JsonPropertyName("title")]
+        public string Title { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\response\NasaEonetEventDto .cs
+// Namespace: SeuProjetoNET.DTOs.Response
+// Tipo: NasaEonetEventDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Response/NasaEonetEventDto.cs
+using System.Text.Json.Serialization;
+
+namespace SeuProjetoNET.DTOs.Response
+{
+    public class NasaEonetEventDto
+    {
+        [JsonPropertyName("id")]
+        public string Id { get; set; }
+
+        [JsonPropertyName("title")]
+        public string Title { get; set; }
+
+        [JsonPropertyName("description")]
+        public string? Description { get; set; }
+
+        [JsonPropertyName("link")]
+        public string Link { get; set; }
+
+        [JsonPropertyName("categories")]
+        public List<NasaEonetCategoryDto> Categories { get; set; }
+
+        [JsonPropertyName("sources")]
+        public List<NasaEonetSourceDto>? Sources { get; set; }
+
+        [JsonPropertyName("geometry")]
+        public List<NasaEonetGeometryDto> Geometry { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\response\NasaEonetGeometryDto.cs
+// Namespace: SeuProjetoNET.DTOs.Response
+// Tipo: NasaEonetGeometryDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Response/NasaEonetGeometryDto.cs
+using System.Text.Json.Serialization;
+
+namespace SeuProjetoNET.DTOs.Response
+{
+    public class NasaEonetGeometryDto
+    {
+        [JsonPropertyName("date")]
+        public DateTimeOffset Date { get; set; }
+
+        [JsonPropertyName("type")]
+        public string Type { get; set; }
+
+        [JsonPropertyName("coordinates")]
+        public object Coordinates { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\response\NasaEonetSourceDto.cs
+// Namespace: SeuProjetoNET.DTOs.Response
+// Tipo: NasaEonetSourceDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Response/NasaEonetSourceDto.cs
+using System.Text.Json.Serialization;
+
+namespace SeuProjetoNET.DTOs.Response
+{
+    public class NasaEonetSourceDto
+    {
+        [JsonPropertyName("id")]
+        public string Id { get; set; }
+
+        [JsonPropertyName("url")]
+        public string Url { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\response\NominatimResponseDto.cs
+// Namespace: SeuProjetoNET.DTOs.Response
+// Tipo: NominatimResponseDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Response/NominatimResponseDto.cs
+using System.Text.Json.Serialization;
+
+namespace SeuProjetoNET.DTOs.Response
+{
+    public class NominatimResponseDto
+    {
+        [JsonPropertyName("place_id")]
+        public long PlaceId { get; set; }
+
+        [JsonPropertyName("licence")]
+        public string Licence { get; set; }
+
+        [JsonPropertyName("osm_type")]
+        public string OsmType { get; set; }
+
+        [JsonPropertyName("osm_id")]
+        public long OsmId { get; set; }
+
+        [JsonPropertyName("lat")]
+        public string Latitude { get; set; }
+
+        [JsonPropertyName("lon")]
+        public string Longitude { get; set; }
+
+        [JsonPropertyName("display_name")]
+        public string DisplayName { get; set; }
+
+        [JsonPropertyName("boundingbox")]
+        public string[] BoundingBox { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\response\TimeCountDto.cs
+// Namespace: SeuProjetoNET.DTOs.Response
+// Tipo: TimeCountDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Response/TimeCountDto.cs
+namespace SeuProjetoNET.DTOs.Response
+{
+    public class TimeCountDto
+    {
+        public string TimeLabel { get; set; }
+        public long Count { get; set; }
+
+        public TimeCountDto(string timeLabel, long count)
+        {
+            TimeLabel = timeLabel;
+            Count = count;
+        }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: dto\response\ViaCepResponseDto.cs
+// Namespace: SeuProjetoNET.DTOs.Response
+// Tipo: ViaCepResponseDto
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/DTOs/Response/ViaCepResponseDto.cs
+using System.Text.Json.Serialization;
+
+namespace SeuProjetoNET.DTOs.Response
+{
+    public class ViaCepResponseDto
+    {
+        [JsonPropertyName("cep")]
+        public string? Cep { get; set; }
+        [JsonPropertyName("logradouro")]
+        public string? Logradouro { get; set; }
+        [JsonPropertyName("complemento")]
+        public string? Complemento { get; set; }
+        [JsonPropertyName("bairro")]
+        public string? Bairro { get; set; }
+        [JsonPropertyName("localidade")]
+        public string? Localidade { get; set; }
+        [JsonPropertyName("uf")]
+        public string? Uf { get; set; }
+        [JsonPropertyName("ibge")]
+        public string? Ibge { get; set; }
+        [JsonPropertyName("gia")]
+        public string? Gia { get; set; }
+        [JsonPropertyName("ddd")]
+        public string? Ddd { get; set; }
+        [JsonPropertyName("siafi")]
+        public string? Siafi { get; set; }
+        [JsonPropertyName("erro")]
+        public bool Erro { get; set; }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: exceptions\RecursoNaoEncontradoException .cs
+// Namespace: SeuProjetoNET.Exceptions
+// Tipo: RecursoNaoEncontradoException
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/Exceptions/RecursoNaoEncontradoException.cs
+using System;
+
+namespace SeuProjetoNET.Exceptions
+{
+    public class RecursoNaoEncontradoException : Exception
+    {
+        public RecursoNaoEncontradoException() : base() { }
+
+        public RecursoNaoEncontradoException(string message) : base(message) { }
+
+        public RecursoNaoEncontradoException(string message, Exception innerException) : base(message, innerException) { }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: exceptions\ServicoIndisponivelException .cs
+// Namespace: SeuProjetoNET.Exceptions
+// Tipo: ServicoIndisponivelException
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/Exceptions/ServicoIndisponivelException.cs
+using System;
+
+namespace SeuProjetoNET.Exceptions
+{
+    public class ServicoIndisponivelException : Exception
+    {
+        public ServicoIndisponivelException() : base() { }
+
+        public ServicoIndisponivelException(string message) : base(message) { }
+
+        public ServicoIndisponivelException(string message, Exception innerException) : base(message, innerException) { }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: exceptions\ValidacaoException .cs
+// Namespace: SeuProjetoNET.Exceptions
+// Tipo: ValidacaoException
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/Exceptions/ValidacaoException.cs
+using System;
+using System.Collections.Generic;
+
+namespace SeuProjetoNET.Exceptions
+{
+    public class ValidacaoException : Exception
+    {
+        public List<string>? Erros { get; }
+
+        public ValidacaoException() : base() { }
+
+        public ValidacaoException(string message) : base(message) { }
+
+        public ValidacaoException(string message, Exception innerException) : base(message, innerException) { }
+
+        public ValidacaoException(string message, List<string> erros) : base(message)
+        {
+            Erros = erros;
+        }
+        public ValidacaoException(List<string> erros) : base(erros != null && erros.Count > 0 ? erros[0] : "Erro de validação.")
+        {
+            Erros = erros;
+        }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: middleware\TratadorGlobalExcecoesMiddleware.cs
+// Namespace: SeuProjetoNET.Middleware
+// Tipo: TratadorGlobalExcecoesMiddleware
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿// File: SeuProjetoNET/Middleware/TratadorGlobalExcecoesMiddleware.cs
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using SeuProjetoNET.Exceptions; // Suas exceções customizadas
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Text.Json;
+using System.Threading.Tasks;
+
+namespace SeuProjetoNET.Middleware
+{
+    public class TratadorGlobalExcecoesMiddleware
+    {
+        private readonly RequestDelegate _next;
+        private readonly ILogger<TratadorGlobalExcecoesMiddleware> _logger;
+
+        public TratadorGlobalExcecoesMiddleware(RequestDelegate next, ILogger<TratadorGlobalExcecoesMiddleware> logger)
+        {
+            _next = next;
+            _logger = logger;
+        }
+
+        public async Task InvokeAsync(HttpContext context)
+        {
+            try
+            {
+                await _next(context);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ocorreu uma exceção não tratada: {Message}", ex.Message);
+                await HandleExceptionAsync(context, ex);
+            }
+        }
+
+        private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+        {
+            context.Response.ContentType = "application/json";
+            HttpStatusCode statusCode;
+            object responsePayload;
+
+            switch (exception)
+            {
+                case RecursoNaoEncontradoException ex:
+                    statusCode = HttpStatusCode.NotFound;
+                    responsePayload = new { timestamp = DateTime.UtcNow, status = (int)statusCode, error = "Not Found", message = ex.Message, path = context.Request.Path.Value };
+                    break;
+                case ServicoIndisponivelException ex:
+                    statusCode = HttpStatusCode.ServiceUnavailable;
+                    responsePayload = new { timestamp = DateTime.UtcNow, status = (int)statusCode, error = "Service Unavailable", message = ex.Message, path = context.Request.Path.Value };
+                    break;
+                case ValidacaoException ex: // Exceção de validação customizada
+                    statusCode = HttpStatusCode.BadRequest;
+                    responsePayload = new { timestamp = DateTime.UtcNow, status = (int)statusCode, error = "Bad Request - Validation Error", messages = ex.Erros ?? new List<string> { ex.Message }, path = context.Request.Path.Value };
+                    break;
+                case ArgumentException ex: // Argumentos inválidos em geral
+                    statusCode = HttpStatusCode.BadRequest;
+                    responsePayload = new { timestamp = DateTime.UtcNow, status = (int)statusCode, error = "Bad Request", message = ex.Message, path = context.Request.Path.Value };
+                    break;
+                // Você pode adicionar mais casos para exceções específicas do .NET, como UnauthorizedAccessException, etc.
+                default:
+                    statusCode = HttpStatusCode.InternalServerError;
+                    responsePayload = new { timestamp = DateTime.UtcNow, status = (int)statusCode, error = "Internal Server Error", message = "Ocorreu um erro inesperado no servidor.", path = context.Request.Path.Value };
+                    // Em ambiente de desenvolvimento, você poderia adicionar exception.ToString() aqui, mas nunca em produção.
+                    break;
+            }
+
+            context.Response.StatusCode = (int)statusCode;
+            return context.Response.WriteAsync(JsonSerializer.Serialize(responsePayload, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }));
+        }
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: model\Cliente.cs
+// Namespace: SeuProjetoNET.Models
+// Tipo: Cliente
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SeuProjetoNET.Models
+{
+    [Table("tb_cliente3")]
+    public class Cliente
+    {
+        [Key]
+        [Column("id_cliente")]
+        public long IdCliente { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        [Column("nome")]
+        public string Nome { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        [Column("sobrenome")]
+        public string Sobrenome { get; set; }
+
+        [Required]
+        [StringLength(10)]
+        [Column("data_nascimento")]
+        public string DataNascimento { get; set; } // Como no Java, mantido como string
+
+        [Required]
+        [StringLength(18)]
+        [Column("documento")]
+        public string Documento { get; set; }
+
+        // Navegação para relacionamentos (seriam preenchidos pelo EF Core)
+        public virtual ICollection<Contato> Contatos { get; set; } = new List<Contato>();
+        public virtual ICollection<Endereco> Enderecos { get; set; } = new List<Endereco>();
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: model\Contato.cs
+// Namespace: SeuProjetoNET.Models
+// Tipo: Contato
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization; // Para [JsonIgnore]
+
+namespace SeuProjetoNET.Models
+{
+    [Table("tb_contato3")]
+    public class Contato
+    {
+        [Key]
+        [Column("id_contato")]
+        public long IdContato { get; set; }
+
+        [Required]
+        [StringLength(3)]
+        [Column("ddd")]
+        public string Ddd { get; set; }
+
+        [Required]
+        [StringLength(15)]
+        [Column("telefone")]
+        public string Telefone { get; set; }
+
+        [Required]
+        [StringLength(15)]
+        [Column("celular")]
+        public string Celular { get; set; }
+
+        [Required]
+        [StringLength(15)]
+        [Column("whatsapp")]
+        public string Whatsapp { get; set; }
+
+        [Required]
+        [StringLength(255)]
+        [EmailAddress]
+        [Column("email")]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        [Column("tipo_contato")]
+        public string TipoContato { get; set; }
+
+        [JsonIgnore] // Para evitar ciclos de serialização se os clientes fossem carregados
+        public virtual ICollection<Cliente> Clientes { get; set; } = new List<Cliente>();
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: model\Endereco.cs
+// Namespace: SeuProjetoNET.Models
+// Tipo: Endereco
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+
+namespace SeuProjetoNET.Models
+{
+    [Table("tb_endereco3")]
+    public class Endereco
+    {
+        [Key]
+        [Column("id_endereco")]
+        public long IdEndereco { get; set; }
+
+        [Required]
+        [StringLength(9)]
+        [Column("cep")]
+        public string Cep { get; set; }
+
+        [Required]
+        [Column("numero")]
+        public int Numero { get; set; }
+
+        [Required]
+        [StringLength(255)]
+        [Column("logradouro")]
+        public string Logradouro { get; set; }
+
+        [Required]
+        [StringLength(255)]
+        [Column("bairro")]
+        public string Bairro { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        [Column("localidade")]
+        public string Localidade { get; set; }
+
+        [Required]
+        [StringLength(2)]
+        [Column("uf")]
+        public string Uf { get; set; }
+
+        [Required] // Conforme DDL NOT NULL [cite: 752] (implicito em Java String)
+        [StringLength(255)]
+        [Column("complemento")]
+        public string Complemento { get; set; }
+
+        [Required]
+        [Column("latitude", TypeName = "NUMBER(10,7)")]
+        public double Latitude { get; set; }
+
+        [Required]
+        [Column("longitude", TypeName = "NUMBER(10,7)")]
+        public double Longitude { get; set; }
+
+        [JsonIgnore]
+        public virtual ICollection<Cliente> Clientes { get; set; } = new List<Cliente>();
+        public virtual ICollection<EonetEvent> EventosEonet { get; set; } = new List<EonetEvent>();
+    }
+}
+
+
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// Caminho: model\EonetEvent.cs
+// Namespace: SeuProjetoNET.Models
+// Tipo: EonetEvent
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+
+namespace SeuProjetoNET.Models
+{
+    [Table("tb_eonet3")]
+    public class EonetEvent
+    {
+        [Key]
+        [Column("id_eonet")]
+        public long IdEonet { get; set; }
+
+        [Column("json", TypeName = "CLOB")] // Para campos CLOB [cite: 795, 1110]
+        public string? Json { get; set; }
+
+        [Column("data")]
+        public DateTimeOffset? Data { get; set; } // TIMESTAMP WITH LOCAL TIME ZONE [cite: 1110]
+
+        [Required]
+        [StringLength(50)]
+        [Column("eonet_id")]
+        public string EonetIdApi { get; set; }
+
+        [JsonIgnore]
+        public virtual ICollection<Endereco> Enderecos { get; set; } = new List<Endereco>();
+    }
+}

@@ -1,0 +1,62 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="3057A19C-C6CD-5A4E-F07C-448CED86E245" name="TB_ENDERECOEVENTOS3">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-27 10:20:24 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_endereco" id="79813DA2-D3BE-999C-BD28-6037A52A110C">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-27 11:22:13 UTC</createdTime>
+<generatorID>17572171-8A0A-EF52-06B6-1398BAB250AB</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<referedAttribute>C2F329C6-D1D4-F42A-5C7B-712513E4E45F</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_eonet" id="6E008452-4194-473F-D489-7C5A1E6BD397">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-27 11:22:19 UTC</createdTime>
+<generatorID>D6B61B73-A53E-4BBB-FD00-392C1DE43810</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<referedAttribute>2A8E9037-E677-8513-B224-BD8952405EE5</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="C0FE4B83-451F-3661-07D6-0E4331A6DB6B" name="GS_ENDERECO_EVENTOS PK">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-27 10:21:00 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>79813DA2-D3BE-999C-BD28-6037A52A110C</attributeRef>
+<attributeRef>6E008452-4194-473F-D489-7C5A1E6BD397</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

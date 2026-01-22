@@ -1,0 +1,3713 @@
+// Script: converte-codigo-em-txt-unico (v10)
+// Gerado em: 2025-05-29 19:50:57
+
+// Diretórios (inline): app > app\clientes > app\clientes\[id] > app\clientes\alterar > app\clientes\alterar\[id] > app\clientes\buscar > app\clientes\cadastrar > app\clientes\deletar > app\clientes\deletar\[id] > app\clientes\listar > app\contato > app\desastres > app\desastres\estatisticas > app\desastres\mapa > app\desastres\mapa-atuais > components > lib > src
+
+// Diretórios (multi-line):
+src/
+    app/
+        clientes/
+            alterar/
+                [id]/
+            buscar/
+            cadastrar/
+            deletar/
+                [id]/
+            listar/
+            [id]/
+        contato/
+        desastres/
+            estatisticas/
+            mapa/
+            mapa-atuais/
+    components/
+    lib/
+
+// Arquivos encontrados (tipo => caminho relativo):
+// tsx => app\clientes\[id]\page.tsx
+// tsx => app\clientes\alterar\[id]\page.tsx
+// tsx => app\clientes\buscar\page.tsx
+// tsx => app\clientes\cadastrar\page.tsx
+// tsx => app\clientes\deletar\[id]\page.tsx
+// tsx => app\clientes\layout.tsx
+// tsx => app\clientes\listar\page.tsx
+// tsx => app\contato\layout.tsx
+// tsx => app\contato\page.tsx
+// tsx => app\desastres\estatisticas\page.tsx
+// tsx => app\desastres\layout.tsx
+// tsx => app\desastres\mapa-atuais\page.tsx
+// tsx => app\desastres\mapa\page.tsx
+// tsx => app\desastres\page.tsx
+// tsx => app\layout.tsx
+// tsx => app\page.tsx
+// tsx => components\EonetEventMap.tsx
+// tsx => components\LeafletMap.tsx
+// ts => lib\apiService.ts
+// ts => lib\types.ts
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// app\clientes\[id]\page.tsx | arquivo page.tsx
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+// src/app/clientes/[id]/page.tsx
+'use client'; // Necessário para hooks
+import { useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { buscarClientePorId } from '@/lib/apiService'; // Ajuste o caminho se necessário
+import type { ClienteResponseDTO } from '@/lib/types'; // Ajuste o caminho se necessário
+
+export default function ClienteDetalhesPage() {
+    const params = useParams();
+    // const router = useRouter(); // Descomente se usar router.push ou similar
+    const idPath = Array.isArray(params.id) ? params.id[0] : params.id;
+
+    const [cliente, setCliente] = useState<ClienteResponseDTO | null>(null);
+    const [erro, setErro] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        if (idPath) {
+            const clienteId = Number(idPath);
+            if (isNaN(clienteId)) {
+                setErro("ID do cliente inválido na URL.");
+                setLoading(false);
+                return;
+            }
+            setLoading(true);
+            buscarClientePorId(clienteId)
+                .then(data => {
+                    setCliente(data);
+                    setErro(null);
+                })
+                .catch(error => {
+                    console.error("Erro ao buscar cliente por ID:", error);
+                    setErro(`Falha ao carregar cliente: ${error.message || 'Cliente não encontrado.'}`);
+                    setCliente(null);
+                })
+                .finally(() => setLoading(false));
+        } else {
+            setErro("ID do cliente não fornecido na rota.");
+            setLoading(false);
+        }
+    }, [idPath]);
+
+    if (loading) return <div className="container"><p>Carregando detalhes do cliente...</p></div>;
+    if (erro) return <div className="container"><p className="message error">{erro}</p><Link href="/clientes/listar">Voltar para Lista</Link></div>;
+    if (!cliente) return <div className="container"><p>Cliente não encontrado.</p><Link href="/clientes/listar">Voltar para Lista</Link></div>;
+
+    const contatoPrincipal = cliente.contatos && cliente.contatos.length > 0 ? cliente.contatos[0] : null;
+    const enderecoPrincipal = cliente.enderecos && cliente.enderecos.length > 0 ? cliente.enderecos[0] : null;
+
+    return (
+        <div className="container">
+            <h1 className="page-title">Detalhes do Cliente</h1>
+            <div style={{ backgroundColor: 'white', padding: '20px 25px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+                <h2 style={{borderBottom: '1px solid #eee', paddingBottom:'10px', marginBottom:'15px'}}>{cliente.nome} {cliente.sobrenome}</h2>
+                <p><strong className="label"><span className="material-icons-outlined">badge</span> ID:</strong> {cliente.idCliente}</p>
+                <p><strong className="label"><span className="material-icons-outlined">cake</span> Data de Nascimento:</strong> {new Date(cliente.dataNascimento).toLocaleDateString('pt-BR', { timeZone: 'UTC' })}</p>
+                <p><strong className="label"><span className="material-icons-outlined">article</span> Documento:</strong> {cliente.documento}</p>
+
+                {contatoPrincipal && (
+                    <div style={{marginTop: '20px', paddingTop: '15px', borderTop: '1px solid #eee'}}>
+                        <h3><span className="material-icons-outlined">contact_phone</span> Contato Principal:</h3>
+                        <div style={{ paddingLeft: '10px', textIndent: '-10px', marginLeft:'10px' }}> {/* Ajuste para alinhar ícones com texto */}
+                            <p><strong className="label"><span className="material-icons-outlined" style={{fontSize:'1.1em'}}>email</span> Email:</strong> {contatoPrincipal.email}</p>
+                            <p><strong className="label"><span className="material-icons-outlined" style={{fontSize:'1.1em'}}>phone</span> Telefone:</strong> ({contatoPrincipal.ddd}) {contatoPrincipal.telefone}</p>
+                            {contatoPrincipal.celular && <p><strong className="label"><span className="material-icons-outlined" style={{fontSize:'1.1em'}}>smartphone</span> Celular:</strong> ({contatoPrincipal.ddd}) {contatoPrincipal.celular}</p>}
+                            {contatoPrincipal.whatsapp && <p><strong className="label"><span className="material-icons-outlined" style={{fontSize:'1.1em', color: 'green'}}>chat_bubble_outline</span> WhatsApp:</strong> ({contatoPrincipal.ddd}) {contatoPrincipal.whatsapp}</p>}
+                            <p><strong className="label"><span className="material-icons-outlined" style={{fontSize:'1.1em'}}>label</span> Tipo:</strong> {contatoPrincipal.tipoContato}</p>
+                        </div>
+                    </div>
+                )}
+
+                {enderecoPrincipal && (
+                    <div style={{marginTop: '20px', paddingTop: '15px', borderTop: '1px solid #eee'}}>
+                        <h3><span className="material-icons-outlined">home</span> Endereço Principal:</h3>
+                        <div style={{ paddingLeft: '10px' }}>
+                            <p>{enderecoPrincipal.logradouro}, {enderecoPrincipal.numero} {enderecoPrincipal.complemento && `- ${enderecoPrincipal.complemento}`}</p>
+                            <p>{enderecoPrincipal.bairro} - {enderecoPrincipal.localidade}/{enderecoPrincipal.uf}</p>
+                            <p>CEP: {enderecoPrincipal.cep}</p>
+                            <p><small><span className="material-icons-outlined" style={{fontSize:'1em'}}>public</span> Lat: {enderecoPrincipal.latitude.toFixed(7)}, Lon: {enderecoPrincipal.longitude.toFixed(7)}</small></p>
+                        </div>
+                    </div>
+                )}
+                {!contatoPrincipal && !enderecoPrincipal && <p style={{marginTop: '15px', fontStyle:'italic'}}>(Sem informações detalhadas de contato ou endereço)</p>}
+
+                <div style={{marginTop: '30px', display: 'flex', gap: '12px', flexWrap: 'wrap', borderTop: '1px solid #eee', paddingTop: '20px' }}>
+                    <Link href={`/clientes/alterar/${cliente.idCliente}`} className="button button-edit">
+                        <span className="material-icons-outlined">edit</span> Editar Cliente
+                    </Link>
+                    {/* O botão de deletar aqui também pode abrir um modal, ou redirecionar para a página de confirmação */}
+                    <Link href={`/clientes/deletar/${cliente.idCliente}`} className="button button-danger">
+                        <span className="material-icons-outlined">delete_outline</span> Deletar Cliente
+                    </Link>
+                    <Link href="/clientes/listar" className="button button-secondary" style={{ marginLeft: 'auto' }}>
+                        <span className="material-icons-outlined">arrow_back</span> Voltar para Lista
+                    </Link>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// app\clientes\alterar\[id]\page.tsx | arquivo page.tsx
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+// src/app/clientes/alterar/[id]/page.tsx
+'use client';
+
+import { useEffect, useState, FormEvent, ChangeEvent, useRef } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import {
+    buscarClientePorId,
+    atualizarCliente,
+    consultarCepPelaApi,
+    calcularCoordenadasPelaApi,
+} from '@/lib/apiService';
+import type {
+    ClienteRequestDTO,
+    ClienteResponseDTO,
+    ContatoRequestDTO,
+    EnderecoRequestDTO,
+    ViaCepResponseDTO,
+    EnderecoGeoRequestDTO,
+    GeoCoordinatesDTO
+} from '@/lib/types';
+
+export default function AlterarClientePage() {
+    const params = useParams();
+    const router = useRouter();
+    const idPath = Array.isArray(params.id) ? params.id[0] : params.id;
+    const clienteId = Number(idPath);
+
+    // Refs
+    const nomeRef = useRef<HTMLInputElement>(null);
+    const sobrenomeRef = useRef<HTMLInputElement>(null);
+    const dataNascimentoRef = useRef<HTMLInputElement>(null);
+    const documentoRef = useRef<HTMLInputElement>(null);
+    const dddRef = useRef<HTMLInputElement>(null);
+    const telefoneRef = useRef<HTMLInputElement>(null);
+    const celularRef = useRef<HTMLInputElement>(null);
+    const whatsappRef = useRef<HTMLInputElement>(null);
+    const emailRef = useRef<HTMLInputElement>(null);
+    const tipoContatoRef = useRef<HTMLInputElement>(null);
+    const cepRef = useRef<HTMLInputElement>(null);
+    const numeroRef = useRef<HTMLInputElement>(null);
+    const logradouroRef = useRef<HTMLInputElement>(null);
+    const bairroRef = useRef<HTMLInputElement>(null);
+    const localidadeRef = useRef<HTMLInputElement>(null);
+    const ufRef = useRef<HTMLInputElement>(null);
+    const latitudeRef = useRef<HTMLInputElement>(null);
+    const longitudeRef = useRef<HTMLInputElement>(null);
+
+
+    const [currentContatoId, setCurrentContatoId] = useState<number | undefined>(undefined);
+    const [currentEnderecoId, setCurrentEnderecoId] = useState<number | undefined>(undefined);
+
+    const [clienteData, setClienteData] = useState<Omit<ClienteRequestDTO, 'contatosIds' | 'enderecosIds'>>({
+        nome: '', sobrenome: '', dataNascimento: '', documento: '',
+    });
+    const [contatoData, setContatoData] = useState<ContatoRequestDTO>({
+        ddd: '', telefone: '', celular: '', whatsapp: '', email: '', tipoContato: 'Principal'
+    });
+    const [enderecoData, setEnderecoData] = useState<Partial<EnderecoRequestDTO & { numero: string | number }>>({
+        cep: '', numero: '', logradouro: '', bairro: '', localidade: '', uf: '', complemento: '', latitude: 0, longitude: 0
+    });
+
+    const [mensagem, setMensagem] = useState<string>('');
+    const [erro, setErro] = useState<string>('');
+    const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
+    const [initialLoading, setInitialLoading] = useState<boolean>(true);
+    const [buscandoCep, setBuscandoCep] = useState<boolean>(false);
+    const [buscandoCoords, setBuscandoCoords] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (idPath && !isNaN(clienteId)) {
+            setInitialLoading(true);
+            setErro('');
+            buscarClientePorId(clienteId)
+                .then((data: ClienteResponseDTO) => {
+                    setClienteData({
+                        nome: data.nome,
+                        sobrenome: data.sobrenome,
+                        dataNascimento: data.dataNascimento && data.dataNascimento.includes('/') ?
+                            data.dataNascimento.split('/').reverse().join('-') :
+                            (data.dataNascimento || ''),
+                        documento: (data.documento || '').replace(/\D/g, ''), // Limpar ao carregar
+                    });
+                    if (data.contatos && data.contatos.length > 0 && data.contatos[0]) {
+                        const contatoPrincipal = data.contatos[0];
+                        setContatoData({
+                            ...contatoPrincipal,
+                            ddd: contatoPrincipal.ddd.replace(/\D/g, ''),
+                            telefone: contatoPrincipal.telefone.replace(/\D/g, ''),
+                            celular: contatoPrincipal.celular?.replace(/\D/g, ''),
+                            whatsapp: contatoPrincipal.whatsapp?.replace(/\D/g, '')
+                        });
+                        setCurrentContatoId(contatoPrincipal.idContato);
+                    }
+                    if (data.enderecos && data.enderecos.length > 0 && data.enderecos[0]) {
+                        const endPrincipal = data.enderecos[0];
+                        setEnderecoData({
+                            ...endPrincipal,
+                            cep: (endPrincipal.cep || '').replace(/\D/g, ''),
+                            numero: String(endPrincipal.numero || '').replace(/\D/g, ''),
+                        });
+                        setCurrentEnderecoId(endPrincipal.idEndereco);
+                    }
+                })
+                .catch(error => {
+                    console.error("Erro ao buscar dados do cliente para alteração:", error);
+                    setErro(`Falha ao carregar dados do cliente: ${error.message}`);
+                })
+                .finally(() => setInitialLoading(false));
+        } else {
+            setErro("ID do cliente inválido ou não fornecido.");
+            setInitialLoading(false);
+        }
+    }, [idPath, clienteId]);
+
+    const handleClienteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        if (name === "documento") {
+            const cleanedValue = value.replace(/\D/g, '');
+            setClienteData(prev => ({ ...prev, [name]: cleanedValue.slice(0,18) }));
+        } else {
+            setClienteData(prev => ({ ...prev, [name]: value }));
+        }
+    };
+
+    const handleContatoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        if (name === 'ddd' || name === 'telefone' || name === 'celular' || name === 'whatsapp') {
+            let numericValue = value.replace(/\D/g, '');
+            let maxLength = 15;
+            if (name === 'ddd') maxLength = 3;
+            else if (name === 'telefone') maxLength = 9;
+            else if (name === 'celular') maxLength = 9;
+            else if (name === 'whatsapp') maxLength = 9;
+
+            if (numericValue.length > maxLength) {
+                numericValue = numericValue.slice(0, maxLength);
+            }
+            setContatoData(prev => ({ ...prev, [name]: numericValue }));
+        } else {
+            setContatoData(prev => ({ ...prev, [name]: value }));
+        }
+    };
+
+    const handleEnderecoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        if (name === 'cep' || name === 'numero') {
+            let numericValue = value.replace(/\D/g, '');
+            let maxLength = name === 'cep' ? 8 : 5;
+            if (numericValue.length > maxLength) {
+                numericValue = numericValue.slice(0, maxLength);
+            }
+            setEnderecoData(prev => ({ ...prev, [name]: numericValue }));
+        } else if (name === 'latitude' || name === 'longitude') {
+            setEnderecoData(prev => ({ ...prev, [name]: value ? parseFloat(value) : '' }));
+        } else if (name === 'uf') {
+            setEnderecoData(prev => ({ ...prev, [name]: value.toUpperCase().slice(0,2) }));
+        }
+        else {
+            setEnderecoData(prev => ({ ...prev, [name]: value }));
+        }
+    };
+
+    const handleCepBlur = async () => {
+        const cepLimpo = (enderecoData.cep || '').replace(/\D/g, '');
+        if (cepLimpo.length === 8) {
+            setBuscandoCep(true); setErro('');
+            setMensagem('Buscando dados do CEP...');
+            try {
+                const viaCepDados: ViaCepResponseDTO = await consultarCepPelaApi(cepLimpo);
+                setEnderecoData(prev => ({
+                    ...prev,
+                    logradouro: viaCepDados.logradouro || prev.logradouro || '',
+                    bairro: viaCepDados.bairro || prev.bairro || '',
+                    localidade: viaCepDados.localidade || prev.localidade || '',
+                    uf: viaCepDados.uf || prev.uf || '',
+                    cep: viaCepDados.cep?.replace(/\D/g, '') || prev.cep,
+                    latitude: 0,
+                    longitude: 0
+                }));
+                setMensagem('Dados do CEP carregados. Preencha/verifique o número e clique em "Obter Coordenadas" se necessário.');
+            } catch (error: any) {
+                setErro(`Falha na busca do endereço: ${error.message}. Preencha manualmente.`);
+                setMensagem('');
+            } finally {
+                setBuscandoCep(false);
+            }
+        } else if (enderecoData.cep && cepLimpo.length !== 8) {
+            setErro('CEP inválido. Deve conter 8 dígitos.');
+            cepRef.current?.focus();
+            setMensagem('');
+        }
+    };
+
+    const handleGerarCoordenadasClick = async () => {
+        const numeroStr = String(enderecoData.numero || '').trim().replace(/\D/g, '');
+        if (!enderecoData.logradouro && !enderecoData.localidade && !enderecoData.uf) {
+            setErro("Preencha pelo menos Cidade e UF, ou o endereço completo, para gerar coordenadas.");
+            logradouroRef.current?.focus();
+            setMensagem(''); return;
+        }
+        if (enderecoData.logradouro && (!numeroStr || numeroStr === "0")) {
+            setErro("Se informou logradouro, por favor, informe o Número para gerar coordenadas precisas.");
+            numeroRef.current?.focus();
+            setMensagem(''); return;
+        }
+        setBuscandoCoords(true); setErro(''); setMensagem('Gerando coordenadas...');
+        try {
+            const geoRequestData: EnderecoGeoRequestDTO = {
+                logradouro: enderecoData.logradouro || '',
+                numero: numeroStr,
+                cidade: enderecoData.localidade || '',
+                uf: enderecoData.uf || '',
+                bairro: enderecoData.bairro,
+                cep: (enderecoData.cep || '').replace(/\D/g, '')
+            };
+            const coordenadas: GeoCoordinatesDTO = await calcularCoordenadasPelaApi(geoRequestData);
+            setEnderecoData(prev => ({ ...prev, latitude: coordenadas.latitude || 0, longitude: coordenadas.longitude || 0 }));
+            if ((coordenadas.latitude || 0) === 0 || (coordenadas.longitude || 0) === 0) {
+                setErro("Não foi possível obter coordenadas. Verifique os dados e tente novamente ou preencha manualmente se souber.");
+                latitudeRef.current?.focus();
+                setMensagem('');
+            } else {
+                setMensagem(`Coordenadas: Lat ${Number(coordenadas.latitude).toFixed(7)}, Lon ${Number(coordenadas.longitude).toFixed(7)}.`);
+            }
+        } catch (error: any) {
+            setErro(`Falha ao gerar coordenadas: ${error.message}`);
+            setMensagem('');
+        } finally { setBuscandoCoords(false); }
+    };
+
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (isNaN(clienteId)) {
+            setErro("ID do cliente inválido para atualização.");
+            return;
+        }
+        setErro(''); setMensagem('');
+
+        // Validações com foco
+        if (!clienteData.nome.trim()) { setErro("Nome é obrigatório."); nomeRef.current?.focus(); return; }
+        if (!clienteData.sobrenome.trim()) { setErro("Sobrenome é obrigatório."); sobrenomeRef.current?.focus(); return; }
+        if (!clienteData.dataNascimento) { setErro("Data de nascimento é obrigatória."); dataNascimentoRef.current?.focus(); return; }
+
+        const cleanedDocumento = clienteData.documento.replace(/\D/g, '');
+        if (!cleanedDocumento) { setErro("Documento é obrigatório."); documentoRef.current?.focus(); return; }
+        if (cleanedDocumento.length < 11 || cleanedDocumento.length > 14) { // CPF 11, CNPJ 14
+            setErro("Documento (CPF/CNPJ) deve ter 11 ou 14 números.");
+            documentoRef.current?.focus(); return;
+        }
+
+        const cleanedDdd = contatoData.ddd.replace(/\D/g, '');
+        const cleanedTelefone = contatoData.telefone.replace(/\D/g, '');
+        const cleanedCelular = contatoData.celular?.replace(/\D/g, '') || '';
+        const cleanedWhatsapp = contatoData.whatsapp?.replace(/\D/g, '') || '';
+
+        if (!cleanedDdd) { setErro("DDD do contato é obrigatório."); dddRef.current?.focus(); return; }
+        if (cleanedDdd.length < 2 || cleanedDdd.length > 3) { setErro("DDD do contato deve ter entre 2 e 3 dígitos."); dddRef.current?.focus(); return; }
+        if (!cleanedTelefone) { setErro("Telefone principal do contato é obrigatório."); telefoneRef.current?.focus(); return; }
+        if (cleanedTelefone.length < 8 || cleanedTelefone.length > 9) { setErro("Telefone principal deve ter entre 8 e 9 dígitos."); telefoneRef.current?.focus(); return; }
+        if (cleanedCelular && (cleanedCelular.length < 8 || cleanedCelular.length > 9)) { setErro("Celular deve ter entre 8 e 9 dígitos (se preenchido)."); celularRef.current?.focus(); return; }
+        if (cleanedWhatsapp && (cleanedWhatsapp.length < 8 || cleanedWhatsapp.length > 9)) { setErro("WhatsApp deve ter entre 8 e 9 dígitos (se preenchido)."); whatsappRef.current?.focus(); return; }
+        if (!contatoData.email.trim()) { setErro("Email do contato é obrigatório."); emailRef.current?.focus(); return; }
+        if (!contatoData.tipoContato.trim()) { setErro("Tipo de contato é obrigatório."); tipoContatoRef.current?.focus(); return; }
+
+        const cleanedCep = (enderecoData.cep || '').replace(/\D/g, '');
+        const cleanedNumeroStr = String(enderecoData.numero || "0").replace(/\D/g, '');
+        const cleanedNumero = parseInt(cleanedNumeroStr, 10) || 0;
+
+        if (!cleanedCep) { setErro("CEP do endereço é obrigatório."); cepRef.current?.focus(); return; }
+        if (cleanedCep.length !== 8) { setErro("CEP do endereço deve ter 8 dígitos."); cepRef.current?.focus(); return; }
+        if (cleanedNumero === 0) { setErro("Número do endereço é obrigatório."); numeroRef.current?.focus(); return; }
+        if (!enderecoData.logradouro?.trim()) { setErro("Logradouro do endereço é obrigatório."); logradouroRef.current?.focus(); return; }
+        if (!enderecoData.bairro?.trim()) { setErro("Bairro do endereço é obrigatório."); bairroRef.current?.focus(); return; }
+        if (!enderecoData.localidade?.trim()) { setErro("Localidade (cidade) do endereço é obrigatória."); localidadeRef.current?.focus(); return; }
+        if (!enderecoData.uf?.trim() || enderecoData.uf.trim().length !== 2) { setErro("UF do endereço é obrigatória e deve ter 2 caracteres."); ufRef.current?.focus(); return; }
+
+        const finalLatitude = Number(enderecoData.latitude) || 0;
+        const finalLongitude = Number(enderecoData.longitude) || 0;
+        if (finalLatitude === 0 || finalLongitude === 0) {
+            setErro("Latitude e Longitude são obrigatórias. Use 'Obter Coordenadas' ou preencha manualmente.");
+            latitudeRef.current?.focus(); return;
+        }
+
+        setLoadingSubmit(true);
+        setMensagem('Processando atualização...');
+
+        const finalClienteData = {...clienteData, documento: cleanedDocumento };
+
+        const finalContatoData: ContatoRequestDTO = {
+            ...contatoData,
+            ddd: cleanedDdd,
+            telefone: cleanedTelefone,
+            celular: cleanedCelular || undefined,
+            whatsapp: cleanedWhatsapp || undefined
+        };
+
+        // NOTA: A lógica para atualizar os dados do Contato e Endereço separadamente ainda é necessária aqui.
+        // Se o usuário alterou o email no formulário de contato, por exemplo,
+        // você precisaria chamar um `atualizarContatoSozinho(currentContatoId, finalContatoData)`
+        // ANTES de chamar `atualizarCliente`. O mesmo para endereço.
+        // Esta parte ainda requer implementação de funções de atualização específicas para contato/endereço no apiService
+        // e chamadas condicionais aqui.
+
+        try {
+            const clientePayload: ClienteRequestDTO = {
+                ...finalClienteData, // Usar dados limpos do cliente
+                contatosIds: currentContatoId ? [currentContatoId] : [],
+                enderecosIds: currentEnderecoId ? [currentEnderecoId] : [],
+            };
+
+            setMensagem('Enviando atualização do cliente...');
+            await atualizarCliente(clienteId, clientePayload);
+            setMensagem('Cliente atualizado com sucesso! Redirecionando...');
+            setTimeout(() => router.push(`/clientes/${clienteId}`), 2000);
+
+        } catch (error: any) {
+            const apiErrorMessage = error.message || "Ocorreu uma falha desconhecida.";
+            setErro(apiErrorMessage.startsWith("Falha ao atualizar cliente:") ? apiErrorMessage : `Falha ao atualizar cliente: ${apiErrorMessage}`);
+            setMensagem('');
+        } finally {
+            setLoadingSubmit(false);
+        }
+    };
+
+    if (initialLoading) return <div className="container"><p>Carregando dados do cliente para edição...</p></div>;
+    if (erro && !clienteData.nome) return <div className="container"><p className="message error">{erro}</p><Link href="/clientes/listar">Voltar para Lista</Link></div>;
+
+    return (
+        <div className="container">
+            <h1 className="page-title">Alterar Cliente (ID: {idPath})</h1>
+            <form onSubmit={handleSubmit} className="form-container" autoComplete="off">
+                <fieldset className="form-section">
+                    <legend className="section-title">📄 Dados Pessoais</legend>
+                    <div className="form-row">
+                        <div className="form-group flex-item">
+                            <label htmlFor="nome">👤 Nome:</label>
+                            <input id="nome" ref={nomeRef} type="text" name="nome" value={clienteData.nome || ''} onChange={handleClienteChange} />
+                        </div>
+                        <div className="form-group flex-item">
+                            <label htmlFor="sobrenome">👤 Sobrenome:</label>
+                            <input id="sobrenome" ref={sobrenomeRef} type="text" name="sobrenome" value={clienteData.sobrenome || ''} onChange={handleClienteChange} />
+                        </div>
+                    </div>
+                    <div className="form-row">
+                        <div className="form-group flex-item">
+                            <label htmlFor="dataNascimento">🎂 Data de Nascimento:</label>
+                            <input id="dataNascimento" ref={dataNascimentoRef} type="date" name="dataNascimento" value={clienteData.dataNascimento || ''} onChange={handleClienteChange} />
+                        </div>
+                        <div className="form-group flex-item">
+                            <label htmlFor="documento">🪪 Documento:</label>
+                            <input id="documento" ref={documentoRef} type="text" name="documento" value={clienteData.documento || ''} onChange={handleClienteChange} maxLength={14} placeholder="Só números CPF/CNPJ"/>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <hr className="section-divider" />
+
+                <fieldset className="form-section">
+                    <legend className="section-title">📞 Contato Principal (ID: {currentContatoId || 'N/A'})</legend>
+                    <div className="form-row">
+                        <div className="form-group basis-ddd">
+                            <label htmlFor="alt-ddd">DDD:</label>
+                            <input id="alt-ddd" ref={dddRef} type="text" name="ddd" value={contatoData.ddd || ''} onChange={handleContatoChange} maxLength={3} placeholder="Ex: 11"/>
+                        </div>
+                        <div className="form-group flex-item">
+                            <label htmlFor="alt-telefone">Telefone:</label>
+                            <input id="alt-telefone" ref={telefoneRef} type="text" name="telefone" value={contatoData.telefone || ''} onChange={handleContatoChange} maxLength={9} placeholder="Ex: 987654321"/>
+                        </div>
+                    </div>
+                    <div className="form-row">
+                        <div className="form-group flex-item">
+                            <label htmlFor="alt-celular">📱 Celular:</label>
+                            <input id="alt-celular" ref={celularRef} type="text" name="celular" value={contatoData.celular || ''} onChange={handleContatoChange} maxLength={9} placeholder="Ex: 987654321"/>
+                        </div>
+                        <div className="form-group flex-item">
+                            <label htmlFor="alt-whatsapp">🟢 WhatsApp:</label>
+                            <input id="alt-whatsapp" ref={whatsappRef} type="text" name="whatsapp" value={contatoData.whatsapp || ''} onChange={handleContatoChange} maxLength={9} placeholder="Ex: 987654321"/>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="alt-email">📧 Email:</label>
+                        <input id="alt-email" ref={emailRef} type="email" name="email" value={contatoData.email || ''} onChange={handleContatoChange} />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="alt-tipoContato">🏷️ Tipo Contato:</label>
+                        <input id="alt-tipoContato" ref={tipoContatoRef} type="text" name="tipoContato" value={contatoData.tipoContato || ''} onChange={handleContatoChange} />
+                    </div>
+                </fieldset>
+
+                <hr className="section-divider" />
+
+                <fieldset className="form-section">
+                    <legend className="section-title">🏠 Endereço Principal (ID: {currentEnderecoId || 'N/A'})</legend>
+                    <div className="form-row">
+                        <div className="form-group basis-cep">
+                            <label htmlFor="alt-cep">📍 CEP:</label>
+                            <input id="alt-cep" ref={cepRef} type="text" name="cep" value={enderecoData.cep || ''} onChange={handleEnderecoChange} onBlur={handleCepBlur} maxLength={8} placeholder="00000000"/>
+                        </div>
+                        <div className="form-group basis-numero">
+                            <label htmlFor="alt-numero">Nº:</label>
+                            <input id="alt-numero" ref={numeroRef} type="text" name="numero" value={String(enderecoData.numero || '') === '0' ? '' : String(enderecoData.numero || '')} onChange={handleEnderecoChange} maxLength={5} placeholder="Ex: 123"/>
+                        </div>
+                        <div className="form-group flex-item">
+                            <label htmlFor="alt-complemento">Compl.:</label>
+                            <input id="alt-complemento" type="text" name="complemento" value={enderecoData.complemento || ''} onChange={handleEnderecoChange} />
+                        </div>
+                    </div>
+                    {buscandoCep && <p className="message info" style={{textAlign: 'center'}}>Buscando CEP...</p>}
+                    <div className="form-group">
+                        <label htmlFor="alt-logradouro">Logradouro:</label>
+                        <input id="alt-logradouro" ref={logradouroRef} type="text" name="logradouro" value={enderecoData.logradouro || ''} onChange={handleEnderecoChange} />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="alt-bairro">Bairro:</label>
+                        <input id="alt-bairro" ref={bairroRef} type="text" name="bairro" value={enderecoData.bairro || ''} onChange={handleEnderecoChange} />
+                    </div>
+                    <div className="form-row">
+                        <div className="form-group grow-3">
+                            <label htmlFor="alt-localidade">🏙️ Localidade:</label>
+                            <input id="alt-localidade" ref={localidadeRef} type="text" name="localidade" value={enderecoData.localidade || ''} onChange={handleEnderecoChange} />
+                        </div>
+                        <div className="form-group basis-uf">
+                            <label htmlFor="alt-uf">UF:</label>
+                            <input id="alt-uf" ref={ufRef} type="text" name="uf" value={enderecoData.uf || ''} onChange={handleEnderecoChange} maxLength={2} />
+                        </div>
+                    </div>
+                </fieldset>
+
+                <hr className="section-divider"/>
+
+                <fieldset className="form-section coordinate-section" style={{ textAlign: 'center' }}>
+                    <legend className="section-title" style={{ marginBottom: '1rem' }}>🌐 Coordenadas Geográficas</legend>
+                    <p style={{ marginBottom: '1rem', fontSize: '0.9em' }}>
+                        Após preencher o endereço (CEP, Logradouro, Número, Cidade, UF), clique abaixo para obter as coordenadas.
+                        <br />Ou preencha/ajuste manualmente os campos de Latitude e Longitude.
+                    </p>
+                    <div style={{ marginBottom: '1.5rem' }}>
+                        <button
+                            type="button"
+                            onClick={handleGerarCoordenadasClick}
+                            disabled={buscandoCoords || !enderecoData.logradouro || !enderecoData.numero || !enderecoData.localidade || !enderecoData.uf}
+                            className="button-secondary"
+                            style={{ padding: '10px 20px' }}
+                        >
+                            {buscandoCoords ? 'Gerando...' : 'Obter/Atualizar Coordenadas'}
+                        </button>
+                        {buscandoCoords && <p className="message info" style={{ marginTop: '0.5rem' }}>Consultando serviço de geocodificação...</p>}
+                    </div>
+
+                    <div className="form-row">
+                        <div className="form-group flex-item">
+                            <label htmlFor="latitude" style={{ display: 'block', marginBottom: '0.3rem', fontWeight: '500' }}>Latitude:</label>
+                            <input id="latitude" ref={latitudeRef} type="number" step="any" name="latitude" value={String(enderecoData.latitude || '')} onChange={handleEnderecoChange} placeholder="Ex: -23.550520" style={{ textAlign: 'center' }}/>
+                        </div>
+                        <div className="form-group flex-item">
+                            <label htmlFor="longitude" style={{ display: 'block', marginBottom: '0.3rem', fontWeight: '500' }}>Longitude:</label>
+                            <input id="longitude" ref={longitudeRef} type="number" step="any" name="longitude" value={String(enderecoData.longitude || '')} onChange={handleEnderecoChange} placeholder="Ex: -46.633308" style={{ textAlign: 'center' }}/>
+                        </div>
+                    </div>
+
+                    {(Number(enderecoData.latitude) !== 0 || Number(enderecoData.longitude) !== 0) && !buscandoCoords && (
+                        <div className="coordinates-display" style={{ marginTop: '1rem', padding: '10px', backgroundColor: '#e9f5e9', borderRadius: '4px', border: '1px solid #c8e6c9' }}>
+                            <p style={{ margin: 0, fontWeight: 'bold', color: '#1b5e20' }}>
+                                Coordenadas Atuais:
+                                Lat: <span style={{ fontFamily: 'monospace' }}>{Number(enderecoData.latitude).toFixed(7)}</span>,
+                                Lon: <span style={{ fontFamily: 'monospace' }}>{Number(enderecoData.longitude).toFixed(7)}</span>
+                            </p>
+                        </div>
+                    )}
+                    {!(Number(enderecoData.latitude) !== 0 || Number(enderecoData.longitude) !== 0) && (enderecoData.logradouro && String(enderecoData.numero||'').trim() && enderecoData.localidade && enderecoData.uf) && !buscandoCoords &&
+                        <p className="message info" style={{marginTop: '1rem'}}>Clique em "Obter/Atualizar Coordenadas" ou preencha manualmente.</p>
+                    }
+                </fieldset>
+
+                <hr className="section-divider"/>
+                <button type="submit" disabled={buscandoCep || buscandoCoords || loadingSubmit || initialLoading} className="button-primary" style={{marginTop: '20px', width: '100%', padding: '12px', fontSize: '1.1em'}}>
+                    {initialLoading ? 'Carregando...' : (loadingSubmit ? 'Salvando...' : (buscandoCep || buscandoCoords ? 'Aguarde...' : 'Salvar Alterações'))}
+                </button>
+            </form>
+            {mensagem && !erro && <p className="message success" style={{marginTop: '15px'}}>{mensagem}</p>}
+            {erro && <p className="message error" style={{marginTop: '15px'}}>{erro}</p>}
+            <div style={{marginTop: '20px', marginBottom: '40px', textAlign: 'center' }}>
+                <Link href={`/clientes/${clienteId}`}>Cancelar e Voltar para Detalhes</Link>
+                <span style={{margin: "0 10px"}}>|</span>
+                <Link href="/clientes/listar">Voltar para Lista Geral</Link>
+            </div>
+        </div>
+    );
+}
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// app\clientes\buscar\page.tsx | arquivo page.tsx
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+// src/app/clientes/buscar/page.tsx
+'use client';
+import { useState, FormEvent, useRef } from 'react'; // Adicionado useRef
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+
+export default function BuscarClientePage() {
+    const [termoBusca, setTermoBusca] = useState('');
+    const [tipoBusca, setTipoBusca] = useState<'id' | 'documento'>('id'); // Removido 'email' por simplicidade, foque no ID e Documento
+    const router = useRouter();
+
+    const termoBuscaRef = useRef<HTMLInputElement>(null);
+
+    const handleBuscar = (e: FormEvent) => {
+        e.preventDefault();
+        if (!termoBusca.trim()) {
+            alert('Por favor, informe um termo para busca.');
+            termoBuscaRef.current?.focus();
+            return;
+        }
+        if (tipoBusca === 'id') {
+            if (isNaN(Number(termoBusca))) {
+                alert('Para busca por ID, por favor, informe um valor numérico.');
+                termoBuscaRef.current?.focus();
+                return;
+            }
+            router.push(`/clientes/${termoBusca}`);
+        } else if (tipoBusca === 'documento') {
+            // Implementação futura: router.push(`/clientes/listar?documento=${termoBusca}`);
+            // Ou uma página de resultados de busca. Por agora, alerta.
+            alert(`Busca por documento direcionaria para uma lista filtrada ou detalhes (ainda não implementado aqui). Buscando por documento: ${termoBusca}`);
+            // Aqui você poderia chamar uma função da apiService para buscar por documento
+            // e redirecionar para os detalhes se encontrado, ou para uma página de resultados.
+            // Ex: buscarClientePorDocumento(termoBusca).then(cliente => router.push(`/clientes/${cliente.idCliente}`)).catch(err => alert("Cliente não encontrado"));
+        }
+    };
+
+    return (
+        <div className="container">
+            <h1 className="page-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+                <span className="material-icons-outlined" style={{ fontSize: '1.8em' }}>person_search</span>
+                Buscar Cliente
+            </h1>
+            <form onSubmit={handleBuscar} className="form-container" style={{maxWidth: '500px', margin: '0 auto'}}>
+                <div className="form-group">
+                    <label htmlFor="tipoBusca" style={{display: 'flex', alignItems: 'center', gap: '5px'}}>
+                        <span className="material-icons-outlined">manage_search</span>
+                        Buscar por:
+                    </label>
+                    <select
+                        id="tipoBusca"
+                        value={tipoBusca}
+                        onChange={(e) => setTipoBusca(e.target.value as any)}
+                        style={{padding: '10px', fontSize: '1em', borderRadius:'5px', border:'1px solid #ccc', width:'100%'}}
+                    >
+                        <option value="id">ID do Cliente</option>
+                        <option value="documento">Documento (CPF/CNPJ)</option>
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="termoBusca" style={{display: 'flex', alignItems: 'center', gap: '5px'}}>
+                        <span className="material-icons-outlined">input</span>
+                        {tipoBusca === 'id' ? 'ID do Cliente:' : 'Número do Documento:'}
+                    </label>
+                    <input
+                        id="termoBusca"
+                        ref={termoBuscaRef}
+                        type={tipoBusca === 'id' ? 'number' : 'text'} // Mantém number para ID para validação do navegador
+                        value={termoBusca}
+                        onChange={(e) => setTermoBusca(e.target.value)}
+                        placeholder={tipoBusca === 'id' ? 'Digite o ID numérico' : 'Digite apenas números do documento'}
+                        required
+                        style={{padding: '10px', fontSize: '1em', borderRadius:'5px', border:'1px solid #ccc', width:'100%'}}
+                        maxLength={tipoBusca === 'documento' ? 14 : undefined} // Limita para documento
+                    />
+                </div>
+                <button type="submit" className="button button-primary" style={{width: '100%', padding: '12px', fontSize: '1.1em'}}>
+                    <span className="material-icons-outlined">search</span>
+                    Buscar
+                </button>
+            </form>
+            <p style={{marginTop: '25px', textAlign: 'center'}}>
+                Para ver todos os clientes, acesse a <Link href="/clientes/listar" style={{color: '#007bff', textDecoration: 'underline'}}>Lista de Clientes</Link>.
+            </p>
+        </div>
+    );
+}
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// app\clientes\cadastrar\page.tsx | arquivo page.tsx
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+// src/app/clientes/cadastrar/page.tsx
+'use client';
+
+import { useState, FormEvent, ChangeEvent, useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import {
+    criarCliente,
+    consultarCepPelaApi,
+    calcularCoordenadasPelaApi,
+    criarContatoSozinho,
+    criarEnderecoSozinho
+} from '@/lib/apiService';
+import type {
+    ClienteRequestDTO,
+    ContatoRequestDTO,
+    EnderecoRequestDTO,
+    ViaCepResponseDTO,
+    EnderecoGeoRequestDTO,
+    GeoCoordinatesDTO,
+    ContatoResponseDTO,
+    EnderecoResponseDTO
+} from '@/lib/types';
+
+export default function CadastrarClientePage() {
+    const router = useRouter();
+    // Refs
+    const nomeRef = useRef<HTMLInputElement>(null);
+    const sobrenomeRef = useRef<HTMLInputElement>(null);
+    const dataNascimentoRef = useRef<HTMLInputElement>(null);
+    const documentoRef = useRef<HTMLInputElement>(null);
+    const dddRef = useRef<HTMLInputElement>(null);
+    const telefoneRef = useRef<HTMLInputElement>(null);
+    const celularRef = useRef<HTMLInputElement>(null);
+    const whatsappRef = useRef<HTMLInputElement>(null);
+    const emailRef = useRef<HTMLInputElement>(null);
+    const tipoContatoRef = useRef<HTMLInputElement>(null);
+    const cepRef = useRef<HTMLInputElement>(null);
+    const numeroRef = useRef<HTMLInputElement>(null);
+    const logradouroRef = useRef<HTMLInputElement>(null);
+    const bairroRef = useRef<HTMLInputElement>(null);
+    const localidadeRef = useRef<HTMLInputElement>(null);
+    const ufRef = useRef<HTMLInputElement>(null);
+    const latitudeRef = useRef<HTMLInputElement>(null);
+    const longitudeRef = useRef<HTMLInputElement>(null);
+
+    const [clienteData, setClienteData] = useState<Omit<ClienteRequestDTO, 'contatosIds' | 'enderecosIds'>>({
+        nome: '', sobrenome: '', dataNascimento: '', documento: '',
+    });
+    const [contatoData, setContatoData] = useState<ContatoRequestDTO>({
+        ddd: '', telefone: '', celular: '', whatsapp: '', email: '', tipoContato: 'Principal',
+    });
+    const [enderecoData, setEnderecoData] = useState<Partial<EnderecoRequestDTO & { numero: string }>>({
+        cep: '', numero: '', logradouro: '', bairro: '', localidade: '', uf: '', complemento: '', latitude: 0, longitude: 0,
+    });
+    const [mensagem, setMensagem] = useState<string>('');
+    const [erro, setErro] = useState<string>('');
+    const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
+    const [buscandoCep, setBuscandoCep] = useState<boolean>(false);
+    const [buscandoCoords, setBuscandoCoords] = useState<boolean>(false);
+
+    const handleClienteChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        if (name === "documento") {
+            // Permite apenas números e limita o tamanho para CPF/CNPJ (18 é um bom limite geral para CNPJ com máscara)
+            // A validação de formato exato (CPF vs CNPJ) seria mais complexa aqui.
+            const cleanedValue = value.replace(/\D/g, '');
+            setClienteData(prev => ({ ...prev, [name]: cleanedValue.slice(0,18) }));
+        } else {
+            setClienteData(prev => ({ ...prev, [name]: value }));
+        }
+    };
+
+
+    const handleContatoChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        if (name === 'ddd' || name === 'telefone' || name === 'celular' || name === 'whatsapp') {
+            let numericValue = value.replace(/\D/g, '');
+            let maxLength = 15;
+            if (name === 'ddd') maxLength = 3;
+            else if (name === 'telefone') maxLength = 9;
+            else if (name === 'celular') maxLength = 9;
+            else if (name === 'whatsapp') maxLength = 9;
+
+            if (numericValue.length > maxLength) {
+                numericValue = numericValue.slice(0, maxLength);
+            }
+            setContatoData(prev => ({ ...prev, [name]: numericValue }));
+        } else {
+            setContatoData(prev => ({ ...prev, [name]: value }));
+        }
+    };
+
+    const handleEnderecoChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        if (name === 'cep' || name === 'numero') {
+            let numericValue = value.replace(/\D/g, '');
+            let maxLength = name === 'cep' ? 8 : 5;
+            if (numericValue.length > maxLength) {
+                numericValue = numericValue.slice(0, maxLength);
+            }
+            setEnderecoData(prev => ({ ...prev, [name]: numericValue }));
+        } else if (name === 'latitude' || name === 'longitude') {
+            setEnderecoData(prev => ({ ...prev, [name]: value ? parseFloat(value) : '' }));
+        } else if (name === 'uf') {
+            setEnderecoData(prev => ({ ...prev, [name]: value.toUpperCase().slice(0,2) }));
+        }
+        else {
+            setEnderecoData(prev => ({ ...prev, [name]: value }));
+        }
+    };
+
+    const handleCepBlur = async () => {
+        const cepLimpo = (enderecoData.cep || '').replace(/\D/g, '');
+        if (cepLimpo.length === 8) {
+            setBuscandoCep(true); setErro('');
+            setMensagem('Buscando dados do CEP...');
+            try {
+                const viaCepDados: ViaCepResponseDTO = await consultarCepPelaApi(cepLimpo);
+                setEnderecoData(prev => ({
+                    ...prev,
+                    logradouro: viaCepDados.logradouro || '', bairro: viaCepDados.bairro || '',
+                    localidade: viaCepDados.localidade || '', uf: viaCepDados.uf || '',
+                    cep: viaCepDados.cep?.replace(/\D/g, '') || prev.cep, // Garante que o CEP do ViaCEP também seja limpo
+                    latitude: 0, longitude: 0,
+                }));
+                setMensagem('Dados do CEP carregados. Preencha o número e clique em "Obter Coordenadas" se necessário.');
+            } catch (error: any) {
+                setErro(`Falha ao buscar CEP: ${error.message}. Preencha manualmente.`);
+                setMensagem('');
+            } finally { setBuscandoCep(false); }
+        } else if (enderecoData.cep && cepLimpo.length !== 8) {
+            setErro('CEP inválido. Deve conter 8 dígitos.');
+            cepRef.current?.focus();
+            setMensagem('');
+        }
+    };
+
+    const handleGerarCoordenadasClick = async () => {
+        const numeroStr = String(enderecoData.numero || '').trim().replace(/\D/g, '');
+        if (!enderecoData.logradouro && !enderecoData.localidade && !enderecoData.uf) {
+            setErro("Preencha pelo menos Cidade e UF, ou o endereço completo, para gerar coordenadas.");
+            logradouroRef.current?.focus();
+            setMensagem(''); return;
+        }
+        if (enderecoData.logradouro && (!numeroStr || numeroStr === "0")) {
+            setErro("Se informou logradouro, por favor, informe o Número para gerar coordenadas precisas.");
+            numeroRef.current?.focus();
+            setMensagem(''); return;
+        }
+        setBuscandoCoords(true); setErro(''); setMensagem('Gerando coordenadas...');
+        try {
+            const geoRequestData: EnderecoGeoRequestDTO = {
+                logradouro: enderecoData.logradouro || '',
+                numero: numeroStr,
+                cidade: enderecoData.localidade || '',
+                uf: enderecoData.uf || '',
+                bairro: enderecoData.bairro,
+                cep: (enderecoData.cep || '').replace(/\D/g, '')
+            };
+            const coordenadas: GeoCoordinatesDTO = await calcularCoordenadasPelaApi(geoRequestData);
+            setEnderecoData(prev => ({ ...prev, latitude: coordenadas.latitude || 0, longitude: coordenadas.longitude || 0 }));
+            if ((coordenadas.latitude || 0) === 0 || (coordenadas.longitude || 0) === 0) {
+                setErro("Não foi possível obter coordenadas. Verifique os dados e tente novamente ou preencha manualmente se souber.");
+                latitudeRef.current?.focus();
+                setMensagem('');
+            } else {
+                setMensagem(`Coordenadas: Lat ${Number(coordenadas.latitude).toFixed(7)}, Lon ${Number(coordenadas.longitude).toFixed(7)}.`);
+            }
+        } catch (error: any) {
+            setErro(`Falha ao gerar coordenadas: ${error.message}`);
+            setMensagem('');
+        } finally { setBuscandoCoords(false); }
+    };
+
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setErro(''); setMensagem('');
+
+        if (!clienteData.nome.trim()) { setErro("Nome é obrigatório."); nomeRef.current?.focus(); return; }
+        if (!clienteData.sobrenome.trim()) { setErro("Sobrenome é obrigatório."); sobrenomeRef.current?.focus(); return; }
+        if (!clienteData.dataNascimento) { setErro("Data de nascimento é obrigatória."); dataNascimentoRef.current?.focus(); return; }
+
+        const cleanedDocumento = clienteData.documento.replace(/\D/g, '');
+        if (!cleanedDocumento) { setErro("Documento é obrigatório."); documentoRef.current?.focus(); return; }
+        if (cleanedDocumento.length < 11 || cleanedDocumento.length > 14) { // CPF 11, CNPJ 14
+            setErro("Documento (CPF/CNPJ) deve ter 11 ou 14 números.");
+            documentoRef.current?.focus(); return;
+        }
+
+
+        const cleanedDdd = contatoData.ddd.replace(/\D/g, '');
+        const cleanedTelefone = contatoData.telefone.replace(/\D/g, '');
+        const cleanedCelular = contatoData.celular?.replace(/\D/g, '') || '';
+        const cleanedWhatsapp = contatoData.whatsapp?.replace(/\D/g, '') || '';
+
+        if (!cleanedDdd) { setErro("DDD do contato é obrigatório."); dddRef.current?.focus(); return; }
+        if (cleanedDdd.length < 2 || cleanedDdd.length > 3) { setErro("DDD do contato deve ter entre 2 e 3 dígitos."); dddRef.current?.focus(); return; }
+        if (!cleanedTelefone) { setErro("Telefone principal do contato é obrigatório."); telefoneRef.current?.focus(); return; }
+        if (cleanedTelefone.length < 8 || cleanedTelefone.length > 9) { setErro("Telefone principal deve ter entre 8 e 9 dígitos."); telefoneRef.current?.focus(); return; }
+        if (cleanedCelular && (cleanedCelular.length < 8 || cleanedCelular.length > 9)) { setErro("Celular deve ter entre 8 e 9 dígitos (se preenchido)."); celularRef.current?.focus(); return; }
+        if (cleanedWhatsapp && (cleanedWhatsapp.length < 8 || cleanedWhatsapp.length > 9)) { setErro("WhatsApp deve ter entre 8 e 9 dígitos (se preenchido)."); whatsappRef.current?.focus(); return; }
+        if (!contatoData.email.trim()) { setErro("Email do contato é obrigatório."); emailRef.current?.focus(); return; }
+        if (!contatoData.tipoContato.trim()) { setErro("Tipo de contato é obrigatório."); tipoContatoRef.current?.focus(); return; }
+
+        const cleanedCep = (enderecoData.cep || '').replace(/\D/g, '');
+        const cleanedNumeroStr = String(enderecoData.numero || "0").replace(/\D/g, '');
+        const cleanedNumero = parseInt(cleanedNumeroStr, 10) || 0;
+
+        if (!cleanedCep) { setErro("CEP do endereço é obrigatório."); cepRef.current?.focus(); return; }
+        if (cleanedCep.length !== 8) { setErro("CEP do endereço deve ter 8 dígitos."); cepRef.current?.focus(); return; }
+        if (cleanedNumero === 0) { setErro("Número do endereço é obrigatório."); numeroRef.current?.focus(); return; }
+        if (!enderecoData.logradouro?.trim()) { setErro("Logradouro do endereço é obrigatório."); logradouroRef.current?.focus(); return; }
+        if (!enderecoData.bairro?.trim()) { setErro("Bairro do endereço é obrigatório."); bairroRef.current?.focus(); return; }
+        if (!enderecoData.localidade?.trim()) { setErro("Localidade (cidade) do endereço é obrigatória."); localidadeRef.current?.focus(); return; }
+        if (!enderecoData.uf?.trim() || enderecoData.uf.trim().length !== 2) { setErro("UF do endereço é obrigatória e deve ter 2 caracteres."); ufRef.current?.focus(); return; }
+
+        const finalLatitude = Number(enderecoData.latitude) || 0;
+        const finalLongitude = Number(enderecoData.longitude) || 0;
+        if (finalLatitude === 0 || finalLongitude === 0) {
+            setErro("Latitude e Longitude são obrigatórias. Use 'Obter Coordenadas' ou preencha manualmente.");
+            latitudeRef.current?.focus(); return;
+        }
+
+        setLoadingSubmit(true);
+        let contatoId: number | undefined; let enderecoId: number | undefined;
+
+        const finalClienteData = {...clienteData, documento: cleanedDocumento };
+
+        const finalContatoData: ContatoRequestDTO = {
+            ...contatoData,
+            ddd: cleanedDdd,
+            telefone: cleanedTelefone,
+            celular: cleanedCelular || undefined,
+            whatsapp: cleanedWhatsapp || undefined
+        };
+
+        try {
+            setMensagem('Salvando contato...');
+            const contatoSalvo = await criarContatoSozinho(finalContatoData);
+            contatoId = contatoSalvo.idContato;
+            setMensagem('Contato salvo.');
+
+            setMensagem(prev => prev + ' Processando endereço...');
+            const enderecoPayload: EnderecoRequestDTO = {
+                cep: cleanedCep,
+                numero: cleanedNumero,
+                logradouro: enderecoData.logradouro || '',
+                bairro: enderecoData.bairro || '',
+                localidade: enderecoData.localidade || '',
+                uf: enderecoData.uf || '',
+                complemento: enderecoData.complemento || '',
+                latitude: finalLatitude,
+                longitude: finalLongitude,
+            };
+            setMensagem(prev => prev + ' Salvando endereço...');
+            const enderecoSalvo = await criarEnderecoSozinho(enderecoPayload);
+            enderecoId = enderecoSalvo.idEndereco;
+            setMensagem(prev => prev.replace('Salvando endereço...', 'Endereço salvo.'));
+
+            setMensagem(prev => prev + ' Criando cliente...');
+            const clientePayload: ClienteRequestDTO = {
+                ...finalClienteData, // Usar dados limpos do cliente
+                contatosIds: contatoId ? [contatoId] : [],
+                enderecosIds: enderecoId ? [enderecoId] : [],
+            };
+            const clienteCriado = await criarCliente(clientePayload);
+            setMensagem(`Cliente "${clienteCriado.nome} ${clienteCriado.sobrenome}" (ID: ${clienteCriado.idCliente}) salvo! Redirecionando...`);
+            setClienteData({ nome: '', sobrenome: '', dataNascimento: '', documento: '' });
+            setContatoData({ ddd: '', telefone: '', celular: '', whatsapp: '', email: '', tipoContato: 'Principal' });
+            setEnderecoData({ cep: '', numero: '', logradouro: '', bairro: '', localidade: '', uf: '', complemento: '', latitude: 0, longitude: 0 });
+            setTimeout(() => router.push(`/clientes/${clienteCriado.idCliente}`), 3000);
+        } catch (error: any) {
+            // O erro da API já vem com detalhes, então usamos ele.
+            // A mensagem "Erro desconhecido" no handleResponse pode ser melhorada lá se errorData.messages não existir.
+            const apiErrorMessage = error.message || "Ocorreu uma falha desconhecida.";
+            setErro(apiErrorMessage.startsWith("Falha no cadastro:") ? apiErrorMessage : `Falha no cadastro: ${apiErrorMessage}`);
+            setMensagem('');
+        } finally { setLoadingSubmit(false); }
+    };
+
+    return (
+        <div className="container">
+            <h1 className="page-title">Cadastrar Novo Cliente</h1>
+            <form onSubmit={handleSubmit} className="form-container" autoComplete="off">
+
+                <fieldset className="form-section">
+                    <legend className="section-title">📄 Dados Pessoais</legend>
+                    <div className="form-row">
+                        <div className="form-group flex-item">
+                            <label htmlFor="nome">👤 Nome:</label>
+                            <input id="nome" ref={nomeRef} type="text" name="nome" value={clienteData.nome} onChange={handleClienteChange} autoComplete="given-name" />
+                        </div>
+                        <div className="form-group flex-item">
+                            <label htmlFor="sobrenome">👤 Sobrenome:</label>
+                            <input id="sobrenome" ref={sobrenomeRef} type="text" name="sobrenome" value={clienteData.sobrenome} onChange={handleClienteChange} autoComplete="family-name" />
+                        </div>
+                    </div>
+                    <div className="form-row">
+                        <div className="form-group flex-item">
+                            <label htmlFor="dataNascimento">🎂 Data de Nascimento:</label>
+                            <input id="dataNascimento" ref={dataNascimentoRef} type="date" name="dataNascimento" value={clienteData.dataNascimento} onChange={handleClienteChange} autoComplete="bday" />
+                        </div>
+                        <div className="form-group flex-item">
+                            <label htmlFor="documento">🪪 Documento (CPF/CNPJ):</label>
+                            <input id="documento" ref={documentoRef} type="text" name="documento" value={clienteData.documento} onChange={handleClienteChange} maxLength={14} autoComplete="off" placeholder="Só números" />
+                        </div>
+                    </div>
+                </fieldset>
+
+                <hr className="section-divider" />
+
+                <fieldset className="form-section">
+                    <legend className="section-title">📞 Contato Principal</legend>
+                    <div className="form-row">
+                        <div className="form-group basis-ddd">
+                            <label htmlFor="ddd">DDD:</label>
+                            <input id="ddd" ref={dddRef} type="text" name="ddd" value={contatoData.ddd} onChange={handleContatoChange} maxLength={3} autoComplete="tel-area-code" placeholder="Ex: 11" />
+                        </div>
+                        <div className="form-group flex-item">
+                            <label htmlFor="telefone">Telefone:</label>
+                            <input id="telefone" ref={telefoneRef} type="text" name="telefone" value={contatoData.telefone} onChange={handleContatoChange} maxLength={9} autoComplete="tel-local" placeholder="Ex: 987654321" />
+                        </div>
+                    </div>
+                    <div className="form-row">
+                        <div className="form-group flex-item">
+                            <label htmlFor="celular">📱 Celular (Opcional):</label>
+                            <input id="celular" ref={celularRef} type="text" name="celular" value={contatoData.celular || ''} onChange={handleContatoChange} maxLength={9} autoComplete="tel" placeholder="Ex: 987654321" />
+                        </div>
+                        <div className="form-group flex-item">
+                            <label htmlFor="whatsapp">🟢 WhatsApp (Opcional):</label>
+                            <input id="whatsapp" ref={whatsappRef} type="text" name="whatsapp" value={contatoData.whatsapp || ''} onChange={handleContatoChange} maxLength={9} autoComplete="tel" placeholder="Ex: 987654321"/>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="email">📧 Email:</label>
+                        <input id="email" ref={emailRef} type="email" name="email" value={contatoData.email} onChange={handleContatoChange} autoComplete="email" />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="tipoContato">🏷️ Tipo Contato:</label>
+                        <input id="tipoContato" ref={tipoContatoRef} type="text" name="tipoContato" value={contatoData.tipoContato} onChange={handleContatoChange} />
+                    </div>
+                </fieldset>
+
+                <hr className="section-divider" />
+
+                <fieldset className="form-section">
+                    <legend className="section-title">🏠 Endereço Principal</legend>
+                    <div className="form-row">
+                        <div className="form-group basis-cep">
+                            <label htmlFor="cep">📍 CEP:</label>
+                            <input id="cep" ref={cepRef} type="text" name="cep" value={enderecoData.cep || ''} onChange={handleEnderecoChange} onBlur={handleCepBlur} maxLength={8} placeholder="00000000" autoComplete="postal-code" />
+                        </div>
+                        <div className="form-group basis-numero">
+                            <label htmlFor="numero">Nº:</label>
+                            <input id="numero" ref={numeroRef} type="text" name="numero" value={String(enderecoData.numero || '')} onChange={handleEnderecoChange} placeholder="Ex: 123" autoComplete="address-line2" maxLength={5}/>
+                        </div>
+                        <div className="form-group flex-item">
+                            <label htmlFor="complemento">Compl.:</label>
+                            <input id="complemento" type="text" name="complemento" value={enderecoData.complemento || ''} onChange={handleEnderecoChange} autoComplete="address-line3"/>
+                        </div>
+                    </div>
+                    {buscandoCep && <p className="message info" style={{textAlign: 'center'}}>Buscando CEP...</p>}
+
+                    <div className="form-group">
+                        <label htmlFor="logradouro">Logradouro:</label>
+                        <input id="logradouro" ref={logradouroRef} type="text" name="logradouro" value={enderecoData.logradouro || ''} onChange={handleEnderecoChange} autoComplete="address-line1" />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="bairro">Bairro:</label>
+                        <input id="bairro" ref={bairroRef} type="text" name="bairro" value={enderecoData.bairro || ''} onChange={handleEnderecoChange} autoComplete="address-level3"/>
+                    </div>
+                    <div className="form-row">
+                        <div className="form-group grow-3">
+                            <label htmlFor="localidade">🏙️ Localidade (Cidade):</label>
+                            <input id="localidade" ref={localidadeRef} type="text" name="localidade" value={enderecoData.localidade || ''} onChange={handleEnderecoChange} autoComplete="address-level2" />
+                        </div>
+                        <div className="form-group basis-uf">
+                            <label htmlFor="uf">UF:</label>
+                            <input id="uf" ref={ufRef} type="text" name="uf" value={enderecoData.uf || ''} onChange={handleEnderecoChange} maxLength={2} autoComplete="address-level1" />
+                        </div>
+                    </div>
+                </fieldset>
+
+                <hr className="section-divider"/>
+
+                <fieldset className="form-section coordinate-section" style={{ textAlign: 'center' }}>
+                    <legend className="section-title" style={{ marginBottom: '1rem' }}>🌐 Coordenadas Geográficas</legend>
+                    <p style={{ marginBottom: '1rem', fontSize: '0.9em' }}>
+                        Após preencher o endereço (CEP, Logradouro, Número, Cidade, UF), clique abaixo para obter as coordenadas.
+                        <br />Ou preencha/ajuste manualmente os campos de Latitude e Longitude.
+                    </p>
+                    <div style={{ marginBottom: '1.5rem' }}>
+                        <button
+                            type="button"
+                            onClick={handleGerarCoordenadasClick}
+                            disabled={buscandoCoords || !enderecoData.logradouro || !enderecoData.numero || !enderecoData.localidade || !enderecoData.uf}
+                            className="button-secondary"
+                            style={{ padding: '10px 20px' }}
+                        >
+                            {buscandoCoords ? 'Gerando...' : 'Obter/Atualizar Coordenadas'}
+                        </button>
+                        {buscandoCoords && <p className="message info" style={{ marginTop: '0.5rem' }}>Consultando serviço de geocodificação...</p>}
+                    </div>
+
+                    <div className="form-row">
+                        <div className="form-group flex-item">
+                            <label htmlFor="latitude" style={{ display: 'block', marginBottom: '0.3rem', fontWeight: '500' }}>Latitude:</label>
+                            <input id="latitude" ref={latitudeRef} type="number" step="any" name="latitude" value={String(enderecoData.latitude || '')} onChange={handleEnderecoChange} placeholder="Ex: -23.550520" style={{ textAlign: 'center' }}/>
+                        </div>
+                        <div className="form-group flex-item">
+                            <label htmlFor="longitude" style={{ display: 'block', marginBottom: '0.3rem', fontWeight: '500' }}>Longitude:</label>
+                            <input id="longitude" ref={longitudeRef} type="number" step="any" name="longitude" value={String(enderecoData.longitude || '')} onChange={handleEnderecoChange} placeholder="Ex: -46.633308" style={{ textAlign: 'center' }}/>
+                        </div>
+                    </div>
+
+                    {(Number(enderecoData.latitude) !== 0 || Number(enderecoData.longitude) !== 0) && !buscandoCoords && (
+                        <div className="coordinates-display" style={{ marginTop: '1rem', padding: '10px', backgroundColor: '#e9f5e9', borderRadius: '4px', border: '1px solid #c8e6c9' }}>
+                            <p style={{ margin: 0, fontWeight: 'bold', color: '#1b5e20' }}>
+                                Coordenadas Atuais:
+                                Lat: <span style={{ fontFamily: 'monospace' }}>{Number(enderecoData.latitude).toFixed(7)}</span>,
+                                Lon: <span style={{ fontFamily: 'monospace' }}>{Number(enderecoData.longitude).toFixed(7)}</span>
+                            </p>
+                        </div>
+                    )}
+                    {!(Number(enderecoData.latitude) !== 0 || Number(enderecoData.longitude) !== 0) && (enderecoData.logradouro && String(enderecoData.numero||'').trim() && enderecoData.localidade && enderecoData.uf) && !buscandoCoords &&
+                        <p className="message info" style={{marginTop: '1rem'}}>Clique em "Obter/Atualizar Coordenadas" ou preencha manualmente.</p>
+                    }
+                </fieldset>
+
+                <hr className="section-divider"/>
+
+                <button
+                    type="submit"
+                    disabled={buscandoCep || buscandoCoords || loadingSubmit}
+                    className="button-primary"
+                    style={{marginTop: '20px', width: '100%', padding: '12px', fontSize: '1.1em'}}
+                >
+                    {loadingSubmit ? 'Salvando Cliente...' : (buscandoCep || buscandoCoords ? 'Aguarde...' : 'Salvar Cliente Completo')}
+                </button>
+            </form>
+
+            {(mensagem && !erro) && <p className="message success" style={{marginTop: '20px', textAlign: 'center'}}>{mensagem}</p>}
+            {erro && <p className="message error" style={{marginTop: '20px', textAlign: 'center'}}>{erro}</p>}
+
+            <div style={{marginTop: '30px', marginBottom: '40px', textAlign: 'center'}}>
+                <Link href="/clientes/listar">Voltar para Lista de Clientes</Link>
+            </div>
+        </div>
+    );
+}
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// app\clientes\deletar\[id]\page.tsx | arquivo page.tsx
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+// src/app/clientes/deletar/[id]/page.tsx
+'use client';
+import { useEffect, useState, useRef } from 'react'; // Adicionado useRef
+import { useParams, useRouter } from 'next/navigation';
+import { buscarClientePorId, deletarCliente } from '@/lib/apiService';
+import type { ClienteResponseDTO } from '@/lib/types';
+import Link from 'next/link';
+
+export default function DeletarClienteConfirmPage() {
+    const params = useParams();
+    const router = useRouter();
+    const idPath = Array.isArray(params.id) ? params.id[0] : params.id;
+
+    const [cliente, setCliente] = useState<ClienteResponseDTO | null>(null);
+    const [erro, setErro] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [deleting, setDeleting] = useState<boolean>(false);
+
+    // Ref para o botão de confirmação, caso queira focar nele
+    const confirmButtonRef = useRef<HTMLButtonElement>(null);
+
+    useEffect(() => {
+        if (idPath) {
+            const clienteId = Number(idPath);
+            if (isNaN(clienteId)) {
+                setErro("ID do cliente inválido na URL.");
+                setLoading(false);
+                return;
+            }
+            setLoading(true);
+            buscarClientePorId(clienteId)
+                .then(data => {
+                    setCliente(data);
+                    setErro(null);
+                    // Focar no botão de confirmação após carregar os dados
+                    setTimeout(() => confirmButtonRef.current?.focus(), 0);
+                })
+                .catch(error => {
+                    console.error("Erro ao buscar cliente para deleção:", error);
+                    setErro(`Falha ao carregar cliente para deleção: ${error.message || 'Cliente não encontrado.'}`);
+                    setCliente(null);
+                })
+                .finally(() => setLoading(false));
+        } else {
+            setErro("ID do cliente não fornecido para deleção.");
+            setLoading(false);
+        }
+    }, [idPath]);
+
+    const handleConfirmarDelecao = async () => {
+        if (cliente) {
+            setDeleting(true);
+            setErro(null);
+            try {
+                await deletarCliente(cliente.idCliente);
+                // Idealmente, usar um sistema de notificação/toast em vez de alert
+                alert('Cliente deletado com sucesso!');
+                router.push('/clientes/listar');
+            } catch (error: any) {
+                console.error("Erro ao confirmar deleção:", error);
+                const apiErrorMessage = error.message || "Erro desconhecido ao tentar deletar.";
+                setErro(`Falha ao deletar cliente: ${apiErrorMessage}`);
+                setDeleting(false);
+            }
+        }
+    };
+
+    if (loading) return <div className="container" style={{textAlign: 'center', paddingTop: '50px'}}><p>Carregando dados do cliente...</p></div>;
+
+    // Se houver erro e o cliente não foi carregado, mostrar erro e link para lista
+    if (erro && !cliente) return (
+        <div className="container" style={{textAlign: 'center', paddingTop: '30px'}}>
+            <p className="message error" style={{marginBottom: '20px'}}>{erro}</p>
+            <Link href="/clientes/listar" className="button button-secondary">
+                <span className="material-icons-outlined">arrow_back</span>
+                Voltar para Lista
+            </Link>
+        </div>
+    );
+
+    // Se o cliente não for encontrado (mesmo sem erro de fetch, por exemplo, ID não existe)
+    if (!cliente) return (
+        <div className="container" style={{textAlign: 'center', paddingTop: '30px'}}>
+            <p>Cliente não encontrado.</p>
+            <Link href="/clientes/listar" className="button button-secondary">
+                <span className="material-icons-outlined">arrow_back</span>
+                Voltar para Lista
+            </Link>
+        </div>
+    );
+
+    return (
+        <div className="container">
+            <h1 className="page-title" style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px'}}>
+                <span className="material-icons-outlined" style={{color: '#dc3545', fontSize: '2em'}}>warning_amber</span>
+                Confirmar Deleção
+            </h1>
+            <div style={{ backgroundColor: 'white', padding: '25px 30px', borderRadius: '8px', textAlign: 'center', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
+                <p style={{fontSize: '1.1em', marginBottom: '10px'}}>Você tem certeza que deseja deletar o cliente:</p>
+                <p style={{fontSize: '1.2em', fontWeight: '500', color: '#333'}}>{cliente.nome} {cliente.sobrenome}</p>
+                <p style={{color: '#555', marginBottom: '20px'}}>(ID: {cliente.idCliente} | Documento: {cliente.documento})</p>
+
+                <p style={{color: '#dc3545', fontWeight: 'bold', margin: '25px 0', fontSize: '1.1em', border: '1px solid #f5c6cb', padding: '10px', borderRadius: '4px', backgroundColor: '#f8d7da'}}>
+                    <span className="material-icons-outlined" style={{fontSize: '1.2em', verticalAlign:'bottom'}}>info</span> Esta ação não pode ser desfeita.
+                </p>
+
+                {erro && <p className="message error" style={{textAlign: 'center', marginBottom: '20px'}}>{erro}</p>}
+
+                <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', gap: '15px' }}>
+                    <button
+                        ref={confirmButtonRef}
+                        onClick={handleConfirmarDelecao}
+                        className="button button-danger"
+                        disabled={deleting}
+                        style={{padding: '10px 20px', fontSize: '1em'}}
+                    >
+                        <span className="material-icons-outlined">delete_forever</span>
+                        {deleting ? 'Deletando...' : 'Sim, Deletar Cliente'}
+                    </button>
+                    <Link
+                        href={`/clientes/${cliente.idCliente}`}
+                        className="button button-secondary"
+                        style={{padding: '10px 20px', fontSize: '1em'}}
+                        aria-disabled={deleting} // Para acessibilidade
+                        onClick={(e) => { if(deleting) e.preventDefault(); }} // Prevenir navegação se estiver deletando
+                    >
+                        <span className="material-icons-outlined">cancel</span>
+                        Cancelar
+                    </Link>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// app\clientes\layout.tsx | arquivo layout.tsx
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+// src/app/clientes/layout.tsx
+'use client'; // ESSENCIAL: Marca como Client Component
+
+import Link from 'next/link';
+import React from 'react';
+
+export default function ClientesLayout({
+                                           children,
+                                       }: {
+    children: React.ReactNode;
+}) {
+    const subNavStyle: React.CSSProperties = {
+        backgroundColor: '#f8f9fa',
+        padding: '12px 20px',
+        marginBottom: '25px',
+        borderRadius: '8px',
+        display: 'flex',
+        gap: '20px',
+        flexWrap: 'wrap',
+        border: '1px solid #e0e0e0',
+        boxShadow: '0 2px 5px rgba(0,0,0,0.05)',
+    };
+
+    const subNavLinkStyle: React.CSSProperties = {
+        textDecoration: 'none',
+        color: '#0056b3',
+        fontWeight: '500',
+        padding: '8px 12px',
+        borderRadius: '5px',
+        transition: 'background-color 0.2s ease, color 0.2s ease',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '6px',
+    };
+
+    // Para os estilos de hover, é melhor usar classes CSS e :hover em globals.css
+    // ou criar um pequeno componente LinkEstilizado se quiser manter a lógica JS.
+    // Por simplicidade, manterei os handlers JS aqui, já que o componente é 'use client'.
+    const handleLinkMouseOver = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.currentTarget.style.backgroundColor = '#e9ecef';
+        e.currentTarget.style.color = '#003f80';
+    };
+    const handleLinkMouseOut = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.currentTarget.style.backgroundColor = 'transparent';
+        e.currentTarget.style.color = '#0056b3';
+    };
+
+    return (
+        <section>
+            <nav style={subNavStyle}>
+                <Link href="/clientes/listar" style={subNavLinkStyle}
+                      onMouseOver={handleLinkMouseOver}
+                      onMouseOut={handleLinkMouseOut}>
+                    <span className="material-icons-outlined">list_alt</span>Listar Clientes
+                </Link>
+                <Link href="/clientes/cadastrar" style={subNavLinkStyle}
+                      onMouseOver={handleLinkMouseOver}
+                      onMouseOut={handleLinkMouseOut}>
+                    <span className="material-icons-outlined">person_add</span>Cadastrar Cliente
+                </Link>
+                <Link href="/clientes/buscar" style={subNavLinkStyle}
+                      onMouseOver={handleLinkMouseOver}
+                      onMouseOut={handleLinkMouseOut}>
+                    <span className="material-icons-outlined">search</span>Buscar Cliente
+                </Link>
+            </nav>
+            <div className="container">
+                {children}
+            </div>
+        </section>
+    );
+}
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// app\clientes\listar\page.tsx | arquivo page.tsx
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+// src/app/clientes/listar/page.tsx
+'use client';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { listarClientes, deletarCliente } from '@/lib/apiService'; // deletarCliente agora será usado
+import type { ClienteResponseDTO, Page } from '@/lib/types';
+
+export default function ListarClientesPage() {
+    const [clientesPage, setClientesPage] = useState<Page<ClienteResponseDTO> | null>(null);
+    const [erro, setErro] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [currentPage, setCurrentPage] = useState<number>(0);
+
+    // Estados para o modal de confirmação de deleção
+    const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+    const [clienteParaDeletar, setClienteParaDeletar] = useState<ClienteResponseDTO | null>(null);
+    const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
+
+    const fetchClientes = async (page: number) => {
+        setLoading(true);
+        setErro(null);
+        try {
+            const data = await listarClientes(page, 5);
+            setClientesPage(data);
+        } catch (error: any) {
+            console.error("Erro ao buscar clientes:", error);
+            setErro(`Falha ao carregar clientes: ${error.message || 'Erro desconhecido'}`);
+            setClientesPage(null);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchClientes(currentPage);
+    }, [currentPage]);
+
+    const iniciarDelecao = (cliente: ClienteResponseDTO) => {
+        setClienteParaDeletar(cliente);
+        setShowDeleteModal(true);
+    };
+
+    const confirmarDelecao = async () => {
+        if (clienteParaDeletar) {
+            setLoadingDelete(true);
+            setErro(null); // Limpar erro anterior
+            try {
+                await deletarCliente(clienteParaDeletar.idCliente);
+                // alert('Cliente deletado com sucesso!'); // Removido, mensagem no modal ou via toast seria melhor
+                setShowDeleteModal(false);
+                setClienteParaDeletar(null);
+                // Re-fetch ou atualiza a lista local
+                if (clientesPage && clientesPage.content.length === 1 && currentPage > 0) {
+                    setCurrentPage(currentPage - 1); // Vai para página anterior se era o último item
+                } else {
+                    fetchClientes(currentPage); // Recarrega a página atual
+                }
+            } catch (error: any) {
+                console.error("Erro ao deletar cliente:", error);
+                setErro(`Falha ao deletar cliente: ${error.message || 'Erro desconhecido'}`);
+                // Mantém o modal aberto para exibir o erro, ou fecha e mostra na página
+                // setShowDeleteModal(false); // Opcional: fechar modal mesmo com erro
+            } finally {
+                setLoadingDelete(false);
+            }
+        }
+    };
+
+    if (loading && !clientesPage) return <div className="container"><p>Carregando clientes...</p></div>;
+    // Mantém erro visível mesmo se houver dados antigos, se o fetchClientes falhar
+    // if (erro && (!clientesPage || clientesPage.content.length === 0)) return <div className="container"><p className="message error">{erro}</p></div>;
+
+    return (
+        <div className="container">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
+                <h1 className="page-title" style={{ margin: 0 }}>Lista de Clientes</h1>
+                <Link href="/clientes/cadastrar" className="button button-success">
+                    <span className="material-icons-outlined">add_circle_outline</span>
+                    Cadastrar Novo
+                </Link>
+            </div>
+
+            {erro && <p className="message error" style={{marginBottom: '15px'}}>{erro}</p>}
+
+            {(!clientesPage || clientesPage.content.length === 0) && !loading && !erro && (
+                <div style={{ textAlign: 'center', padding: '30px', border: '1px dashed #ccc', borderRadius: '8px' }}>
+                    <p>Nenhum cliente encontrado.</p>
+                </div>
+            )}
+
+            {clientesPage && clientesPage.content.length > 0 && (
+                <ul style={{ listStyle: 'none', padding: 0 }}>
+                    {clientesPage.content.map(cliente => {
+                        const contatoPrincipal = cliente.contatos && cliente.contatos.length > 0 ? cliente.contatos[0] : null;
+                        const enderecoPrincipal = cliente.enderecos && cliente.enderecos.length > 0 ? cliente.enderecos[0] : null;
+
+                        return (
+                            <li key={cliente.idCliente} className="client-list-item">
+                                <div className="client-info-section">
+                                    <strong>{cliente.nome} {cliente.sobrenome} <span style={{fontSize: '0.8em', color: '#777'}}>(ID: {cliente.idCliente})</span></strong>
+                                    <p><span className="label">Documento:</span> {cliente.documento}</p>
+                                    {contatoPrincipal && (
+                                        <>
+                                            <p><span className="label"><span className="material-icons-outlined" style={{fontSize: '1em'}}>email</span> Email:</span> {contatoPrincipal.email}</p>
+                                            {contatoPrincipal.whatsapp && <p><span className="label"><span className="material-icons-outlined" style={{fontSize: '1em', color: 'green'}}>chat_bubble_outline</span> WhatsApp:</span> ({contatoPrincipal.ddd}) {contatoPrincipal.whatsapp}</p>}
+                                        </>
+                                    )}
+                                    {enderecoPrincipal && (
+                                        <>
+                                            <p style={{marginTop: '5px'}}>
+                                                <span className="label"><span className="material-icons-outlined" style={{fontSize: '1em'}}>home</span> Endereço:</span> {enderecoPrincipal.logradouro}, {enderecoPrincipal.numero}
+                                                {enderecoPrincipal.complemento && ` - ${enderecoPrincipal.complemento}`}
+                                                <br />
+                                                {enderecoPrincipal.bairro} - {enderecoPrincipal.localidade}/{enderecoPrincipal.uf} (CEP: {enderecoPrincipal.cep})
+                                            </p>
+                                            <p>
+                                                <span className="label"><span className="material-icons-outlined" style={{fontSize: '1em'}}>public</span> Coordenadas:</span> Lat: {enderecoPrincipal.latitude?.toFixed(5)}, Lon: {enderecoPrincipal.longitude?.toFixed(5)}
+                                            </p>
+                                        </>
+                                    )}
+                                    {!contatoPrincipal && !enderecoPrincipal && <p><i>(Sem informações de contato ou endereço principal)</i></p>}
+                                </div>
+                                <div className="client-actions">
+                                    <Link href={`/clientes/${cliente.idCliente}`} className="button button-secondary">
+                                        <span className="material-icons-outlined">visibility</span> Ver
+                                    </Link>
+                                    <Link href={`/clientes/alterar/${cliente.idCliente}`} className="button button-edit">
+                                        <span className="material-icons-outlined">edit</span> Editar
+                                    </Link>
+                                    <button onClick={() => iniciarDelecao(cliente)} className="button button-danger">
+                                        <span className="material-icons-outlined">delete_outline</span> Deletar
+                                    </button>
+                                </div>
+                            </li>
+                        );
+                    })}
+                </ul>
+            )}
+
+            {clientesPage && clientesPage.totalPages > 0 && ( // Mostrar paginação mesmo se só houver uma página
+                <div className="pagination-controls">
+                    <button
+                        onClick={() => setCurrentPage(p => Math.max(0, p - 1))}
+                        disabled={clientesPage.first || loading}
+                        className="button button-secondary"
+                    >
+                        <span className="material-icons-outlined">navigate_before</span>
+                        Anterior
+                    </button>
+                    <span>Página {clientesPage.number + 1} de {clientesPage.totalPages}</span>
+                    <button
+                        onClick={() => setCurrentPage(p => Math.min(clientesPage.totalPages - 1, p + 1))}
+                        disabled={clientesPage.last || loading}
+                        className="button button-secondary"
+                    >
+                        Próxima
+                        <span className="material-icons-outlined">navigate_next</span>
+                    </button>
+                </div>
+            )}
+
+            {/* Modal de Confirmação de Deleção */}
+            {showDeleteModal && clienteParaDeletar && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h2><span className="material-icons-outlined" style={{color: '#dc3545', fontSize:'1.5em'}}>warning_amber</span> Confirmar Deleção</h2>
+                        <p>Tem certeza que deseja deletar o cliente <strong>"{clienteParaDeletar.nome} {clienteParaDeletar.sobrenome}"</strong> (ID: {clienteParaDeletar.idCliente})?</p>
+                        <p style={{color: '#dc3545', fontWeight:'bold'}}>Esta ação não pode ser desfeita.</p>
+
+                        {/* Exibir erro de deleção dentro do modal */}
+                        {erro && loadingDelete === false && <p className="message error" style={{textAlign:'left'}}>{erro}</p>}
+
+                        <div className="modal-actions">
+                            <button onClick={confirmarDelecao} className="button button-danger" disabled={loadingDelete}>
+                                {loadingDelete ? 'Deletando...' : 'Sim, Deletar'}
+                            </button>
+                            <button onClick={() => { setShowDeleteModal(false); setErro(null); /* Limpar erro ao cancelar */ }} className="button button-secondary" disabled={loadingDelete}>
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// app\contato\layout.tsx | arquivo layout.tsx
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+'use client';
+
+import React from 'react';
+import 'leaflet/dist/leaflet.css'; // ESSENCIAL para o Leaflet funcionar corretamente
+
+export default function ContatoLayout({
+                                          children,
+                                      }: {
+    children: React.ReactNode;
+}) {
+    // Este layout envolve o conteúdo da página de contato.
+    // Pode ser usado para adicionar estilos específicos ou wrappers apenas para a seção de contato.
+    return (
+        // A classe contact-page-bg foi definida no globals.css para um fundo diferenciado
+        <section className="contact-page-bg py-8 md:py-12"> {/* Adiciona padding vertical */}
+            {children}
+        </section>
+    );
+}
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// app\contato\page.tsx | arquivo page.tsx
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+// src/app/contato/page.tsx
+"use client";
+
+import React, { FormEvent, useState } from "react";
+import dynamic from "next/dynamic";
+import { FaGithub, FaWhatsapp } from "react-icons/fa";
+import {
+    User,
+    Mail,
+    MapPin,
+    Briefcase,
+    Phone,
+    MessageSquare,
+    Send,
+    ExternalLink,
+} from "lucide-react";
+
+const LeafletMap = dynamic(() => import('@/components/LeafletMap'), {
+    ssr: false,
+    loading: () => <div className="leaflet-container flex items-center justify-center bg-gray-200"><p>Carregando mapa...</p></div>
+});
+
+interface TeamMember {
+    name: string;
+    rm: string;
+    email: string;
+    githubUser: string;
+    githubLink: string;
+    turma: string;
+    phone: string;
+}
+
+const teamMembers: TeamMember[] = [
+    {
+        name: "Paulo André Carminati",
+        rm: "557881",
+        email: "rm557881@fiap.com.br",
+        githubUser: "carmipa",
+        githubLink: "https://github.com/carmipa",
+        turma: "2-TDSPZ",
+        phone: "(11) 97669-2633",
+    },
+    {
+        name: "Arthur Bispo de Lima",
+        rm: "557568",
+        email: "rm557568@fiap.com.br",
+        githubUser: "ArthurBispo00",
+        githubLink: "https://github.com/ArthurBispo00",
+        turma: "2-TDSPV",
+        phone: "(11) 99145-6219",
+    },
+    {
+        name: "João Paulo Moreira",
+        rm: "557808",
+        email: "rm557808@fiap.com.br",
+        githubUser: "joao1015",
+        githubLink: "https://github.com/joao1015",
+        turma: "2-TDSPV",
+        phone: "(11) 98391-1385",
+    },
+];
+
+const ContactsPage: React.FC = () => {
+    const fiapPaulista: [number, number] = [-23.56177, -46.65878];
+    const [formMessage, setFormMessage] = useState<string>('');
+    const [formError, setFormError] = useState<string>('');
+
+    const handleContactSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setFormError('');
+        setFormMessage('');
+        console.log("Formulário enviado (simulação)");
+        setFormMessage("Mensagem enviada com sucesso! (Simulação)");
+        (e.target as HTMLFormElement).reset();
+    };
+
+    return (
+        <div className="container mx-auto px-4">
+            <h1 className="page-title justify-center text-3xl md:text-4xl mb-10 md:mb-12">
+                <MessageSquare className="w-8 h-8 md:w-10 md:h-10" /> Conheça a Equipe MetaMind 🧠
+            </h1>
+
+            {/* Seção dos Membros da Equipe - AQUI ESTÁ O GRID */}
+            <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16">
+                {teamMembers.map((member) => (
+                    <div key={member.rm} className="team-member-card"> {/* Classe para estilização no globals.css */}
+                        <div className="card-content">
+                            <h3 className="member-name">
+                                <User /> {member.name}
+                            </h3>
+                            <p className="member-info">
+                                <Briefcase /> RM: {member.rm}
+                            </p>
+                            <p className="member-info">
+                                <Mail />
+                                <a href={`mailto:${member.email}`} title={`Enviar email para ${member.name}`}>
+                                    {member.email}
+                                </a>
+                            </p>
+                            <div className="member-info github-badge-container">
+                                <FaGithub /> GitHub:
+                                <a href={member.githubLink} target="_blank" rel="noopener noreferrer" className="ml-1" title={`Perfil de ${member.name} no GitHub`}>
+                                    <img src={`https://img.shields.io/badge/GitHub-${member.githubUser}-brightgreen?style=flat-square&logo=github`} alt={`GitHub ${member.githubUser} Shield`} />
+                                </a>
+                            </div>
+                            <p className="member-info">
+                                <Phone />
+                                <a
+                                    href={`https://wa.me/55${member.phone.replace(/\D/g, '')}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    title={`Contatar ${member.name} via WhatsApp`}
+                                    className="flex items-center"
+                                >
+                                    {member.phone} <FaWhatsapp className="ml-1 text-green-500" />
+                                </a>
+                            </p>
+                            <p className="member-info mb-0">
+                                <Briefcase /> Turma: {member.turma}
+                            </p>
+                        </div>
+                    </div>
+                ))}
+            </section>
+
+            {/* Seção do Formulário de Contato */}
+            <section className="contact-form-section">
+                <h2>
+                    <MessageSquare /> Entre em Contato Conosco
+                </h2>
+                <form onSubmit={handleContactSubmit} className="grid grid-cols-1 gap-5">
+                    <div className="form-group">
+                        <label htmlFor="name">Seu Nome:</label>
+                        <input type="text" id="name" name="name" className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Digite seu nome" required />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="email">Seu Email:</label>
+                        <input type="email" id="email" name="email" className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Digite seu email" required />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="message">Sua Mensagem:</label>
+                        <textarea id="message" name="message" rows={5} className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Escreva sua mensagem" required></textarea>
+                    </div>
+
+                    {formMessage && <p className="message success">{formMessage}</p>}
+                    {formError && <p className="message error">{formError}</p>}
+
+                    <button type="submit" className="button button-primary w-full md:w-auto justify-self-start py-3 px-6">
+                        Enviar Mensagem <Send className="ml-2" />
+                    </button>
+                </form>
+            </section>
+
+            {/* Seção do Mapa */}
+            <section className="map-section">
+                <h2>
+                    <MapPin /> Onde Estamos (FIAP Paulista)
+                </h2>
+                <div className="leaflet-container">
+                    <LeafletMap position={fiapPaulista} zoom={17} markerText="MetaMind @ FIAP Paulista" />
+                </div>
+                <p className="text-muted-text-color mt-3 flex items-center text-sm">
+                    <MapPin className="w-4 h-4 mr-1 text-red-500" />
+                    Av. Paulista, 1106 - 7º andar - Bela Vista, São Paulo - SP, 01311-000
+                </p>
+            </section>
+
+            {/* Seção de Links do Projeto */}
+            <section className="contact-links-section">
+                <p>
+                    Acompanhe nosso projeto no GitHub:
+                    <a href="https://github.com/carmipa/GS_FIAP_2025_1SM" target="_blank" rel="noopener noreferrer" className="ml-1">
+                        <FaGithub /> Visitar Repositório
+                    </a>
+                </p>
+                <p>
+                    Saiba mais sobre a Global Solution FIAP:
+                    <a href="https://www.fiap.com.br/graduacao/global-solution/" target="_blank" rel="noopener noreferrer" className="ml-1">
+                        <ExternalLink /> Página da Global Solution
+                    </a>
+                </p>
+            </section>
+        </div>
+    );
+};
+
+export default ContactsPage;
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// app\desastres\estatisticas\page.tsx | arquivo page.tsx
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+// src/app/desastres/estatisticas/page.tsx
+'use client';
+
+import React, { useEffect, useState, useMemo } from 'react'; // Adicionado useMemo
+import { Bar, Pie } from 'react-chartjs-2'; // Adicionado Pie
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+    ArcElement, // Adicionado para o gráfico de Pizza
+} from 'chart.js';
+import { getEonetCategoryStats } from '@/lib/apiService';
+import type { CategoryCountDTO } from '@/lib/types';
+
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+    ArcElement // Registra o elemento para Pizza
+);
+
+interface ChartDataset {
+    label: string;
+    data: number[];
+    backgroundColor: string | string[];
+    borderColor: string | string[];
+    borderWidth: number;
+}
+
+interface ChartDataState {
+    labels: string[];
+    datasets: ChartDataset[];
+}
+
+const periodOptions = [
+    { label: 'Últimos 30 dias', value: 30 },
+    { label: 'Últimos 90 dias', value: 90 },
+    { label: 'Último Ano (365 dias)', value: 365 },
+    { label: 'Últimos 2 Anos', value: 365 * 2 },
+    { label: 'Últimos 5 Anos', value: 365 * 5 },
+];
+
+const ثابتColors = [ // Usar um conjunto fixo de cores para consistência entre gráficos
+    'rgba(255, 99, 132, 0.7)', 'rgba(54, 162, 235, 0.7)',
+    'rgba(255, 206, 86, 0.7)', 'rgba(75, 192, 192, 0.7)',
+    'rgba(153, 102, 255, 0.7)', 'rgba(255, 159, 64, 0.7)',
+    'rgba(199, 199, 199, 0.7)', 'rgba(83, 102, 89, 0.7)',
+    'rgba(140, 160, 175, 0.7)', 'rgba(220, 130, 80, 0.7)'
+];
+
+const generateChartColors = (numColors: number): string[] => {
+    const colors: string[] = [];
+    for (let i = 0; i < numColors; i++) {
+        colors.push(ثابتColors[i % ثابتColors.length]);
+    }
+    return colors;
+};
+
+type ActiveGraphTab = 'barras' | 'pizza'; // | 'linhas' no futuro
+
+export default function EstatisticasDesastresPage() {
+    const [rawStatsData, setRawStatsData] = useState<CategoryCountDTO[]>([]); // Armazena os dados brutos
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+    const [selectedPeriodDays, setSelectedPeriodDays] = useState<number>(365);
+    const [activeGraphTab, setActiveGraphTab] = useState<ActiveGraphTab>('barras'); // Aba inicial
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            if (!selectedPeriodDays) return;
+
+            setLoading(true);
+            setError(null);
+            setRawStatsData([]); // Limpar dados brutos
+            try {
+                const data: CategoryCountDTO[] = await getEonetCategoryStats(selectedPeriodDays);
+
+                if (data && data.length > 0) {
+                    setRawStatsData(data);
+                } else {
+                    setError(`Nenhuma estatística de categoria encontrada para o período selecionado (Últimos ${selectedPeriodDays} dias). Verifique se há eventos locais sincronizados nesse período.`);
+                }
+            } catch (err: any) {
+                console.error("Erro ao buscar estatísticas:", err);
+                setError(`Falha ao carregar estatísticas: ${err.message}`);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchStats();
+    }, [selectedPeriodDays]);
+
+    // Memoizar dados formatados para os gráficos para evitar recálculos desnecessários
+    const chartData = useMemo((): ChartDataState | null => {
+        if (!rawStatsData || rawStatsData.length === 0) return null;
+
+        const labels = rawStatsData.map(item => item.categoryTitle);
+        const counts = rawStatsData.map(item => item.count);
+        const backgroundColors = generateChartColors(labels.length);
+        const borderColors = backgroundColors.map(color => color.replace('0.7', '1'));
+
+        return {
+            labels,
+            datasets: [
+                {
+                    label: `Nº de Eventos por Categoria`,
+                    data: counts,
+                    backgroundColor: backgroundColors,
+                    borderColor: borderColors,
+                    borderWidth: 1,
+                },
+            ],
+        };
+    }, [rawStatsData]);
+
+    const barChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: true, position: 'top' as const },
+            title: { display: true, text: `Eventos por Categoria (Últimos ${periodOptions.find(p=>p.value === selectedPeriodDays)?.label || selectedPeriodDays + ' dias'})`, font: { size: 16 }},
+            tooltip: { callbacks: { label: (context: any) => `${context.dataset.label || ''}: ${context.parsed.y}` }}
+        },
+        scales: { y: { beginAtZero: true, ticks: { stepSize: 1, precision: 0 }, title: { display: true, text: 'Número de Eventos' }}, x: { title: { display: true, text: 'Categorias de Eventos' }}}
+    };
+
+    const pieChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: true, position: 'top' as const },
+            title: { display: true, text: `Distribuição de Eventos por Categoria (Últimos ${periodOptions.find(p=>p.value === selectedPeriodDays)?.label || selectedPeriodDays + ' dias'})`, font: { size: 16 }},
+            tooltip: { callbacks: { label: (context: any) => `${context.label}: ${context.parsed}` }}
+        }
+    };
+
+    // Estilos para as abas, similar ao DesastresLayout
+    const tabButtonStyle = (tabKey: ActiveGraphTab): React.CSSProperties => ({
+        padding: '10px 15px',
+        cursor: 'pointer',
+        border: '1px solid #ccc',
+        borderBottom: '1px solid ' + (activeGraphTab === tabKey ? '#fff' : '#ccc'), // Conecta com o conteúdo
+        backgroundColor: activeGraphTab === tabKey ? '#fff' : '#f0f0f0',
+        fontWeight: activeGraphTab === tabKey ? '600' : 'normal',
+        marginRight: '5px',
+        borderTopLeftRadius: '5px',
+        borderTopRightRadius: '5px',
+        position: 'relative',
+        bottom: activeGraphTab === tabKey ? '-1px' : '0', // Levanta a aba ativa
+        color: activeGraphTab === tabKey ? '#0056b3' : '#333',
+    });
+
+    return (
+        <div className="container estatisticas-page" style={{ paddingBottom: '20px' }}>
+            <h1 className="page-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
+                <span className="material-icons-outlined" style={{ fontSize: '1.8em' }}>leaderboard</span>
+                Estatísticas de Desastres EONET (Locais)
+            </h1>
+
+            <div className="form-container" style={{ maxWidth: '400px', margin: '0 auto 30px auto' }}>
+                <div className="form-group">
+                    <label htmlFor="periodSelect" style={{ fontWeight: '500', display: 'block', marginBottom: '5px' }}>Selecione o Período:</label>
+                    <select
+                        id="periodSelect"
+                        value={selectedPeriodDays}
+                        onChange={(e) => setSelectedPeriodDays(Number(e.target.value))}
+                        disabled={loading}
+                        style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}
+                    >
+                        {periodOptions.map(option => (
+                            <option key={option.value} value={option.value}>
+                                {option.label}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            </div>
+
+            {/* Navegação por Abas para os Gráficos */}
+            <div style={{ marginBottom: '0px', borderBottom: '1px solid #ccc' }}>
+                <button style={tabButtonStyle('barras')} onClick={() => setActiveGraphTab('barras')}>
+                    <span className="material-icons-outlined" style={{fontSize: '1.2em', marginRight: '5px'}}>bar_chart</span>Gráfico de Barras
+                </button>
+                <button style={tabButtonStyle('pizza')} onClick={() => setActiveGraphTab('pizza')}>
+                    <span className="material-icons-outlined" style={{fontSize: '1.2em', marginRight: '5px'}}>pie_chart</span>Gráfico de Pizza
+                </button>
+                {/* Futuramente:
+                <button style={tabButtonStyle('linhas')} onClick={() => setActiveGraphTab('linhas')}>
+                    <span className="material-icons-outlined" style={{fontSize: '1.2em', marginRight: '5px'}}>show_chart</span>Gráfico de Linhas
+                </button>
+                */}
+            </div>
+
+            <div style={{ border: '1px solid #ccc', borderTop: 'none', padding: '20px', borderRadius: '0 0 6px 6px', backgroundColor: '#fff', minHeight: '450px' }}>
+                {loading && (
+                    <div className="flex items-center justify-center" style={{minHeight: '400px'}}>
+                        <p className="text-lg text-slate-600">Carregando estatísticas...</p>
+                    </div>
+                )}
+                {error && !loading && (
+                    <div className="message error" style={{textAlign: 'center', padding: '20px'}}>
+                        <p>{error}</p>
+                    </div>
+                )}
+                {!loading && !error && chartData && (
+                    <div style={{ height: '60vh', minHeight: '400px' }}>
+                        {activeGraphTab === 'barras' && <Bar options={barChartOptions as any} data={chartData} />}
+                        {activeGraphTab === 'pizza' && <Pie options={pieChartOptions as any} data={chartData} />}
+                        {/* Adicionar outros gráficos aqui condicionalmente */}
+                    </div>
+                )}
+                {!loading && !error && !chartData && (
+                    <div className="message info" style={{textAlign: 'center', padding: '20px'}}>
+                        <p>Selecione um período para visualizar as estatísticas ou aguarde o carregamento inicial.</p>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// app\desastres\layout.tsx | arquivo layout.tsx
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+// src/app/desastres/layout.tsx
+'use client';
+
+import React from 'react';
+import Link from 'next/link';
+
+// A importação de './globals.css' foi REMOVIDA daqui,
+// pois já é importado no root layout (src/app/layout.tsx) se estiver em src/app/globals.css.
+// Se você tinha um CSS específico para este layout, o caminho precisaria estar correto
+// ou os estilos poderiam ser definidos como CSS Modules ou de outra forma.
+
+export default function DesastresLayout({
+                                            children,
+                                        }: {
+    children: React.ReactNode;
+}) {
+    const subNavStyle: React.CSSProperties = {
+        backgroundColor: '#f8f9fa',
+        padding: '12px 20px',
+        marginBottom: '25px',
+        borderRadius: '8px',
+        display: 'flex',
+        gap: '20px',
+        flexWrap: 'wrap',
+        border: '1px solid #e0e0e0',
+        boxShadow: '0 2px 5px rgba(0,0,0,0.05)',
+    };
+
+    const subNavLinkStyle: React.CSSProperties = {
+        textDecoration: 'none',
+        color: '#0056b3',
+        fontWeight: '500',
+        padding: '8px 12px',
+        borderRadius: '5px',
+        transition: 'background-color 0.2s ease, color 0.2s ease',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '6px',
+    };
+
+    const handleLinkMouseOver = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.currentTarget.style.backgroundColor = '#e9ecef';
+        e.currentTarget.style.color = '#003f80';
+    };
+
+    const handleLinkMouseOut = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.currentTarget.style.backgroundColor = 'transparent';
+        e.currentTarget.style.color = '#0056b3';
+    };
+
+    return (
+        <section>
+            <nav style={subNavStyle}>
+                <Link
+                    href="/desastres"
+                    style={subNavLinkStyle}
+                    onMouseOver={handleLinkMouseOver}
+                    onMouseOut={handleLinkMouseOut}
+                >
+                    <span className="material-icons-outlined">dashboard</span> Painel EONET
+                </Link>
+                <Link
+                    href="/desastres/mapa"
+                    style={subNavLinkStyle}
+                    onMouseOver={handleLinkMouseOver}
+                    onMouseOut={handleLinkMouseOut}
+                >
+                    <span className="material-icons-outlined">map</span> Mapa de Eventos (Locais)
+                </Link>
+                <Link
+                    href="/desastres/mapa-atuais"
+                    style={subNavLinkStyle}
+                    onMouseOver={handleLinkMouseOver}
+                    onMouseOut={handleLinkMouseOut}
+                >
+                    <span className="material-icons-outlined">public</span> Mapa Atuais (NASA)
+                </Link>
+                <Link
+                    href="/desastres/estatisticas"
+                    style={subNavLinkStyle}
+                    onMouseOver={handleLinkMouseOver}
+                    onMouseOut={handleLinkMouseOut}
+                >
+                    <span className="material-icons-outlined">leaderboard</span> Estatísticas
+                </Link>
+            </nav>
+
+            <div className="container"> {/* Mantendo a classe container para o conteúdo dos filhos */}
+                {children}
+            </div>
+        </section>
+    );
+}
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// app\desastres\mapa-atuais\page.tsx | arquivo page.tsx
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+// src/app/desastres/mapa-atuais/page.tsx
+'use client';
+
+import React, { useEffect, useState, FormEvent } from 'react';
+import dynamic from 'next/dynamic';
+import { buscarEventosNasaProximos } from '@/lib/apiService';
+import type { NasaEonetEventDTO, NasaEonetGeometryDTO } from '@/lib/types';
+import type { EventMapMarkerData } from '@/components/EonetEventMap'; // Assumindo que esta interface está em EonetEventMap
+
+const DynamicEonetEventMap = dynamic(() => import('@/components/EonetEventMap'), {
+    ssr: false,
+    loading: () => (
+        <div className="flex items-center justify-center w-full h-full bg-slate-100/80 rounded-md" style={{minHeight: '400px'}}>
+            <p className="text-center text-slate-600 py-4 text-lg">Carregando mapa...</p>
+        </div>
+    ),
+});
+
+const getCoordinatesFromEvent = (geometries: NasaEonetGeometryDTO[] | undefined): [number, number] | null => {
+    if (!geometries || geometries.length === 0) return null;
+    const pointGeometry = geometries.find(geom => geom.type === "Point");
+    if (pointGeometry && Array.isArray(pointGeometry.coordinates) && pointGeometry.coordinates.length === 2) {
+        return [pointGeometry.coordinates[1] as number, pointGeometry.coordinates[0] as number];
+    }
+    const firstGeom = geometries[0];
+    if (firstGeom && Array.isArray(firstGeom.coordinates)) {
+        if (firstGeom.type === "Polygon" && Array.isArray(firstGeom.coordinates[0]) && Array.isArray(firstGeom.coordinates[0][0])) {
+            return [firstGeom.coordinates[0][0][1] as number, firstGeom.coordinates[0][0][0] as number];
+        }
+    }
+    return null;
+};
+
+// Função para formatar data de forma mais legível
+const formatEventDate = (dateString: string | Date | undefined): string => {
+    if (!dateString) return 'Data não disponível';
+    try {
+        return new Date(dateString).toLocaleDateString('pt-BR', {
+            year: 'numeric', month: 'long', day: 'numeric',
+            hour: '2-digit', minute: '2-digit', timeZone: 'UTC'
+        });
+    } catch (e) { return 'Data inválida'; }
+};
+
+
+export default function MapaEventosAtuaisNasaPage() {
+    const [markers, setMarkers] = useState<EventMapMarkerData[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
+    const [infoMessage, setInfoMessage] = useState<string>('Use os filtros de data para buscar eventos ou veja o evento mais recente global abaixo (se disponível).');
+    const [displayedEventDetails, setDisplayedEventDetails] = useState<NasaEonetEventDTO | null>(null);
+
+
+    const fetchLimitGlobalRecente = 1;
+    const fetchDaysGlobalRecente = 60;
+    const fetchStatusGlobalRecente = '';
+
+    // Busca inicial do evento mais recente global
+    useEffect(() => {
+        const fetchInitialMostRecentEvent = async () => {
+            setLoading(true);
+            setError(null);
+            setInfoMessage(`Buscando o evento global mais recente (últimos ${fetchDaysGlobalRecente} dias, status: ${fetchStatusGlobalRecente || 'todos'})...`);
+            setMarkers([]);
+            setDisplayedEventDetails(null);
+            try {
+                const eventosDaNasa: NasaEonetEventDTO[] = await buscarEventosNasaProximos(
+                    undefined, undefined, undefined,
+                    fetchLimitGlobalRecente, fetchDaysGlobalRecente, fetchStatusGlobalRecente, undefined
+                );
+
+                if (eventosDaNasa && eventosDaNasa.length > 0) {
+                    const eventoNasa = eventosDaNasa[0];
+                    setDisplayedEventDetails(eventoNasa); // Armazena o evento completo
+
+                    if (eventoNasa.geometry && eventoNasa.geometry.length > 0) {
+                        const coords = getCoordinatesFromEvent(eventoNasa.geometry);
+                        if (coords) {
+                            setMarkers([{
+                                id: eventoNasa.id,
+                                position: coords,
+                                popupText: `<strong>${eventoNasa.title || 'Evento EONET'}</strong><br/>Data: ${formatEventDate(eventoNasa.geometry[0].date)}<br/>Categorias: ${eventoNasa.categories?.map(c => c.title).join(', ') || 'N/A'}`,
+                            }]);
+                            setInfoMessage(`Exibindo o evento global mais recente encontrado com coordenadas válidas.`);
+                            setError(null);
+                        } else {
+                            setInfoMessage('');
+                            setError(`Evento global mais recente (ID: ${eventoNasa.id}) encontrado, mas não possui coordenadas válidas para o mapa.`);
+                        }
+                    } else {
+                        setInfoMessage('');
+                        setError(`Evento global mais recente (ID: ${eventoNasa.id}) encontrado, mas não possui informações de geometria.`);
+                    }
+                } else {
+                    setInfoMessage('');
+                    setError(`Nenhum evento global encontrado na API da NASA para os últimos ${fetchDaysGlobalRecente} dias com os status selecionados.`);
+                }
+            } catch (err: any) {
+                console.error("Erro ao buscar o evento mais recente da NASA:", err);
+                setInfoMessage('');
+                setError(`Falha ao buscar evento da NASA: ${err.message}`);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchInitialMostRecentEvent();
+    }, []); // Executa apenas uma vez ao montar o componente
+
+    const [startDate, setStartDate] = useState<string>('');
+    const [endDate, setEndDate] = useState<string>('');
+
+    const queryLimitDateRange = 50;
+    const queryStatusDateRange = '';
+
+    const handleSearchByDateRange = async (e?: FormEvent) => {
+        if (e) e.preventDefault();
+        if (!startDate || !endDate) {
+            setError("Por favor, selecione uma data de início e uma data de fim para a busca por período.");
+            return;
+        }
+        if (new Date(startDate) > new Date(endDate)) {
+            setError("A data de início não pode ser posterior à data de fim.");
+            return;
+        }
+
+        setLoading(true);
+        setError(null);
+        setInfoMessage(`Buscando eventos da NASA entre ${startDate} e ${endDate}...`);
+        setMarkers([]);
+        setDisplayedEventDetails(null);
+        try {
+            const eventosDaNasa: NasaEonetEventDTO[] = await buscarEventosNasaProximos(
+                undefined, undefined, undefined,
+                queryLimitDateRange,
+                undefined,
+                queryStatusDateRange,
+                undefined,
+                startDate,
+                endDate
+            );
+
+            const newMarkers: EventMapMarkerData[] = [];
+            if (eventosDaNasa && eventosDaNasa.length > 0) {
+                setDisplayedEventDetails(null); // Limpa detalhes de evento único se múltiplos são retornados
+                for (const eventoNasa of eventosDaNasa) {
+                    if (eventoNasa.geometry && eventoNasa.geometry.length > 0) {
+                        const coords = getCoordinatesFromEvent(eventoNasa.geometry);
+                        if (coords) {
+                            newMarkers.push({
+                                id: eventoNasa.id,
+                                position: coords,
+                                popupText: `<strong>${eventoNasa.title || 'Evento EONET'}</strong><br/>Data: ${formatEventDate(eventoNasa.geometry[0].date)}<br/>Categorias: ${eventoNasa.categories?.map(c => c.title).join(', ') || 'N/A'}`,
+                            });
+                        }
+                    }
+                }
+                // Se apenas um evento for retornado da busca por data, define-o para exibição de detalhes
+                if (newMarkers.length === 1 && eventosDaNasa.length === 1) {
+                    setDisplayedEventDetails(eventosDaNasa[0]);
+                }
+            }
+
+            setMarkers(newMarkers);
+
+            if (newMarkers.length === 0) {
+                setInfoMessage('');
+                setError(`Nenhum evento encontrado na API da NASA para o período de ${startDate} a ${endDate} com os filtros aplicados (ou eventos encontrados não possuem coordenadas válidas).`);
+            } else {
+                setInfoMessage(`Exibindo ${newMarkers.length} evento(s) encontrado(s) entre ${startDate} e ${endDate}.`);
+            }
+
+        } catch (err: any) {
+            console.error("MAPA ATUAIS (BUSCA POR DATA) - Erro:", err);
+            setInfoMessage('');
+            setError(`Falha ao buscar eventos da NASA por data: ${err.message}`);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const initialMapCenter: [number, number] = [0, 0];
+    const initialMapZoom: number = 2;
+
+    return (
+        <div className="container_mapa_eventos_atuais_page" style={{paddingBottom: '20px'}}>
+            <h1 className="page-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: '10px' }}>
+                <span className="material-icons-outlined" style={{ fontSize: '1.8em' }}>public</span>
+                Mapa de Eventos Atuais/Por Data (NASA EONET)
+            </h1>
+
+            <p style={{textAlign: 'center', marginBottom: '20px', fontSize: '0.9em', color: '#555'}}>
+                Busca o evento global mais recente (últimos {fetchDaysGlobalRecente} dias, status: {fetchStatusGlobalRecente || 'todos'}) ao carregar, ou use os filtros de data abaixo.
+            </p>
+
+            <form onSubmit={handleSearchByDateRange} className="form-container" style={{ maxWidth: '700px', margin: '0 auto 20px auto', padding: '15px', border: '1px solid #eee', borderRadius: '8px', backgroundColor: '#f9f9f9' }}>
+                <div className="form-row" style={{alignItems: 'flex-end', gap: '15px'}}>
+                    <div className="form-group flex-item">
+                        <label htmlFor="startDate">Data de Início:</label>
+                        <input type="date" id="startDate" name="startDate" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+                    </div>
+                    <div className="form-group flex-item">
+                        <label htmlFor="endDate">Data de Fim:</label>
+                        <input type="date" id="endDate" name="endDate" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+                    </div>
+                    <div className="form-group">
+                        <button type="submit" className="button button-primary" disabled={loading || !startDate || !endDate} style={{padding: '10px 15px'}}>
+                            <span className="material-icons-outlined" style={{fontSize: '1.2em'}}>search</span> Buscar por Data
+                        </button>
+                    </div>
+                </div>
+                {(!startDate || !endDate) && <p style={{fontSize: '0.8em', textAlign: 'center', color: '#777', marginTop: '5px'}}>Selecione um intervalo de datas para habilitar a busca.</p>}
+            </form>
+
+            {/* Seção de Detalhes do Evento (se um único evento estiver em foco) */}
+            {displayedEventDetails && markers.length === 1 && !loading && (
+                <div className="event-details-box" style={{
+                    margin: '20px auto',
+                    padding: '15px',
+                    border: '1px solid #ddd',
+                    borderRadius: '8px',
+                    backgroundColor: '#f9f9f9',
+                    maxWidth: '700px'
+                }}>
+                    <h3 style={{ marginTop: '0', borderBottom: '1px solid #eee', paddingBottom: '10px', marginBottom: '10px', fontSize: '1.2em' }}>
+                        <span className="material-icons-outlined" style={{verticalAlign: 'bottom', marginRight: '5px'}}>event_note</span>
+                        Detalhes do Evento Exibido
+                    </h3>
+                    <p><strong>Título:</strong> {displayedEventDetails.title}</p>
+                    <p><strong>Data:</strong> {formatEventDate(displayedEventDetails.geometry?.[0]?.date)}</p>
+                    <p><strong>ID EONET:</strong> {displayedEventDetails.id}</p>
+                    {displayedEventDetails.categories && displayedEventDetails.categories.length > 0 && (
+                        <p><strong>Categorias:</strong> {displayedEventDetails.categories.map(c => c.title).join(', ')}</p>
+                    )}
+                    {markers[0]?.position && (
+                        <p><strong>Coordenadas:</strong> Latitude: {markers[0].position[0].toFixed(5)}, Longitude: {markers[0].position[1].toFixed(5)}</p>
+                    )}
+                    <p><strong>Status:</strong> {displayedEventDetails.closed ? `Fechado em ${formatEventDate(displayedEventDetails.closed)}` : 'Aberto'}</p>
+                    <p><a href={displayedEventDetails.link} target="_blank" rel="noopener noreferrer" className="link-external">
+                        Ver na fonte (EONET) <span className="material-icons-outlined" style={{fontSize: '1em', verticalAlign: 'middle'}}>open_in_new</span>
+                    </a></p>
+                </div>
+            )}
+
+            {infoMessage && !loading && !error && (!displayedEventDetails || markers.length !== 1) &&
+                <p className="message info" style={{textAlign: 'center', marginBottom: '15px'}}>{infoMessage}</p>
+            }
+            {loading && (
+                <div className="flex items-center justify-center" style={{minHeight: '400px', border: '1px solid #ccc', borderRadius: '8px', backgroundColor: '#f9f9f9'}}>
+                    <p className="text-lg text-slate-600">Buscando eventos da NASA...</p>
+                </div>
+            )}
+            {error && !loading && (
+                <div className="message error" style={{textAlign: 'center', padding: '20px', border: '1px solid #f5c6cb', borderRadius: '8px', marginTop: '15px'}}>
+                    <p>{error}</p>
+                </div>
+            )}
+
+            {(!loading) && (
+                <div style={{ height: '60vh', minHeight: '450px', width: '100%', marginTop: '10px', border: '1px solid #ccc', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', position: 'relative' }}>
+                    <DynamicEonetEventMap
+                        initialCenter={initialMapCenter}
+                        initialZoom={initialMapZoom}
+                        markersData={markers}
+                    />
+                    {markers.length === 0 && !loading && !error && (
+                        <div style={{
+                            position: 'absolute', top: '50%', left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                            padding: '20px 30px', borderRadius: '8px',
+                            boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+                            textAlign: 'center', zIndex: 1000
+                        }}
+                             className="text-slate-700 text-lg p-4 rounded-md shadow-lg"
+                        >
+                            {startDate && endDate ? 'Nenhum evento com coordenadas válidas para o período.' : 'Mapa pronto. Use os filtros de data ou aguarde a busca inicial.'}
+                        </div>
+                    )}
+                </div>
+            )}
+        </div>
+    );
+}
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// app\desastres\mapa\page.tsx | arquivo page.tsx
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+// src/app/desastres/mapa/page.tsx
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+import { listarEventosEonet } from '@/lib/apiService';
+import type { EonetResponseDTO, NasaEonetEventDTO, NasaEonetGeometryDTO, Page } from '@/lib/types';
+// Importar a interface de marcador do novo componente
+import type { EventMapMarkerData } from '@/components/EonetEventMap';
+
+// Carregar dinamicamente o NOVO componente de mapa
+const DynamicEonetEventMap = dynamic(() => import('@/components/EonetEventMap'), {
+    ssr: false,
+    loading: () => (
+        <div className="flex items-center justify-center w-full h-full bg-slate-100/80 rounded-md" style={{minHeight: '400px'}}>
+            <p className="text-center text-slate-600 py-4 text-lg">Carregando mapa de eventos...</p>
+        </div>
+    ),
+});
+
+const parseEonetEventJson = (jsonString: string): Partial<NasaEonetEventDTO> | null => {
+    try {
+        return JSON.parse(jsonString) as Partial<NasaEonetEventDTO>;
+    } catch (error) {
+        console.error("Erro ao parsear JSON do evento EONET:", error, jsonString);
+        return null;
+    }
+};
+
+const getCoordinatesFromEvent = (geometries: NasaEonetGeometryDTO[] | undefined): [number, number] | null => {
+    if (!geometries || geometries.length === 0) {
+        return null;
+    }
+    const pointGeometry = geometries.find(geom => geom.type === "Point");
+    if (pointGeometry && Array.isArray(pointGeometry.coordinates) && pointGeometry.coordinates.length === 2) {
+        return [pointGeometry.coordinates[1] as number, pointGeometry.coordinates[0] as number];
+    }
+    const firstGeom = geometries[0];
+    if (firstGeom && Array.isArray(firstGeom.coordinates)) {
+        if (firstGeom.type === "Polygon" && Array.isArray(firstGeom.coordinates[0]) && Array.isArray(firstGeom.coordinates[0][0])) {
+            return [firstGeom.coordinates[0][0][1] as number, firstGeom.coordinates[0][0][0] as number];
+        }
+    }
+    return null;
+};
+
+export default function MapaDeEventosPage() {
+    const [markers, setMarkers] = useState<EventMapMarkerData[]>([]); // Usar EventMapMarkerData
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+
+    const initialMapCenter: [number, number] = [-14.235004, -51.92528];
+    const initialMapZoom: number = 4;
+
+    useEffect(() => {
+        const fetchEventsAndCreateMarkers = async () => {
+            setLoading(true);
+            setError(null);
+            setMarkers([]);
+            try {
+                const eventosPage: Page<EonetResponseDTO> = await listarEventosEonet(0, 50);
+                const newMarkers: EventMapMarkerData[] = [];
+
+                if (eventosPage && eventosPage.content) {
+                    for (const eventoResp of eventosPage.content) {
+                        const eventoDetalhes = eventoResp.json ? parseEonetEventJson(eventoResp.json) : null;
+                        if (eventoDetalhes && eventoDetalhes.geometries) {
+                            const coords = getCoordinatesFromEvent(eventoDetalhes.geometries);
+                            if (coords) {
+                                newMarkers.push({
+                                    id: eventoResp.eonetIdApi || String(eventoResp.idEonet),
+                                    position: coords,
+                                    popupText: `<strong>${eventoDetalhes.title || 'Evento EONET'}</strong><br/>Data: ${new Date(eventoDetalhes.geometries[0].date).toLocaleDateString('pt-BR')}<br/>Categorias: ${eventoDetalhes.categories?.map(c => c.title).join(', ') || 'N/A'}`,
+                                });
+                            }
+                        }
+                    }
+                }
+                setMarkers(newMarkers);
+                if (newMarkers.length === 0) {
+                    console.log("Nenhum evento com coordenadas válidas encontrado para exibir no mapa.");
+                }
+            } catch (err: any) {
+                console.error("Erro ao buscar ou processar eventos para o mapa:", err);
+                setError(`Falha ao carregar dados para o mapa: ${err.message || 'Erro desconhecido'}`);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchEventsAndCreateMarkers();
+    }, []);
+
+    return (
+        <div className="container_mapa_eventos_page" style={{paddingBottom: '20px'}}>
+            <h1 className="page-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
+                <span className="material-icons-outlined" style={{ fontSize: '1.8em' }}>public</span>
+                Mapa Interativo de Eventos EONET
+            </h1>
+
+            {loading && (
+                <div className="flex items-center justify-center" style={{minHeight: '400px', border: '1px solid #ccc', borderRadius: '8px', backgroundColor: '#f9f9f9'}}>
+                    <p className="text-lg text-slate-600">Carregando eventos no mapa...</p>
+                </div>
+            )}
+            {error && !loading && (
+                <div className="message error" style={{textAlign: 'center', padding: '20px', border: '1px solid #f5c6cb', borderRadius: '8px'}}>
+                    <p>{error}</p>
+                    <p style={{marginTop: '10px'}}>Tente sincronizar novos eventos no Painel EONET ou verifique os logs para mais detalhes.</p>
+                </div>
+            )}
+
+            {!loading && !error && (
+                <div style={{ height: '70vh', minHeight: '500px', width: '100%', marginTop: '10px', border: '1px solid #ccc', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+                    <DynamicEonetEventMap // Usar o novo componente dinamicamente
+                        initialCenter={initialMapCenter}
+                        initialZoom={initialMapZoom}
+                        markersData={markers}
+                    />
+                    {markers.length === 0 && !loading && !error && (
+                        <div style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            padding: '20px',
+                            borderRadius: '8px',
+                            boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+                            textAlign: 'center',
+                            zIndex: 1000
+                        }}
+                             className="text-slate-600 text-lg p-4 rounded-md bg-slate-100 shadow"
+                        >
+                            Nenhum evento com coordenadas válidas encontrado para exibir no mapa no momento.
+                            <br />Tente sincronizar eventos no "Painel EONET".
+                        </div>
+                    )}
+                </div>
+            )}
+        </div>
+    );
+}
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// app\desastres\page.tsx | arquivo page.tsx
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+// src/app/desastres/page.tsx
+'use client';
+
+import { useEffect, useState, FormEvent, useRef } from 'react';
+import { listarEventosEonet, sincronizarNasaEonet, buscarEventosNasaProximos, buscarClientePorId } from '@/lib/apiService';
+import type { EonetResponseDTO, Page, NasaEonetEventDTO, NasaEonetCategoryDTO, NasaEonetGeometryDTO, ClienteResponseDTO } from '@/lib/types';
+
+const parseEonetEventJson = (jsonString: string): Partial<NasaEonetEventDTO> | null => {
+    try {
+        return JSON.parse(jsonString) as Partial<NasaEonetEventDTO>;
+    } catch (error) {
+        console.error("Erro ao parsear JSON do evento EONET:", error);
+        return null;
+    }
+};
+
+type TabKey = 'sincronizar' | 'buscarProximos' | 'listarLocais';
+
+export default function DesastresPage() {
+    const [activeTab, setActiveTab] = useState<TabKey>('listarLocais');
+    const [eventosLocaisPage, setEventosLocaisPage] = useState<Page<EonetResponseDTO> | null>(null);
+    const [erroListagemLocal, setErroListagemLocal] = useState<string | null>(null);
+    const [loadingListagemLocal, setLoadingListagemLocal] = useState<boolean>(true);
+    const [currentLocalPage, setCurrentLocalPage] = useState<number>(0);
+    const [syncParams, setSyncParams] = useState({ limit: '', days: '', status: 'open', source: '' });
+    const [loadingSync, setLoadingSync] = useState<boolean>(false);
+    const [syncMensagem, setSyncMensagem] = useState<string | null>(null);
+    const [syncErro, setSyncErro] = useState<string | null>(null);
+    const [proximidadeParams, setProximidadeParams] = useState({
+        clienteId: '',
+        latitude: '',
+        longitude: '',
+        raioKm: '100',
+        limit: '10', days: '30', status: 'open', source: ''
+    });
+    const [eventosProximos, setEventosProximos] = useState<NasaEonetEventDTO[]>([]);
+    const [loadingProximidade, setLoadingProximidade] = useState<boolean>(false);
+    const [erroProximidade, setErroProximidade] = useState<string | null>(null);
+    const clienteIdRef = useRef<HTMLInputElement>(null);
+    const latitudeRef = useRef<HTMLInputElement>(null);
+    const longitudeRef = useRef<HTMLInputElement>(null);
+    const raioKmRef = useRef<HTMLInputElement>(null);
+
+    const fetchEventosLocais = async (page: number) => {
+        setLoadingListagemLocal(true);
+        setErroListagemLocal(null);
+        try {
+            const data = await listarEventosEonet(page, 5);
+            setEventosLocaisPage(data);
+        } catch (error: any) {
+            setErroListagemLocal(`Falha ao carregar eventos locais: ${error.message || 'Erro desconhecido'}`);
+            setEventosLocaisPage(null);
+        } finally {
+            setLoadingListagemLocal(false);
+        }
+    };
+
+    useEffect(() => {
+        if (activeTab === 'listarLocais') {
+            fetchEventosLocais(currentLocalPage);
+        }
+    }, [currentLocalPage, activeTab]);
+
+    const handleSyncParamChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        setSyncParams(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    };
+
+    const handleSincronizar = async (e: FormEvent) => {
+        e.preventDefault();
+        setLoadingSync(true);
+        setSyncMensagem("Sincronizando com a NASA EONET...");
+        setSyncErro(null);
+        const limitNum = syncParams.limit ? parseInt(syncParams.limit, 10) : undefined;
+        const daysNum = syncParams.days ? parseInt(syncParams.days, 10) : undefined;
+        try {
+            const eventosSincronizados = await sincronizarNasaEonet(limitNum, daysNum, syncParams.status || undefined, syncParams.source || undefined);
+            setSyncMensagem(`${eventosSincronizados.length} evento(s) processado(s) / sincronizado(s) com sucesso! A lista de eventos locais será atualizada.`);
+        } catch (error: any) {
+            setSyncErro(`Falha na sincronização: ${error.message || 'Erro desconhecido'}`);
+            setSyncMensagem(null);
+        } finally {
+            setLoadingSync(false);
+        }
+    };
+
+    const handleProximidadeParamChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setProximidadeParams(prev => ({ ...prev, [name]: value }));
+        if (name === 'clienteId' && value === '') {
+            setProximidadeParams(prev => ({ ...prev, latitude: '', longitude: ''}));
+        }
+    };
+
+    const buscarCoordenadasCliente = async () => {
+        if (!proximidadeParams.clienteId) {
+            setErroProximidade("Informe um ID de Cliente para buscar suas coordenadas.");
+            clienteIdRef.current?.focus();
+            return;
+        }
+        setLoadingProximidade(true);
+        setErroProximidade(null);
+        try {
+            const cliente: ClienteResponseDTO = await buscarClientePorId(Number(proximidadeParams.clienteId));
+            if (cliente.enderecos && cliente.enderecos.length > 0 && cliente.enderecos[0]) {
+                const enderecoPrincipal = cliente.enderecos[0];
+                setProximidadeParams(prev => ({
+                    ...prev,
+                    latitude: String(enderecoPrincipal.latitude),
+                    longitude: String(enderecoPrincipal.longitude)
+                }));
+                setErroProximidade(null);
+            } else {
+                setErroProximidade("Cliente encontrado, mas não possui endereço principal com coordenadas.");
+                setProximidadeParams(prev => ({ ...prev, latitude: '', longitude: ''}));
+                latitudeRef.current?.focus();
+            }
+        } catch (error: any) {
+            setErroProximidade(`Falha ao buscar coordenadas do cliente: ${error.message}`);
+            setProximidadeParams(prev => ({ ...prev, latitude: '', longitude: ''}));
+        } finally {
+            setLoadingProximidade(false);
+        }
+    };
+
+    const handleBuscarProximidade = async (e: FormEvent) => {
+        e.preventDefault();
+        setErroProximidade(null);
+        if (!proximidadeParams.latitude || !proximidadeParams.longitude) {
+            setErroProximidade("Latitude e Longitude são obrigatórias para busca por proximidade.");
+            if(!proximidadeParams.latitude) latitudeRef.current?.focus();
+            else longitudeRef.current?.focus();
+            return;
+        }
+        if (!proximidadeParams.raioKm || Number(proximidadeParams.raioKm) <=0) {
+            setErroProximidade("Raio em KM é obrigatório e deve ser positivo.");
+            raioKmRef.current?.focus();
+            return;
+        }
+
+        setLoadingProximidade(true);
+        setEventosProximos([]);
+        try {
+            const eventos = await buscarEventosNasaProximos(
+                parseFloat(proximidadeParams.latitude),
+                parseFloat(proximidadeParams.longitude),
+                parseFloat(proximidadeParams.raioKm),
+                proximidadeParams.limit ? parseInt(proximidadeParams.limit, 10) : undefined,
+                proximidadeParams.days ? parseInt(proximidadeParams.days, 10) : undefined,
+                proximidadeParams.status || undefined,
+                proximidadeParams.source || undefined
+            );
+            const eventosRecebidos = eventos || [];
+            setEventosProximos(eventosRecebidos);
+
+            if (eventosRecebidos.length === 0) {
+                setErroProximidade("Nenhum evento encontrado na API da NASA para os critérios fornecidos.");
+            }
+
+        } catch (error: any) {
+            setErroProximidade(`Falha ao buscar eventos próximos: ${error.message}`);
+        } finally {
+            setLoadingProximidade(false);
+        }
+    };
+
+    const formatDate = (dateString?: string | Date): string => {
+        if (!dateString) return 'N/A';
+        try {
+            return new Date(dateString).toLocaleDateString('pt-BR', {
+                year: 'numeric', month: 'short', day: 'numeric',
+                hour: '2-digit', minute: '2-digit', timeZone: 'UTC'
+            });
+        } catch (e) { return 'Data inválida'; }
+    };
+
+    const renderEventoItem = (evento: NasaEonetEventDTO | Partial<NasaEonetEventDTO>, keyPrefix: string = "prox") => {
+        const dataEvento = evento?.geometry?.[0]?.date;
+        return (
+            <div className="client-info-section">
+                <strong>{evento?.title || 'Título não disponível'}</strong>
+                {evento?.id && <p><span className="label">ID NASA:</span> {evento.id}</p>}
+                <p><span className="label">Data do Evento:</span> {formatDate(dataEvento?.toString())}</p>
+                {evento?.categories && evento.categories.length > 0 && (
+                    <p><span className="label">Categorias:</span> {evento.categories.map((cat: NasaEonetCategoryDTO) => cat.title).join(', ')}</p>
+                )}
+                {evento?.link && (
+                    <p><span className="label">Fonte:</span> <a href={evento.link} target="_blank" rel="noopener noreferrer" style={{color: '#007bff'}}>Ver na NASA EONET</a></p>
+                )}
+                {evento?.geometry && evento.geometry.length > 0 && evento.geometry[0].coordinates && (
+                    <p style={{fontSize: '0.85em', color: '#666'}}>
+                        <span className="label">Coordenadas (primeira geometria):</span> {JSON.stringify(evento.geometry[0].coordinates)}
+                    </p>
+                )}
+            </div>
+        );
+    };
+
+    const tabButtonStyle = (tabKey: TabKey): React.CSSProperties => ({
+        padding: '10px 20px',
+        cursor: 'pointer',
+        border: '1px solid transparent',
+        borderBottom: 'none',
+        backgroundColor: activeTab === tabKey ? '#fff' : '#f0f0f0',
+        fontWeight: activeTab === tabKey ? 'bold' : 'normal',
+        borderTopLeftRadius: '6px',
+        borderTopRightRadius: '6px',
+        marginRight: '5px',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '6px',
+        color: activeTab === tabKey ? '#007bff' : '#333',
+        borderBottomColor: activeTab === tabKey ? '#fff' : '#ddd',
+        position: 'relative',
+        bottom: activeTab === tabKey ? '-1px' : '0',
+    });
+
+    const tabContentStyle: React.CSSProperties = {
+        border: '1px solid #ddd',
+        padding: '20px',
+        borderRadius: '0 6px 6px 6px',
+        backgroundColor: '#fff',
+    };
+
+    // ***** INÍCIO DA CORREÇÃO DO ERRO DE COMPILAÇÃO *****
+    // Removido o comentário inline após o 'return ('
+    return (
+        // ***** FIM DA CORREÇÃO DO ERRO DE COMPILAÇÃO *****
+        <div className="container">
+            <h1 className="page-title" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span className="material-icons-outlined" style={{ fontSize: '1.8em' }}>public</span>
+                Gerenciamento de Eventos de Desastres (EONET)
+            </h1>
+
+            <div style={{ marginBottom: '0px', borderBottom: '1px solid #ddd' }}>
+                <button style={tabButtonStyle('listarLocais')} onClick={() => setActiveTab('listarLocais')}>
+                    <span className="material-icons-outlined">storage</span> Eventos Locais
+                </button>
+                <button style={tabButtonStyle('sincronizar')} onClick={() => setActiveTab('sincronizar')}>
+                    <span className="material-icons-outlined">sync</span> Sincronizar NASA
+                </button>
+                <button style={tabButtonStyle('buscarProximos')} onClick={() => setActiveTab('buscarProximos')}>
+                    <span className="material-icons-outlined">travel_explore</span> Buscar Próximos
+                </button>
+            </div>
+
+            <div style={tabContentStyle}>
+                {activeTab === 'listarLocais' && (
+                    <section>
+                        <h2 style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '0', marginBottom: '20px' }}>
+                            <span className="material-icons-outlined" style={{ fontSize: '1.5em' }}>list_alt</span>
+                            Eventos EONET Armazenados Localmente
+                        </h2>
+                        {loadingListagemLocal && !eventosLocaisPage && <p>Carregando eventos locais...</p>}
+                        {erroListagemLocal && <p className="message error">{erroListagemLocal}</p>}
+                        {(!eventosLocaisPage || eventosLocaisPage.content.length === 0) && !loadingListagemLocal && !erroListagemLocal && (
+                            <div style={{ textAlign: 'center', padding: '30px', border: '1px dashed #ccc', borderRadius: '8px' }}>
+                                <p>Nenhum evento EONET encontrado no banco de dados local.</p>
+                                <p>Vá para a aba "Sincronizar NASA" para buscar novos eventos.</p>
+                            </div>
+                        )}
+                        {eventosLocaisPage && eventosLocaisPage.content.length > 0 && (
+                            <ul style={{ listStyle: 'none', padding: 0 }}>
+                                {eventosLocaisPage.content.map(eonetResp => {
+                                    const eventoDetalhes = eonetResp.json ? parseEonetEventJson(eonetResp.json) : null;
+                                    return (
+                                        <li key={eonetResp.idEonet} className="client-list-item" style={{marginBottom: '12px'}}>
+                                            {renderEventoItem(eventoDetalhes, `local-${eonetResp.idEonet}`)}
+                                            <small style={{display: 'block', textAlign:'right', color: '#888'}}>ID Local: {eonetResp.idEonet}, Data Registro Local: {formatDate(eonetResp.data?.toString())}</small>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        )}
+                        {eventosLocaisPage && eventosLocaisPage.totalPages > 0 && (
+                            <div className="pagination-controls">
+                                <button onClick={() => setCurrentLocalPage(p => Math.max(0, p - 1))} disabled={eventosLocaisPage.first || loadingListagemLocal} className="button button-secondary">
+                                    <span className="material-icons-outlined">navigate_before</span> Anterior
+                                </button>
+                                <span>Página {eventosLocaisPage.number + 1} de {eventosLocaisPage.totalPages}</span>
+                                <button onClick={() => setCurrentLocalPage(p => Math.min(eventosLocaisPage.totalPages - 1, p + 1))} disabled={eventosLocaisPage.last || loadingListagemLocal} className="button button-secondary">
+                                    Próxima <span className="material-icons-outlined">navigate_next</span>
+                                </button>
+                            </div>
+                        )}
+                    </section>
+                )}
+
+                {activeTab === 'sincronizar' && (
+                    <section>
+                        <h2 style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '0', marginBottom: '20px' }}>
+                            <span className="material-icons-outlined" style={{ fontSize: '1.5em' }}>cloud_sync</span>
+                            Sincronizar com NASA EONET
+                        </h2>
+                        <form onSubmit={handleSincronizar} className="form-container" style={{padding: '0'}}>
+                            <div className="form-row">
+                                <div className="form-group flex-item"><label htmlFor="syncLimit">Limite de eventos:</label><input type="number" id="syncLimit" name="limit" value={syncParams.limit} onChange={handleSyncParamChange} placeholder="Ex: 20 (opcional)" /></div>
+                                <div className="form-group flex-item"><label htmlFor="syncDays">Dias anteriores:</label><input type="number" id="syncDays" name="days" value={syncParams.days} onChange={handleSyncParamChange} placeholder="Ex: 30 (opcional)" /></div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group flex-item"><label htmlFor="syncStatus">Status do evento:</label><select id="syncStatus" name="status" value={syncParams.status} onChange={handleSyncParamChange}><option value="open">Abertos (open)</option><option value="closed">Fechados (closed)</option><option value="">Todos</option></select></div>
+                                <div className="form-group flex-item"><label htmlFor="syncSource">Fonte do evento:</label><input type="text" id="syncSource" name="source" value={syncParams.source} onChange={handleSyncParamChange} placeholder="Ex: PDC, CEMS (opcional)" /></div>
+                            </div>
+                            <button type="submit" className="button button-primary" disabled={loadingSync} style={{marginTop: '10px'}}>
+                                <span className="material-icons-outlined">sync</span>
+                                {loadingSync ? 'Sincronizando...' : 'Iniciar Sincronização'}
+                            </button>
+                            {syncMensagem && <p className="message success" style={{marginTop: '10px'}}>{syncMensagem}</p>}
+                            {syncErro && <p className="message error" style={{marginTop: '10px'}}>{syncErro}</p>}
+                        </form>
+                    </section>
+                )}
+
+                {activeTab === 'buscarProximos' && (
+                    <section>
+                        <h2 style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '0', marginBottom: '20px' }}>
+                            <span className="material-icons-outlined" style={{ fontSize: '1.5em' }}>map</span>
+                            Buscar Eventos Próximos na NASA API
+                        </h2>
+                        <form onSubmit={handleBuscarProximidade} className="form-container" style={{padding: '0'}}>
+                            <div className="form-row">
+                                <div className="form-group flex-item">
+                                    <label htmlFor="clienteId">ID do Cliente (p/ coords.):</label>
+                                    <input type="number" id="clienteId" name="clienteId" ref={clienteIdRef} value={proximidadeParams.clienteId} onChange={handleProximidadeParamChange} placeholder="Opcional"/>
+                                </div>
+                                <div className="form-group flex-item" style={{alignSelf: 'flex-end'}}>
+                                    <button type="button" onClick={buscarCoordenadasCliente} className="button button-secondary" disabled={loadingProximidade || !proximidadeParams.clienteId} style={{marginBottom: '1px'}}>
+                                        <span className="material-icons-outlined">person_pin_circle</span> Buscar Coords
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group flex-item">
+                                    <label htmlFor="latitude">Latitude:</label>
+                                    <input type="number" step="any" id="latitude" name="latitude" ref={latitudeRef} value={proximidadeParams.latitude} onChange={handleProximidadeParamChange} placeholder="-23.550520" required />
+                                </div>
+                                <div className="form-group flex-item">
+                                    <label htmlFor="longitude">Longitude:</label>
+                                    <input type="number" step="any" id="longitude" name="longitude" ref={longitudeRef} value={proximidadeParams.longitude} onChange={handleProximidadeParamChange} placeholder="-46.633308" required />
+                                </div>
+                                <div className="form-group flex-item">
+                                    <label htmlFor="raioKm">Raio (km):</label>
+                                    <input type="number" id="raioKm" name="raioKm" ref={raioKmRef} value={proximidadeParams.raioKm} onChange={handleProximidadeParamChange} placeholder="100" required />
+                                </div>
+                            </div>
+                            <p style={{fontSize: '0.85em', color: '#666', margin: '5px 0 15px 0'}}>Filtros adicionais (opcionais):</p>
+                            <div className="form-row">
+                                <div className="form-group flex-item"><label htmlFor="proxLimit">Limite:</label><input type="number" id="proxLimit" name="limit" value={proximidadeParams.limit} onChange={handleProximidadeParamChange} placeholder="Ex: 10"/></div>
+                                <div className="form-group flex-item"><label htmlFor="proxDays">Dias Anteriores:</label><input type="number" id="proxDays" name="days" value={proximidadeParams.days} onChange={handleProximidadeParamChange} placeholder="Ex: 30"/></div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group flex-item"><label htmlFor="proxStatus">Status:</label><select id="proxStatus" name="status" value={proximidadeParams.status} onChange={handleProximidadeParamChange}><option value="open">Abertos</option><option value="closed">Fechados</option><option value="">Todos</option></select></div>
+                                <div className="form-group flex-item"><label htmlFor="proxSource">Fonte:</label><input type="text" id="proxSource" name="source" value={proximidadeParams.source} onChange={handleProximidadeParamChange} placeholder="Ex: PDC"/></div>
+                            </div>
+                            <button type="submit" className="button button-primary" disabled={loadingProximidade} style={{marginTop: '10px'}}>
+                                <span className="material-icons-outlined">search</span> Buscar Eventos Próximos
+                            </button>
+                            {erroProximidade && <p className="message error" style={{marginTop: '10px'}}>{erroProximidade}</p>}
+                        </form>
+
+                        {loadingProximidade && <p style={{textAlign:'center', margin:'15px 0'}}>Buscando eventos próximos na API da NASA...</p>}
+                        {eventosProximos.length > 0 && !loadingProximidade && (
+                            <div style={{marginTop: '20px'}}>
+                                <h3 style={{borderBottom: '1px solid #ccc', paddingBottom:'5px'}}>Resultados da Busca por Proximidade ({eventosProximos.length} eventos):</h3>
+                                <ul style={{ listStyle: 'none', padding: 0, maxHeight: '400px', overflowY: 'auto' }}>
+                                    {eventosProximos.map((evento, index) => (
+                                        <li key={`${evento.id}-${index}`} className="client-list-item" style={{backgroundColor: '#f9f9f9'}}>
+                                            {renderEventoItem(evento, `prox-${index}`)}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                        {eventosProximos.length === 0 && !loadingProximidade && !erroProximidade && proximidadeParams.latitude && proximidadeParams.longitude && (
+                            <p style={{textAlign:'center', margin:'15px 0', color: '#555'}}>Nenhum evento encontrado para os critérios de proximidade informados.</p>
+                        )}
+                    </section>
+                )}
+            </div>
+        </div>
+    );
+}
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// app\layout.tsx | arquivo layout.tsx
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// app\layout.tsx | arquivo layout.tsx
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+import './globals.css'; // Deve ser a primeira importação de CSS
+import Link from 'next/link';
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "GS Alerta Desastres | MetaMind", // Adicionando nome da equipe ao título
+    description: "Aplicação para monitoramento de desastres e alertas para a Global Solution FIAP, desenvolvida pela equipe MetaMind.",
+    keywords: "FIAP, Global Solution, Desastres, Alertas, EONET, Next.js, React, TypeScript, MetaMind",
+    authors: [{ name: "MetaMind Team" }], // Nome da equipe
+};
+
+export default function RootLayout({
+                                       children,
+                                   }: {
+    children: React.ReactNode
+}) {
+    return (
+        <html lang="pt-BR">
+        <head>
+            {/* Google Fonts e Material Icons */}
+            <link rel="preconnect" href="https://fonts.googleapis.com" />
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+            <link
+                href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+                rel="stylesheet"
+            />
+            <link
+                href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined"
+                rel="stylesheet"
+            />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            {/* Adicionar um favicon é uma boa prática. Crie um arquivo public/favicon.ico */}
+            <link rel="icon" href="/favicon.ico" sizes="any" />
+        </head>
+        <body>
+        <nav>
+            <Link href="/" className="logo">
+                <span className="material-icons-outlined">emergency</span>
+                GS Alerta Desastres
+            </Link>
+            <Link href="/clientes/listar">
+                <span className="material-icons-outlined">group</span>
+                Clientes
+            </Link>
+            <Link href="/desastres">
+                <span className="material-icons-outlined">volcano</span>
+                Desastres EONET
+            </Link>
+            <Link href="/contato">
+                <span className="material-icons-outlined">contact_support</span>
+                Fale Conosco
+            </Link>
+        </nav>
+        <main>
+            {/* O container principal pode ser adicionado aqui ou em cada página/layout filho,
+                dependendo da necessidade de flexibilidade.
+                Se a maioria das páginas usa, adicionar aqui pode ser bom.
+                Ex: <div className="container">{children}</div>
+                Porém, a página de contato parece usar seu próprio container com classes de espaçamento.
+                Vou deixar children direto para manter a flexibilidade original.
+            */}
+            {children}
+        </main>
+        <footer>
+            Global Solution 2025 - FIAP &copy; MetaMind Team
+        </footer>
+        </body>
+        </html>
+    )
+}
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// app\page.tsx | arquivo page.tsx
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+// src/app/page.tsx
+'use client';
+
+import Link from 'next/link';
+import React from 'react';
+
+export default function HomePage() {
+  const linkStyle: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: '10px',
+    padding: '20px 25px',
+    backgroundColor: '#007bff',
+    color: 'white',
+    textDecoration: 'none',
+    borderRadius: '8px',
+    textAlign: 'center',
+    minWidth: '220px',
+    minHeight: '100px',
+    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+    fontWeight: '500',
+    fontSize: '1.1em'
+  };
+
+  const iconStyle: React.CSSProperties = {
+    fontSize: '2.5em',
+    marginBottom: '10px',
+  };
+
+  const handleMouseOver = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.currentTarget.style.transform = 'translateY(-3px)';
+    e.currentTarget.style.boxShadow = '0 6px 12px rgba(0,0,0,0.15)';
+  };
+  const handleMouseOut = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.currentTarget.style.transform = 'translateY(0)';
+    e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+  };
+
+  const containerStyle: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 'calc(100vh - 160px)',
+    padding: '20px'
+  };
+
+  return (
+      <div style={containerStyle} className="container">
+        <h1 className="page-title" style={{marginBottom: '15px'}}>Bem-vindo ao Painel GS Alerta Desastres</h1>
+        <p style={{textAlign: 'center', marginBottom: '40px', fontSize: '1.15em', color: '#555'}}>
+          Utilize os links abaixo para gerenciar as entidades do sistema.
+        </p>
+        <div style={{ display: 'flex', gap: '25px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <Link
+              href="/clientes/listar"
+              style={linkStyle}
+              onMouseOver={handleMouseOver}
+              onMouseOut={handleMouseOut}
+          >
+            <span className="material-icons-outlined" style={iconStyle}>group</span>
+            Gerenciar Clientes
+          </Link>
+          <Link
+              href="/desastres"
+              style={linkStyle}
+              onMouseOver={handleMouseOver}
+              onMouseOut={handleMouseOut}
+          >
+            <span className="material-icons-outlined" style={iconStyle}>volcano</span>
+            Desastres EONET
+          </Link>
+          <Link
+              href="/contato" // Assumindo que a página de contato está em /contato
+              style={linkStyle}
+              onMouseOver={handleMouseOver}
+              onMouseOut={handleMouseOut}
+          >
+            <span className="material-icons-outlined" style={iconStyle}>contact_mail</span> {/* Ícone para Contatos */}
+            Fale Conosco
+          </Link>
+        </div>
+      </div>
+  );
+}
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// components\EonetEventMap.tsx | arquivo EonetEventMap.tsx
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+// src/components/EonetEventMap.tsx
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+// Ícone padrão do Leaflet
+const defaultIcon = new L.Icon({
+    iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+    iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
+
+// Interface para os dados de cada marcador
+export interface EventMapMarkerData {
+    id: string; // ID único para a key do React
+    position: [number, number]; // [latitude, longitude]
+    popupText: string; // Conteúdo HTML para o popup
+}
+
+interface EonetEventMapProps {
+    initialCenter?: [number, number]; // Centro inicial se não houver marcadores
+    initialZoom?: number; // Zoom inicial se não houver marcadores
+    markersData?: EventMapMarkerData[]; // Array de dados dos marcadores
+    style?: React.CSSProperties;
+    className?: string;
+}
+
+// Subcomponente para ajustar os limites do mapa aos marcadores
+const FitBoundsToMarkers: React.FC<{ markers: EventMapMarkerData[] }> = ({ markers }) => {
+    const map = useMap();
+    useEffect(() => {
+        if (markers && markers.length > 0) {
+            const markerPositions = markers.map(marker => marker.position as L.LatLngExpression);
+            if (markerPositions.length > 0) {
+                const bounds = L.latLngBounds(markerPositions);
+                map.fitBounds(bounds, { padding: [50, 50] }); // Adiciona um padding
+            }
+        }
+    }, [map, markers]);
+    return null;
+};
+
+const EonetEventMap: React.FC<EonetEventMapProps> = ({
+                                                         initialCenter = [-14.235004, -51.92528], // Padrão: Centro do Brasil
+                                                         initialZoom = 4,
+                                                         markersData = [],
+                                                         style,
+                                                         className
+                                                     }) => {
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(typeof window !== 'undefined');
+    }, []);
+
+    if (!isClient) {
+        return (
+            <div style={style || { height: '500px', width: '100%', backgroundColor: '#e0e0e0' }} className={`${className || ''} flex items-center justify-center`}>
+                <p>Carregando mapa de eventos...</p>
+            </div>
+        );
+    }
+
+    return (
+        <MapContainer
+            center={initialCenter} // Usado se FitBoundsToMarkers não for ativado
+            zoom={initialZoom}     // Usado se FitBoundsToMarkers não for ativado
+            style={style || { height: '100%', width: '100%' }}
+            className={className}
+            scrollWheelZoom={true}
+            attributionControl={true}
+        >
+            <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            {markersData.map((marker) => (
+                <Marker key={marker.id} position={marker.position} icon={defaultIcon}>
+                    <Popup>
+                        {/* Permitir HTML simples no popupText */}
+                        <div dangerouslySetInnerHTML={{ __html: marker.popupText }} />
+                    </Popup>
+                </Marker>
+            ))}
+            {markersData.length > 0 && <FitBoundsToMarkers markers={markersData} />}
+        </MapContainer>
+    );
+};
+
+export default EonetEventMap;
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// components\LeafletMap.tsx | arquivo LeafletMap.tsx
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// components\LeafletMap.tsx | arquivo LeafletMap.tsx
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+// src/components/LeafletMap.tsx
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+// O CSS do Leaflet é importado em app/contato/layout.tsx
+// import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+
+// Correção para o ícone padrão do Leaflet em Next.js
+const defaultIcon = new L.Icon({
+    iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+    iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
+
+interface LeafletMapProps {
+    position: [number, number];
+    zoom?: number;
+    markerText?: string;
+    style?: React.CSSProperties; // Para estilos inline se necessário
+    className?: string;          // Para classes CSS (ex: Tailwind)
+}
+
+// Componente para recentralizar o mapa quando a posição mudar
+const ChangeView: React.FC<{ center: [number, number]; zoom: number }> = ({ center, zoom }) => {
+    const map = useMap();
+    map.setView(center, zoom);
+    return null;
+}
+
+const LeafletMap: React.FC<LeafletMapProps> = ({
+                                                   position,
+                                                   zoom = 16,
+                                                   markerText = "Localização",
+                                                   style, // Pode ser usado para sobrescrever altura/largura padrão se necessário
+                                                   className
+                                               }) => {
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(typeof window !== 'undefined');
+    }, []);
+
+    if (!isClient) {
+        // Renderiza um placeholder no servidor ou antes da hidratação no cliente
+        return (
+            <div style={style || { height: '350px', width: '100%', backgroundColor: '#e0e0e0' }} className={`${className || ''} flex items-center justify-center`}>
+                <p>Carregando mapa...</p>
+            </div>
+        );
+    }
+
+    // Garante que a posição é um array de números válido
+    const validPosition: [number, number] = Array.isArray(position) && position.length === 2 && typeof position[0] === 'number' && typeof position[1] === 'number'
+        ? position
+        : [0, 0]; // Posição padrão caso inválida
+
+    return (
+        <MapContainer
+            center={validPosition}
+            zoom={zoom}
+            style={style || { height: '100%', width: '100%' }} // Usa 100% para preencher o container pai (.leaflet-container)
+            className={className} // Aplica classes CSS externas se houver
+            scrollWheelZoom={true} // Habilitar zoom com scroll por padrão
+            attributionControl={true} // Mostrar atribuição por padrão
+        >
+            <ChangeView center={validPosition} zoom={zoom} /> {/* Para atualizar o mapa se a props mudar */}
+            <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <Marker position={validPosition} icon={defaultIcon}>
+                {markerText && <Popup>{markerText}</Popup>}
+            </Marker>
+        </MapContainer>
+    );
+};
+
+export default LeafletMap;
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// lib\apiService.ts | arquivo apiService.ts
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+// src/lib/apiService.ts
+import type {
+    ClienteRequestDTO, ClienteResponseDTO,
+    ContatoRequestDTO, ContatoResponseDTO,
+    EnderecoRequestDTO, EnderecoResponseDTO,
+    EnderecoGeoRequestDTO, GeoCoordinatesDTO,
+    ViaCepResponseDTO, ApiErrorResponse, Page,
+    EonetResponseDTO, NasaEonetEventDTO,
+    CategoryCountDTO // <<< Adicionar importação do novo tipo
+} from './types';
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
+
+async function handleResponse<T>(response: Response): Promise<T> {
+    // ... (código da função handleResponse - sem alterações)
+    if (!response.ok) {
+        let errorData: Partial<ApiErrorResponse> = {
+            message: `Erro ${response.status}: ${response.statusText || "Falha na requisição à API."}`,
+            status: response.status,
+            timestamp: new Date().toISOString(),
+        };
+        let detailedMessages: string[] = [];
+
+        try {
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.includes("application/json")) {
+                const parsedError = await response.json();
+                errorData = { ...errorData, ...parsedError };
+
+                if (Array.isArray(parsedError.messages) && parsedError.messages.length > 0) {
+                    detailedMessages = parsedError.messages;
+                } else if (parsedError.message && typeof parsedError.message === 'string') {
+                    detailedMessages.push(parsedError.message);
+                } else if (parsedError.error && typeof parsedError.error === 'string' && parsedError.status) {
+                    detailedMessages.push(`${parsedError.error} (Status: ${parsedError.status})`);
+                }
+            }
+        } catch (e) {
+            console.warn("Não foi possível parsear o corpo do erro como JSON.", e);
+        }
+
+        let finalErrorMessage = errorData.message || "Erro desconhecido na API.";
+        if(detailedMessages.length > 0) {
+            finalErrorMessage = detailedMessages.join('; ');
+        }
+
+        console.error("API Error Details:", finalErrorMessage, "Status:", response.status, "Full Parsed Error Object:", errorData);
+        throw new Error(finalErrorMessage);
+    }
+
+    if (response.status === 204) {
+        return null as T;
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.indexOf("application/json") !== -1) {
+        return await response.json() as T;
+    } else {
+        console.warn("Resposta OK, mas não é JSON e não é 204 (No Content):", response);
+        return null as T;
+    }
+}
+
+// --- Cliente API ---
+// ... (código das funções de Cliente API - sem alterações)
+export async function listarClientes(page: number = 0, size: number = 10): Promise<Page<ClienteResponseDTO>> {
+    const response = await fetch(`${API_BASE_URL}/clientes?page=${page}&size=${size}&sort=nome,asc`);
+    return handleResponse<Page<ClienteResponseDTO>>(response);
+}
+export async function buscarClientePorId(id: number): Promise<ClienteResponseDTO> {
+    const response = await fetch(`${API_BASE_URL}/clientes/${id}`);
+    return handleResponse<ClienteResponseDTO>(response);
+}
+export async function buscarClientePorDocumento(documento: string): Promise<ClienteResponseDTO> {
+    const response = await fetch(`${API_BASE_URL}/clientes/documento/${documento.replace(/\D/g, '')}`);
+    return handleResponse<ClienteResponseDTO>(response);
+}
+export async function criarCliente(data: ClienteRequestDTO): Promise<ClienteResponseDTO> {
+    const payload = {...data, documento: (data.documento || '').replace(/\D/g, '') };
+    const response = await fetch(`${API_BASE_URL}/clientes`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
+    });
+    return handleResponse<ClienteResponseDTO>(response);
+}
+export async function atualizarCliente(id: number, data: ClienteRequestDTO): Promise<ClienteResponseDTO> {
+    const payload = {...data, documento: (data.documento || '').replace(/\D/g, '') };
+    const response = await fetch(`${API_BASE_URL}/clientes/${id}`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
+    });
+    return handleResponse<ClienteResponseDTO>(response);
+}
+export async function deletarCliente(id: number): Promise<void> {
+    const response = await fetch(`${API_BASE_URL}/clientes/${id}`, { method: 'DELETE' });
+    await handleResponse<void>(response);
+}
+
+// --- Contato API ---
+// ... (código da função criarContatoSozinho - sem alterações)
+export async function criarContatoSozinho(data: ContatoRequestDTO): Promise<ContatoResponseDTO> {
+    const response = await fetch(`${API_BASE_URL}/contatos`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data),
+    });
+    return handleResponse<ContatoResponseDTO>(response);
+}
+
+// --- Endereco API ---
+// ... (código das funções de Endereco API - sem alterações)
+export async function consultarCepPelaApi(cep: string): Promise<ViaCepResponseDTO> {
+    const response = await fetch(`${API_BASE_URL}/enderecos/consultar-cep/${cep.replace(/\D/g, '')}`);
+    return handleResponse<ViaCepResponseDTO>(response);
+}
+export async function calcularCoordenadasPelaApi(data: EnderecoGeoRequestDTO): Promise<GeoCoordinatesDTO> {
+    const response = await fetch(`${API_BASE_URL}/enderecos/calcular-coordenadas`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data),
+    });
+    return handleResponse<GeoCoordinatesDTO>(response);
+}
+export async function criarEnderecoSozinho(data: EnderecoRequestDTO): Promise<EnderecoResponseDTO> {
+    const response = await fetch(`${API_BASE_URL}/enderecos`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data),
+    });
+    return handleResponse<EnderecoResponseDTO>(response);
+}
+
+
+// --- Eonet API ---
+// ... (código das funções listarEventosEonet e sincronizarNasaEonet - sem alterações)
+export async function listarEventosEonet(page: number = 0, size: number = 10): Promise<Page<EonetResponseDTO>> {
+    const response = await fetch(`${API_BASE_URL}/eonet?page=${page}&size=${size}&sort=data,desc`);
+    return handleResponse<Page<EonetResponseDTO>>(response);
+}
+
+export async function sincronizarNasaEonet(limit?: number, days?: number, status?: string, source?: string): Promise<EonetResponseDTO[]> {
+    const queryParamsCollector: Record<string, string> = {};
+    if (limit !== undefined) queryParamsCollector.limit = String(limit);
+    if (days !== undefined) queryParamsCollector.days = String(days);
+    if (status) queryParamsCollector.status = status;
+    if (source) queryParamsCollector.source = source;
+
+    const params = new URLSearchParams(queryParamsCollector);
+    const queryString = params.toString();
+
+    const response = await fetch(`${API_BASE_URL}/eonet/nasa/sincronizar${queryString ? '?' + queryString : ''}`, {
+        method: 'POST',
+    });
+    return handleResponse<EonetResponseDTO[]>(response);
+}
+
+export async function buscarEventosNasaProximos(
+    latitude?: number,
+    longitude?: number,
+    raioKm?: number,
+    limit?: number,
+    days?: number,
+    status?: string,
+    source?: string,
+    startDate?: string,
+    endDate?: string
+): Promise<NasaEonetEventDTO[]> {
+    const queryParamsCollector: Record<string, string> = {};
+
+    if (latitude !== undefined) queryParamsCollector.latitude = String(latitude);
+    if (longitude !== undefined) queryParamsCollector.longitude = String(longitude);
+    if (raioKm !== undefined) queryParamsCollector.raioKm = String(raioKm);
+    if (limit !== undefined) queryParamsCollector.limit = String(limit);
+
+    if (startDate) queryParamsCollector.start = startDate;
+    if (endDate) queryParamsCollector.end = endDate;
+
+    if (!startDate && !endDate && days !== undefined) {
+        queryParamsCollector.days = String(days);
+    }
+
+    if (status !== undefined && status !== null) {
+        queryParamsCollector.status = status;
+    }
+    if (source !== undefined && source !== null && source.trim() !== '') {
+        queryParamsCollector.source = source;
+    }
+
+    const params = new URLSearchParams(queryParamsCollector);
+    const queryString = params.toString();
+
+    console.log(`Frontend: Chamando /api/eonet/nasa/proximos com query: ${queryString}`);
+
+    const response = await fetch(`${API_BASE_URL}/eonet/nasa/proximos${queryString ? '?' + queryString : ''}`);
+    return handleResponse<NasaEonetEventDTO[]>(response);
+}
+
+// ***** NOVA FUNÇÃO PARA BUSCAR ESTATÍSTICAS DE CATEGORIA *****
+export async function getEonetCategoryStats(days: number): Promise<CategoryCountDTO[]> {
+    if (days <= 0) {
+        // Pode-se optar por lançar um erro ou retornar array vazio se 'days' for inválido
+        console.warn("getEonetCategoryStats: 'days' deve ser um número positivo.");
+        return []; // Ou throw new Error("'days' must be a positive number.");
+    }
+    const response = await fetch(`${API_BASE_URL}/stats/eonet/count-by-category?days=${days}`);
+    return handleResponse<CategoryCountDTO[]>(response);
+}
+// ***** FIM DA NOVA FUNÇÃO *****
+
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+// lib\types.ts | arquivo types.ts
+//――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+
+// src/lib/types.ts
+
+// --- Tipos para Paginação (Existente) ---
+export interface Page<T> {
+    content: T[];
+    pageable: {
+        sort: {
+            sorted: boolean;
+            unsorted: boolean;
+            empty: boolean;
+        };
+        offset: number;
+        pageNumber: number;
+        pageSize: number;
+        paged: boolean;
+        unpaged: boolean;
+    };
+    last: boolean;
+    totalPages: number;
+    totalElements: number;
+    size: number;
+    number: number; // current page number
+    sort: {
+        sorted: boolean;
+        unsorted: boolean;
+        empty: boolean;
+    };
+    first: boolean;
+    numberOfElements: number;
+    empty: boolean;
+}
+
+// --- Tipos de Contato (Existente) ---
+export interface ContatoRequestDTO {
+    ddd: string;
+    telefone: string;
+    celular?: string;
+    whatsapp?: string;
+    email: string;
+    tipoContato: string;
+}
+export interface ContatoResponseDTO extends ContatoRequestDTO {
+    idContato: number;
+}
+
+// --- Tipos de Endereço (Existente) ---
+export interface EnderecoRequestDTO {
+    cep: string;
+    numero: number;
+    logradouro: string;
+    bairro: string;
+    localidade: string; // Cidade
+    uf: string; // Estado
+    complemento?: string;
+    latitude: number;
+    longitude: number;
+}
+export interface EnderecoResponseDTO extends EnderecoRequestDTO {
+    idEndereco: number;
+}
+
+// --- Tipos de Cliente (Existente) ---
+export interface ClienteRequestDTO {
+    nome: string;
+    sobrenome: string;
+    dataNascimento: string;
+    documento: string;
+    contatosIds?: number[];
+    enderecosIds?: number[];
+}
+export interface ClienteResponseDTO {
+    idCliente: number;
+    nome: string;
+    sobrenome: string;
+    dataNascimento: string;
+    documento: string;
+    contatos?: ContatoResponseDTO[];
+    enderecos?: EnderecoResponseDTO[];
+}
+
+// --- Tipos de API Externas e Utilitários (Existente) ---
+export interface ViaCepResponseDTO {
+    cep: string;
+    logradouro: string;
+    complemento: string;
+    bairro: string;
+    localidade: string;
+    uf: string;
+    ibge: string;
+    gia: string;
+    ddd: string;
+    siafi: string;
+    erro?: boolean;
+}
+
+export interface ApiErrorResponse {
+    timestamp: string;
+    status: number;
+    error?: string;
+    message: string;
+    messages?: string[];
+    path?: string;
+    details?: string[] | string;
+}
+
+export interface EnderecoGeoRequestDTO {
+    logradouro: string;
+    numero?: string;
+    cidade: string;
+    uf: string;
+    bairro?: string;
+    cep?: string;
+}
+
+export interface GeoCoordinatesDTO {
+    latitude: number;
+    longitude: number;
+    matchedAddress?: string;
+}
+
+// --- Tipos para EONET (Backend Local - Existente) ---
+export interface EonetResponseDTO {
+    idEonet: number;
+    json: string;
+    data?: string | Date;
+    eonetIdApi: string;
+}
+
+// --- Tipos para NASA EONET Events (Existente) ---
+export interface NasaEonetCategoryDTO {
+    id: string;
+    title: string;
+}
+
+export interface NasaEonetSourceDTO {
+    id: string;
+    url: string;
+}
+
+export interface NasaEonetGeometryDTO {
+    magnitudeValue?: number;
+    magnitudeUnit?: string;
+    date: string | Date;
+    type: "Point" | "Polygon" | string;
+    coordinates: any;
+}
+
+export interface NasaEonetEventDTO {
+    id: string;
+    title: string;
+    description?: string;
+    link: string;
+    categories: NasaEonetCategoryDTO[];
+    sources: NasaEonetSourceDTO[];
+    geometry: NasaEonetGeometryDTO[];
+    closed?: string | Date | null;
+}
+
+// ***** NOVA INTERFACE PARA DADOS DE ESTATÍSTICAS *****
+export interface CategoryCountDTO {
+    categoryTitle: string;
+    count: number;
+}
+// ***** FIM DA NOVA INTERFACE *****
+

@@ -1,0 +1,79 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="F84DB0D8-D010-FD66-780E-6390BD3649AC" name="TB_CLIENTEENDERECO3">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-28 01:38:55 UTC</createdTime>
+<generatorID>072C3807-6AA9-52B0-EF4E-D75E2F4A9401</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="TB_CLIENTE3_id_cliente" id="EDD82265-010F-3AB7-4185-B55E2380ED40">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-28 01:38:55 UTC</createdTime>
+<generatorID>9FDB6EE5-5997-3512-A241-2E46E162D7D1</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="E9D5F1E2-D85B-4990-54FC-D6A4D7F7D12F" referredColumn="12AB45FE-F43D-6E92-1650-1F36F07713E4"/>
+</associations>
+</Column>
+<Column name="TB_ENDERECO3_id_endereco" id="3477345E-D530-9ADD-5970-CBE229018AFD">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-28 01:38:55 UTC</createdTime>
+<generatorID>4EB2A42C-C592-3B9F-6BD5-EA76F7DB4A0E</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="4C99EDCB-B914-6C80-8C23-C9D39E987F53" referredColumn="68CCEF17-25AC-753C-FD78-D83255B7CB1B"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="5035E4AB-DD30-2ABE-65F1-C66D9AE728F9" name="TB_CLIENTEENDERECO3_PK">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-28 01:38:55 UTC</createdTime>
+<generatorID>7DE366E8-E8C2-0646-F944-CE2497980FDF</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EDD82265-010F-3AB7-4185-B55E2380ED40"/>
+<colUsage columnID="3477345E-D530-9ADD-5970-CBE229018AFD"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C27370EA-3654-5920-76E2-2685D739A398" name="TB_CLIENTEENDERECO3_TB_CLIENTE3_FK">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-28 01:38:55 UTC</createdTime>
+<generatorID>C93FFDA1-D668-2BB1-6577-B055DBCD7834</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EDD82265-010F-3AB7-4185-B55E2380ED40"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="8A9EB3B4-4014-9DDB-4FA1-5FC2C9FF3B7F" name="TB_CLIENTEENDERECO3_TB_ENDERECO3_FK">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-28 01:38:55 UTC</createdTime>
+<generatorID>3A964503-56EF-D18F-1CF9-1FBDF773BD00</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="3477345E-D530-9ADD-5970-CBE229018AFD"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

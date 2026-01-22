@@ -1,0 +1,62 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="072C3807-6AA9-52B0-EF4E-D75E2F4A9401" name="TB_CLIENTEENDERECO3">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-26 23:17:30 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_cliente" id="9FDB6EE5-5997-3512-A241-2E46E162D7D1">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-27 11:21:18 UTC</createdTime>
+<generatorID>C93FFDA1-D668-2BB1-6577-B055DBCD7834</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<referedAttribute>355BFB94-ECFE-F8DB-69D2-03E842D8EC6C</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_endereco" id="4EB2A42C-C592-3B9F-6BD5-EA76F7DB4A0E">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-27 11:21:25 UTC</createdTime>
+<generatorID>3A964503-56EF-D18F-1CF9-1FBDF773BD00</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<referedAttribute>C2F329C6-D1D4-F42A-5C7B-712513E4E45F</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="7DE366E8-E8C2-0646-F944-CE2497980FDF" name="GS_cliente_endereco PK">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-26 23:18:47 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>9FDB6EE5-5997-3512-A241-2E46E162D7D1</attributeRef>
+<attributeRef>4EB2A42C-C592-3B9F-6BD5-EA76F7DB4A0E</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

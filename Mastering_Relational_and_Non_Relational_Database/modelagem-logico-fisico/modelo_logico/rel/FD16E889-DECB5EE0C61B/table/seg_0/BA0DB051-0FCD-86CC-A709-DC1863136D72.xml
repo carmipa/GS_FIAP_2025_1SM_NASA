@@ -1,0 +1,79 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="BA0DB051-0FCD-86CC-A709-DC1863136D72" name="TB_CLIENTECONTATO3">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-28 01:38:55 UTC</createdTime>
+<generatorID>6C57E438-7B7D-5521-D87F-B62E3D731EAF</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="TB_CLIENTE3_id_cliente" id="EF92EBFF-D1FF-75B9-F2D6-1B6E1663CB34">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-28 01:38:55 UTC</createdTime>
+<generatorID>720A6BF9-F204-998E-AEC0-6BD6E16F1F16</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="7861BE67-0F64-880B-80D5-C13363F37AFF" referredColumn="12AB45FE-F43D-6E92-1650-1F36F07713E4"/>
+</associations>
+</Column>
+<Column name="TB_CONTATO3_id_contato" id="343147FF-9E3B-EA9A-3DF2-BDBC9F6C3415">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-28 01:38:55 UTC</createdTime>
+<generatorID>5D50BE49-52D8-C3E9-AF21-5CB0BD7D61C4</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="8A6125DC-0223-5077-4B56-75CAB7F8094B" referredColumn="0713A243-ABDA-4EB6-D13C-C404FFCF852C"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="F99D333D-D735-4ECA-F841-CB2489DC3DE9" name="TB_CLIENTECONTATO3_PK">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-28 01:38:55 UTC</createdTime>
+<generatorID>63E45F3D-AB96-B916-F548-E912FD579DB2</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EF92EBFF-D1FF-75B9-F2D6-1B6E1663CB34"/>
+<colUsage columnID="343147FF-9E3B-EA9A-3DF2-BDBC9F6C3415"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="6FDD16EB-2A3E-209B-A18A-4813ACCC1A12" name="TB_CLIENTECONTATO3_TB_CLIENTE3_FK">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-28 01:38:55 UTC</createdTime>
+<generatorID>920122B0-C611-C9BE-6291-D56C4162EBB2</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EF92EBFF-D1FF-75B9-F2D6-1B6E1663CB34"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="AA85D4D3-E8AD-6EA3-1B84-8F7ECFB1FA37" name="TB_CLIENTECONTATO3_TB_CONTATO3_FK">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-28 01:38:55 UTC</createdTime>
+<generatorID>0504A332-926D-FCDC-033B-11808A4B64F7</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="343147FF-9E3B-EA9A-3DF2-BDBC9F6C3415"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

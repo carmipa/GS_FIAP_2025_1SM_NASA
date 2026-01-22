@@ -1,0 +1,62 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="6C57E438-7B7D-5521-D87F-B62E3D731EAF" name="TB_CLIENTECONTATO3">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-26 23:18:03 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_cliente" id="720A6BF9-F204-998E-AEC0-6BD6E16F1F16">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-27 11:22:00 UTC</createdTime>
+<generatorID>920122B0-C611-C9BE-6291-D56C4162EBB2</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<referedAttribute>355BFB94-ECFE-F8DB-69D2-03E842D8EC6C</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_contato" id="5D50BE49-52D8-C3E9-AF21-5CB0BD7D61C4">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-27 11:22:06 UTC</createdTime>
+<generatorID>0504A332-926D-FCDC-033B-11808A4B64F7</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<referedAttribute>6AA6F72A-33DA-594E-C8F9-5925EC590951</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="63E45F3D-AB96-B916-F548-E912FD579DB2" name="GS_CLIENTE_CONTATO PK">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-26 23:18:36 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>720A6BF9-F204-998E-AEC0-6BD6E16F1F16</attributeRef>
+<attributeRef>5D50BE49-52D8-C3E9-AF21-5CB0BD7D61C4</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

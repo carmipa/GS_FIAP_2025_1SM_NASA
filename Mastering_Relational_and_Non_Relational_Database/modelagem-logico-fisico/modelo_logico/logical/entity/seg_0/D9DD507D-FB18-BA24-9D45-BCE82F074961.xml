@@ -1,0 +1,97 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="D9DD507D-FB18-BA24-9D45-BCE82F074961" name="TB_CLIENTE3">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-26 23:04:40 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_cliente" id="355BFB94-ECFE-F8DB-69D2-03E842D8EC6C">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-26 23:04:55 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="nome" id="A73D94E4-E664-89A6-F694-CCC84844227E">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-26 23:07:33 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<ownDataTypeParameters>100,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="sobrenome" id="E88D5441-252B-9803-D35B-D1028A504B6D">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-26 23:07:48 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<ownDataTypeParameters>100,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="data_nascimento" id="A25AF195-EFB8-6D5F-99A0-0662ED5DF77A">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-26 23:08:03 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="documento" id="7393C2D2-909E-7DA9-A389-6429B7F772F8">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-26 23:08:28 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>18</dataTypeSize>
+<ownDataTypeParameters>18,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="27B6DE8C-C2D5-59E8-F06C-B2B32BFD3BB1" name="GS_CLIENTE PK">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-26 23:05:27 UTC</createdTime>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<engineerTo>
+<item key="7FF4A964-0E0C-396C-99F4-378719821223" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>355BFB94-ECFE-F8DB-69D2-03E842D8EC6C</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

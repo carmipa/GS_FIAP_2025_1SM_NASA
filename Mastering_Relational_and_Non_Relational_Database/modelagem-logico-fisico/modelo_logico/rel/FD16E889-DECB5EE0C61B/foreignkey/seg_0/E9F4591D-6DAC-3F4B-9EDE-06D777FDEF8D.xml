@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="E9F4591D-6DAC-3F4B-9EDE-06D777FDEF8D" containerWithKeyObject="5EAE5917-00A2-F7B5-5767-E58B6B8E0CFE" localFKIndex="DDFA2B85-ACBF-8EA3-D6BD-5513B0560825" name="TB_ENDERECOEVENTOS3_TB_EONET3_FK">
+<createdBy>paulo</createdBy>
+<createdTime>2025-05-28 01:38:55 UTC</createdTime>
+<generatorID>D6B61B73-A53E-4BBB-FD00-392C1DE43810</generatorID>
+<ownerDesignName>modelo_logico</ownerDesignName>
+<referredTableLongName>TB_EONET3</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>D7D85A5E-A276-CED3-D1F8-6CB793FE1670</referredTableID>
+<keyObject>3A725071-62A9-CA0C-D269-35C5C5C39F6A</keyObject>
+<referredKeyID>3A725071-62A9-CA0C-D269-35C5C5C39F6A</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id_eonet</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

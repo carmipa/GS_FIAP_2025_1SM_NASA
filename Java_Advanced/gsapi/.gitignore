@@ -1,0 +1,58 @@
+# --- [ JAVA & MAVEN ] ---
+target/
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# --- [ SPRING BOOT & CONFIG ] ---
+# Bloqueia arquivos que contêm chaves de API e senhas de banco
+src/main/resources/application.properties
+src/main/resources/application-*.properties
+src/main/resources/application.yml
+src/main/resources/application-*.yml
+
+# --- [ SECRETS & ENV ] ---
+# Proteção contra vazamento de chaves (NASA, Google, etc)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+*.key
+
+# --- [ IDEs ] ---
+# IntelliJ
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# VS Code
+.vscode/
+.history/
+*.code-workspace
+
+# Eclipse / STS
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+
+# --- [ OS & LOGS ] ---
+.DS_Store
+Thumbs.db
+*.log
+logs/
+temp/
+
+# --- [ EXCEPTIONS ] ---
+# Garante que o wrapper do Maven ainda funcione
+!.mvn/wrapper/maven-wrapper.jar
